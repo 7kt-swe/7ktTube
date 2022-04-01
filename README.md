@@ -4,8 +4,10 @@ When the layout had a good overview of all its content and at the same time easy
 Sadly many of us do, and want the old layout back, me included.   
 That's why I've spent countless hours since 2019 on this project which is for everyone to use and also completely free. 
   
-# A browser extension is required use this script
-Use Violentmonkey or Tampermonkey
+# Required to run:
+Violentmonkey (recommended)   
+or    
+Tampermonkey
 
 # Supported browsers:
 Chrome / Firefox / Edge / Opera / Brave
