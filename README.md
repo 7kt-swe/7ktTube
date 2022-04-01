@@ -16,6 +16,9 @@ Chrome / Firefox / Edge / Opera / Brave
 Kiwi
 # Features 
 ![7kttube](https://7kttube.tk/images/guisettings.png) 
-# Donations
+
+# Help this project
+![paypal](https://www.paypalobjects.com/digitalassets/c/website/logo/full-text/pp_fc_hl.svg)    
 Please consider donating as much of my time is spent on frequent updates and resolving user bug reports   
-https://bit.ly/paypal_7ktTube
+  
+[Click here to Donate](https://www.paypal.com/donate/?hosted_button_id=2EJR4DLTR4Y7Q)
