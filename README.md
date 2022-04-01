@@ -14,6 +14,7 @@ Chrome / Firefox / Edge / Opera / Brave
 
 # Android supported browsers:
 Kiwi
-
+# Features 
+![7kttube](https://7kttube.tk/images/guisettings.png) 
 # Donations
 Please consider donating as much of my time is spent on frequent updates and resolving user bug reports
