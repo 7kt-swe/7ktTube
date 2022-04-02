@@ -1,20 +1,23 @@
-# 7ktTube 2016 REDUX
+# [7ktTube 2016 REDUX](https://7kttube.tk) 
 Do you remember the good old days when YouTube's layout were good?  
 When the layout had a good overview of all its content and at the same time easy to navigate?   
 Sadly many of us do, and want the old layout back, me included.   
 That's why I've spent countless hours since 2019 on this project which is for everyone to use and also completely free. 
   
-# Required to run:
-Violentmonkey (recommended)   
-or    
-Tampermonkey
+# Requirements:
+  One of the following browser extensions is needed:  
+[Violentmonkey](https://violentmonkey.github.io/get-it/) (recommended)    
+[Tampermonkey](https://www.tampermonkey.net/)
 
 # Supported browsers:
-Chrome / Firefox / Edge / Opera / Brave
+PC:     
+Chrome / Firefox / Edge / Opera / Brave    
 
-# Android supported browsers:
-Kiwi
-# Features 
+Android:   
+Kiwi  
+
+
+# Script Features 
 ![7kttube](https://7kttube.tk/images/guisettings.png) 
 
 # Help this project
