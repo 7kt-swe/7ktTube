@@ -33,1078 +33,1078 @@
 // fix GM_addStyle
 
 if (typeof GM_addStyle !== "function") {
-    function GM_addStyle(css) {
-        let style = document.createElement('style');
-        style.type = 'text/css';
-        style.appendChild(document.createTextNode(css));
-        const head = document.getElementsByTagName('head')[0];
-        if (head) head.appendChild(style);
-        else document.documentElement.appendChild(style);
-    }
+  function GM_addStyle(css) {
+    let style = document.createElement('style');
+    style.type = 'text/css';
+    style.appendChild(document.createTextNode(css));
+    const head = document.getElementsByTagName('head')[0];
+    if (head) head.appendChild(style);
+    else document.documentElement.appendChild(style);
+  }
 }
 
-function removeEl (){
-const yt_lib_custom = {
+function removeEl() {
+  const yt_lib_custom = {
     removeEl: selector => {
-        let e = document.querySelector(selector);
-        e && e.parentNode.removeChild(e);
+      let e = document.querySelector(selector);
+      e && e.parentNode.removeChild(e);
     },
     getQueryURL: (query, url) => new URLSearchParams((url ? new URL(url) : location).search).get(query),
-}
+  }
 
-// remove el
-window.addEventListener('load', () => {
-       document.querySelectorAll("#masthead-ad,#root").forEach(e => e.remove()); // ad
- document.body.addEventListener("yt-navigate-finish", () => {
-        yt_lib_custom.removeEl('ytd-miniplayer');
-        yt_lib_custom.removeEl('ytd-miniplayer-ui');
-        yt_lib_custom.removeEl('.ytp-miniplayer-button');
+  // remove el
+  window.addEventListener('load', () => {
+    document.querySelectorAll("#masthead-ad,#root").forEach(e => e.remove()); // ad
+    document.body.addEventListener("yt-navigate-finish", () => {
+      yt_lib_custom.removeEl('ytd-miniplayer');
+      yt_lib_custom.removeEl('ytd-miniplayer-ui');
+      yt_lib_custom.removeEl('.ytp-miniplayer-button');
 
-/* Remove autoplay button in player
-        yt_lib_custom.removeEl('div.ytp-autonav-toggle-button-container');
-        yt_lib_custom.removeEl('div.ytp-autonav-toggle-button');
-*/
-        if (window.location.pathname != "/watch") yt_lib_custom.removeEl('#movie_player video');
+      /* Remove autoplay button in player
+              yt_lib_custom.removeEl('div.ytp-autonav-toggle-button-container');
+              yt_lib_custom.removeEl('div.ytp-autonav-toggle-button');
+      */
+      if (window.location.pathname != "/watch") yt_lib_custom.removeEl('#movie_player video');
 
     });
-});
+  });
 }
 
 function restoreAppbarLinks() {
-    var trendingData = {
-        "navigationEndpoint": {
-            "clickTrackingParams": "CBwQtSwYASITCNqYh-qO_fACFcoRrQYdP44D9Q==",
-            "commandMetadata": {
-                "webCommandMetadata": {
-                    "url": "/feed/trending",
-                    "webPageType": "WEB_PAGE_TYPE_BROWSE",
-                    "rootVe": 6827,
-                    "apiUrl": "/youtubei/v1/browse"
-                }
-            },
-            "browseEndpoint": {
-                "browseId": "FEtrending"
-            }
+  var trendingData = {
+    "navigationEndpoint": {
+      "clickTrackingParams": "CBwQtSwYASITCNqYh-qO_fACFcoRrQYdP44D9Q==",
+      "commandMetadata": {
+        "webCommandMetadata": {
+          "url": "/feed/trending",
+          "webPageType": "WEB_PAGE_TYPE_BROWSE",
+          "rootVe": 6827,
+          "apiUrl": "/youtubei/v1/browse"
+        }
+      },
+      "browseEndpoint": {
+        "browseId": "FEtrending"
+      }
+    },
+    "icon": {
+      "iconType": "TRENDING"
+    },
+    "trackingParams": "CBwQtSwYASITCNqYh-qO_fACFcoRrQYdP44D9Q==",
+    "formattedTitle": {
+      "simpleText": "Trending"
+    },
+    "accessibility": {
+      "accessibilityData": {
+        "label": "Trending"
+      }
+    },
+    "isPrimary": true
+  };
+
+  var guidetemplate = `<ytd-guide-entry-renderer class="style-scope ytd-guide-section-renderer" is-primary="" line-end-style="none"><!--css-build:shady--><a id="endpoint" class="yt-simple-endpoint style-scope ytd-guide-entry-renderer" tabindex="-1" role="tablist"><tp-yt-paper-item role="tab" class="style-scope ytd-guide-entry-renderer" tabindex="0" aria-disabled="false"><!--css-build:shady--><yt-icon class="guide-icon style-scope ytd-guide-entry-renderer" disable-upgrade=""></yt-icon><yt-img-shadow height="24" width="24" class="style-scope ytd-guide-entry-renderer" disable-upgrade=""></yt-img-shadow><yt-formatted-string class="title style-scope ytd-guide-entry-renderer"><!--css-build:shady--></yt-formatted-string><span class="guide-entry-count style-scope ytd-guide-entry-renderer"></span><yt-icon class="guide-entry-badge style-scope ytd-guide-entry-renderer" disable-upgrade=""></yt-icon><div id="newness-dot" class="style-scope ytd-guide-entry-renderer"></div></tp-yt-paper-item></a><yt-interaction class="style-scope ytd-guide-entry-renderer"><!--css-build:shady--><div class="stroke style-scope yt-interaction"></div><div class="fill style-scope yt-interaction"></div></yt-interaction></ytd-guide-entry-renderer>`;
+  document.querySelector(`#items > ytd-guide-entry-renderer:first-child`).insertAdjacentHTML("afterend", guidetemplate);
+  document.querySelector(`#items > ytd-guide-entry-renderer:nth-child(2)`).data = trendingData;
+  document.querySelector(`#items > ytd-guide-entry-renderer:nth-child(3)`).remove();
+  document.querySelector("ytd-guide-section-renderer.style-scope:first-child").data.items[1].guideEntryRenderer = trendingData;
+
+
+  if (yt.config_.LOGGED_IN) {
+    const yourVideos = document.querySelector("ytd-guide-entry-renderer a[href*='/videos']");
+    const channelId = yourVideos.href.split("/")[4];
+    var channelData = {
+      "navigationEndpoint": {
+        "clickTrackingParams": "CBwQtSwYASITCNqYh-qO_fACFcoRrQYdP44D9Q==",
+        "commandMetadata": {
+          "webCommandMetadata": {
+            "url": "/channel/" + channelId,
+            "webPageType": "WEB_PAGE_TYPE_CHANNEL",
+            "rootVe": 6827,
+            "apiUrl": "/youtubei/v1/browse"
+          }
         },
-        "icon": {
-            "iconType": "TRENDING"
-        },
-        "trackingParams": "CBwQtSwYASITCNqYh-qO_fACFcoRrQYdP44D9Q==",
-        "formattedTitle": {
-            "simpleText": "Trending"
-        },
-        "accessibility": {
-            "accessibilityData": {
-                "label": "Trending"
-            }
-        },
-        "isPrimary": true
+        "browseEndpoint": {
+          "browseId": channelId
+        }
+      },
+      "icon": {
+        "iconType": "ACCOUNT_BOX"
+      },
+      "trackingParams": "CBwQtSwYASITCNqYh-qO_fACFcoRrQYdP44D9Q==",
+      "formattedTitle": {
+        "simpleText": "My channel"
+      },
+      "accessibility": {
+        "accessibilityData": {
+          "label": "My channel"
+        }
+      },
+      "isPrimary": true
     };
 
     var guidetemplate = `<ytd-guide-entry-renderer class="style-scope ytd-guide-section-renderer" is-primary="" line-end-style="none"><!--css-build:shady--><a id="endpoint" class="yt-simple-endpoint style-scope ytd-guide-entry-renderer" tabindex="-1" role="tablist"><tp-yt-paper-item role="tab" class="style-scope ytd-guide-entry-renderer" tabindex="0" aria-disabled="false"><!--css-build:shady--><yt-icon class="guide-icon style-scope ytd-guide-entry-renderer" disable-upgrade=""></yt-icon><yt-img-shadow height="24" width="24" class="style-scope ytd-guide-entry-renderer" disable-upgrade=""></yt-img-shadow><yt-formatted-string class="title style-scope ytd-guide-entry-renderer"><!--css-build:shady--></yt-formatted-string><span class="guide-entry-count style-scope ytd-guide-entry-renderer"></span><yt-icon class="guide-entry-badge style-scope ytd-guide-entry-renderer" disable-upgrade=""></yt-icon><div id="newness-dot" class="style-scope ytd-guide-entry-renderer"></div></tp-yt-paper-item></a><yt-interaction class="style-scope ytd-guide-entry-renderer"><!--css-build:shady--><div class="stroke style-scope yt-interaction"></div><div class="fill style-scope yt-interaction"></div></yt-interaction></ytd-guide-entry-renderer>`;
     document.querySelector(`#items > ytd-guide-entry-renderer:first-child`).insertAdjacentHTML("afterend", guidetemplate);
-    document.querySelector(`#items > ytd-guide-entry-renderer:nth-child(2)`).data = trendingData;
-    document.querySelector(`#items > ytd-guide-entry-renderer:nth-child(3)`).remove();
-    document.querySelector("ytd-guide-section-renderer.style-scope:first-child").data.items[1].guideEntryRenderer = trendingData;
-
-
-    if (yt.config_.LOGGED_IN) {
-        const yourVideos = document.querySelector("ytd-guide-entry-renderer a[href*='/videos']");
-        const channelId = yourVideos.href.split("/")[4];
-        var channelData = {
-            "navigationEndpoint": {
-                "clickTrackingParams": "CBwQtSwYASITCNqYh-qO_fACFcoRrQYdP44D9Q==",
-                "commandMetadata": {
-                    "webCommandMetadata": {
-                        "url": "/channel/" + channelId,
-                        "webPageType": "WEB_PAGE_TYPE_CHANNEL",
-                        "rootVe": 6827,
-                        "apiUrl": "/youtubei/v1/browse"
-                    }
-                },
-                "browseEndpoint": {
-                    "browseId": channelId
-                }
-            },
-            "icon": {
-                "iconType": "ACCOUNT_BOX"
-            },
-            "trackingParams": "CBwQtSwYASITCNqYh-qO_fACFcoRrQYdP44D9Q==",
-            "formattedTitle": {
-                "simpleText": "My channel"
-            },
-            "accessibility": {
-                "accessibilityData": {
-                    "label": "My channel"
-                }
-            },
-            "isPrimary": true
-        };
-
-        var guidetemplate = `<ytd-guide-entry-renderer class="style-scope ytd-guide-section-renderer" is-primary="" line-end-style="none"><!--css-build:shady--><a id="endpoint" class="yt-simple-endpoint style-scope ytd-guide-entry-renderer" tabindex="-1" role="tablist"><tp-yt-paper-item role="tab" class="style-scope ytd-guide-entry-renderer" tabindex="0" aria-disabled="false"><!--css-build:shady--><yt-icon class="guide-icon style-scope ytd-guide-entry-renderer" disable-upgrade=""></yt-icon><yt-img-shadow height="24" width="24" class="style-scope ytd-guide-entry-renderer" disable-upgrade=""></yt-img-shadow><yt-formatted-string class="title style-scope ytd-guide-entry-renderer"><!--css-build:shady--></yt-formatted-string><span class="guide-entry-count style-scope ytd-guide-entry-renderer"></span><yt-icon class="guide-entry-badge style-scope ytd-guide-entry-renderer" disable-upgrade=""></yt-icon><div id="newness-dot" class="style-scope ytd-guide-entry-renderer"></div></tp-yt-paper-item></a><yt-interaction class="style-scope ytd-guide-entry-renderer"><!--css-build:shady--><div class="stroke style-scope yt-interaction"></div><div class="fill style-scope yt-interaction"></div></yt-interaction></ytd-guide-entry-renderer>`;
-        document.querySelector(`#items > ytd-guide-entry-renderer:first-child`).insertAdjacentHTML("afterend", guidetemplate);
-        document.querySelector(`#items > ytd-guide-entry-renderer:nth-child(2)`).data = channelData;
-        document.querySelector("ytd-guide-section-renderer.style-scope:nth-child(1)").data.items[1].guideEntryRenderer = channelData;
-        yourVideos.remove();
-    }
+    document.querySelector(`#items > ytd-guide-entry-renderer:nth-child(2)`).data = channelData;
+    document.querySelector("ytd-guide-section-renderer.style-scope:nth-child(1)").data.items[1].guideEntryRenderer = channelData;
+    yourVideos.remove();
+  }
 }
 
 function insertResultsEstimate() {
-    waitForElement("#filter-menu #container").then(function(elm) {
-        const estimatedResults = parseInt(document.querySelector("ytd-search").data.estimatedResults).toLocaleString();
+  waitForElement("#filter-menu #container").then(function (elm) {
+    const estimatedResults = parseInt(document.querySelector("ytd-search").data.estimatedResults).toLocaleString();
 
-        if (elm.querySelector(".num-results") !== null) {
-            elm.querySelector(".num-results").innerHTML = `About ${estimatedResults} results`;
-            return;
-        }
+    if (elm.querySelector(".num-results") !== null) {
+      elm.querySelector(".num-results").innerHTML = `About ${estimatedResults} results`;
+      return;
+    }
 
-        let numResults = document.createElement("p");
-        numResults.className = "num-results first-focus";
-        numResults.setAttribute("tabindex", "0");
-        numResults.innerHTML = `About ${estimatedResults} results`;
-        elm.appendChild(numResults);
-    });
+    let numResults = document.createElement("p");
+    numResults.className = "num-results first-focus";
+    numResults.setAttribute("tabindex", "0");
+    numResults.innerHTML = `About ${estimatedResults} results`;
+    elm.appendChild(numResults);
+  });
 }
 
 async function getSAPISIDHash() {
-    function getCookie(name) {
-        const value = `; ${decodeURIComponent(document.cookie)}`;
-        const parts = value.split(`; ${name}=`);
-        return parts.pop().split(';').shift();
-    }
+  function getCookie(name) {
+    const value = `; ${decodeURIComponent(document.cookie)}`;
+    const parts = value.split(`; ${name}=`);
+    return parts.pop().split(';').shift();
+  }
 
-    async function SHA1(str) {
-        const buf = await crypto.subtle.digest("SHA-1", new TextEncoder("utf-8").encode(str));
-        return Array.prototype.map.call(new Uint8Array(buf), x=>(('00'+x.toString(16)).slice(-2))).join('');
-    }
+  async function SHA1(str) {
+    const buf = await crypto.subtle.digest("SHA-1", new TextEncoder("utf-8").encode(str));
+    return Array.prototype.map.call(new Uint8Array(buf), x => (('00' + x.toString(16)).slice(-2))).join('');
+  }
 
-    const time = (Math.round(new Date() / 1000));
-    const hash = await SHA1(`${time} ${getCookie("SAPISID")} https://www.youtube.com`);
-    return `SAPISIDHASH ${time}_${hash}`;
+  const time = (Math.round(new Date() / 1000));
+  const hash = await SHA1(`${time} ${getCookie("SAPISID")} https://www.youtube.com`);
+  return `SAPISIDHASH ${time}_${hash}`;
 }
 
 async function getShelvesHp() {
-    // Request the current video page again and retrieve required data for loading comments.
-    const itc = JSON.parse(JSON.stringify(yt.config_.INNERTUBE_CONTEXT));
-    itc.client.clientVersion = "1.20210519.01.00";
+  // Request the current video page again and retrieve required data for loading comments.
+  const itc = JSON.parse(JSON.stringify(yt.config_.INNERTUBE_CONTEXT));
+  itc.client.clientVersion = "1.20210519.01.00";
 
-    const reqbody = {
-        "context": itc,
-        "browseId": "FEwhat_to_watch"
-    }
+  const reqbody = {
+    "context": itc,
+    "browseId": "FEwhat_to_watch"
+  }
 
-    const response = await fetch(("https://www.youtube.com/youtubei/v1/browse?key=AIzaSyAO_FJ2SlqU8Q4STEHLGCilw_Y9_11qcW8"), {
-        method: 'POST',
-        mode: 'cors',
-        cache: 'no-cache',
-        credientials: 'same-origin',
-        headers:
-        {
-            ...((yt.config_.LOGGED_IN) && {"Authorization": await getSAPISIDHash()}),
-            ...((yt.config_.LOGGED_IN) && {"X-Goog-AuthUser": "0"}),
-            ...((yt.config_.DELEGATED_SESSION_ID ? true: false) && {"X-Goog-PageId": yt.config_.DELEGATED_SESSION_ID}),
-            'X-Goog-Visitor-Id': yt.config_.INNERTUBE_CONTEXT.client.visitorData,
-            'X-YOUTUBE-CLIENT-NAME': '1',
-            'X-YOUTUBE-CLIENT-VERSION': '1.20200101.01.01',
-            'X-ORIGIN': "https://www.youtube.com"
-        },
-        redirect: 'follow',
-        referrerPolicy: 'strict-origin-when-cross-origin',
-        body: JSON.stringify(reqbody)
-    });
+  const response = await fetch(("https://www.youtube.com/youtubei/v1/browse?key=AIzaSyAO_FJ2SlqU8Q4STEHLGCilw_Y9_11qcW8"), {
+    method: 'POST',
+    mode: 'cors',
+    cache: 'no-cache',
+    credientials: 'same-origin',
+    headers:
+    {
+      ...((yt.config_.LOGGED_IN) && { "Authorization": await getSAPISIDHash() }),
+      ...((yt.config_.LOGGED_IN) && { "X-Goog-AuthUser": "0" }),
+      ...((yt.config_.DELEGATED_SESSION_ID ? true : false) && { "X-Goog-PageId": yt.config_.DELEGATED_SESSION_ID }),
+      'X-Goog-Visitor-Id': yt.config_.INNERTUBE_CONTEXT.client.visitorData,
+      'X-YOUTUBE-CLIENT-NAME': '1',
+      'X-YOUTUBE-CLIENT-VERSION': '1.20200101.01.01',
+      'X-ORIGIN': "https://www.youtube.com"
+    },
+    redirect: 'follow',
+    referrerPolicy: 'strict-origin-when-cross-origin',
+    body: JSON.stringify(reqbody)
+  });
 
-    return response.json();
+  return response.json();
 }
 
 function parseHpData(hpdata) {
-    var shelvesIndex = hpdata.contents.twoColumnBrowseResultsRenderer.tabs[0].tabRenderer.content.sectionListRenderer.contents;
+  var shelvesIndex = hpdata.contents.twoColumnBrowseResultsRenderer.tabs[0].tabRenderer.content.sectionListRenderer.contents;
 
-    for (const shelf of shelvesIndex) {
-        const curShelfR = shelf.itemSectionRenderer.contents[0].shelfRenderer.content.horizontalListRenderer;
-        if (typeof curShelfR === 'undefined') continue;
-        for (const vid of curShelfR.items) {
-            const curVidR = vid.gridVideoRenderer;
-            if (typeof curVidR === 'undefined') continue;
+  for (const shelf of shelvesIndex) {
+    const curShelfR = shelf.itemSectionRenderer.contents[0].shelfRenderer.content.horizontalListRenderer;
+    if (typeof curShelfR === 'undefined') continue;
+    for (const vid of curShelfR.items) {
+      const curVidR = vid.gridVideoRenderer;
+      if (typeof curVidR === 'undefined') continue;
 
-            if (typeof curVidR.thumbnailOverlays !== 'undefined') {
-                curVidR.thumbnailOverlays = [
+      if (typeof curVidR.thumbnailOverlays !== 'undefined') {
+        curVidR.thumbnailOverlays = [
+          {
+            "thumbnailOverlayTimeStatusRenderer": {
+              "text": {
+                "simpleText": curVidR.lengthText.simpleText ?? ""
+              },
+              "style": "DEFAULT"
+            }
+          },
+          {
+            "thumbnailOverlayToggleButtonRenderer": {
+              "isToggled": false,
+              "untoggledIcon": {
+                "iconType": "WATCH_LATER"
+              },
+              "toggledIcon": {
+                "iconType": "CHECK"
+              },
+              "untoggledTooltip": "Watch later",
+              "toggledTooltip": "Added",
+              "untoggledServiceEndpoint": {
+                "clickTrackingParams": "CKUEEPnnAxgCIhMI47nlgbGF8QIVoCmtBh3pggtN",
+                "commandMetadata": {
+                  "webCommandMetadata": {
+                    "sendPost": true,
+                    "apiUrl": "/youtubei/v1/browse/edit_playlist"
+                  }
+                },
+                "playlistEditEndpoint": {
+                  "playlistId": "WL",
+                  "actions": [
                     {
-                        "thumbnailOverlayTimeStatusRenderer": {
-                            "text": {
-                                "simpleText": curVidR.lengthText.simpleText ?? ""
-                            },
-                            "style": "DEFAULT"
-                        }
-                    },
+                      "addedVideoId": curVidR.videoId,
+                      "action": "ACTION_ADD_VIDEO"
+                    }
+                  ]
+                }
+              },
+              "toggledServiceEndpoint": {
+                "clickTrackingParams": "CKUEEPnnAxgCIhMI47nlgbGF8QIVoCmtBh3pggtN",
+                "commandMetadata": {
+                  "webCommandMetadata": {
+                    "sendPost": true,
+                    "apiUrl": "/youtubei/v1/browse/edit_playlist"
+                  }
+                },
+                "playlistEditEndpoint": {
+                  "playlistId": "WL",
+                  "actions": [
                     {
-                        "thumbnailOverlayToggleButtonRenderer": {
-                            "isToggled": false,
-                            "untoggledIcon": {
-                                "iconType": "WATCH_LATER"
-                            },
-                            "toggledIcon": {
-                                "iconType": "CHECK"
-                            },
-                            "untoggledTooltip": "Watch later",
-                            "toggledTooltip": "Added",
-                            "untoggledServiceEndpoint": {
-                                "clickTrackingParams": "CKUEEPnnAxgCIhMI47nlgbGF8QIVoCmtBh3pggtN",
-                                "commandMetadata": {
-                                    "webCommandMetadata": {
-                                        "sendPost": true,
-                                        "apiUrl": "/youtubei/v1/browse/edit_playlist"
-                                    }
-                                },
-                                "playlistEditEndpoint": {
-                                    "playlistId": "WL",
-                                    "actions": [
-                                        {
-                                            "addedVideoId": curVidR.videoId,
-                                            "action": "ACTION_ADD_VIDEO"
-                                        }
-                                    ]
-                                }
-                            },
-                            "toggledServiceEndpoint": {
-                                "clickTrackingParams": "CKUEEPnnAxgCIhMI47nlgbGF8QIVoCmtBh3pggtN",
-                                "commandMetadata": {
-                                    "webCommandMetadata": {
-                                        "sendPost": true,
-                                        "apiUrl": "/youtubei/v1/browse/edit_playlist"
-                                    }
-                                },
-                                "playlistEditEndpoint": {
-                                    "playlistId": "WL",
-                                    "actions": [
-                                        {
-                                            "action": "ACTION_REMOVE_VIDEO_BY_VIDEO_ID",
-                                            "removedVideoId": curVidR.videoId
-                                        }
-                                    ]
-                                }
-                            },
-                            "untoggledAccessibility": {
-                                "accessibilityData": {
-                                    "label": "Watch later"
-                                }
-                            },
-                            "toggledAccessibility": {
-                                "accessibilityData": {
-                                    "label": "Added"
-                                }
-                            },
-                            "trackingParams": "CKUEEPnnAxgCIhMI47nlgbGF8QIVoCmtBh3pggtN"
-                        }
-                    },
+                      "action": "ACTION_REMOVE_VIDEO_BY_VIDEO_ID",
+                      "removedVideoId": curVidR.videoId
+                    }
+                  ]
+                }
+              },
+              "untoggledAccessibility": {
+                "accessibilityData": {
+                  "label": "Watch later"
+                }
+              },
+              "toggledAccessibility": {
+                "accessibilityData": {
+                  "label": "Added"
+                }
+              },
+              "trackingParams": "CKUEEPnnAxgCIhMI47nlgbGF8QIVoCmtBh3pggtN"
+            }
+          },
+          {
+            "thumbnailOverlayToggleButtonRenderer": {
+              "untoggledIcon": {
+                "iconType": "ADD_TO_QUEUE_TAIL"
+              },
+              "toggledIcon": {
+                "iconType": "PLAYLIST_ADD_CHECK"
+              },
+              "untoggledTooltip": "Add to queue",
+              "toggledTooltip": "Added",
+              "untoggledServiceEndpoint": {
+                "clickTrackingParams": "CKQEEMfsBBgDIhMI47nlgbGF8QIVoCmtBh3pggtN",
+                "commandMetadata": {
+                  "webCommandMetadata": {
+                    "sendPost": true
+                  }
+                },
+                "signalServiceEndpoint": {
+                  "signal": "CLIENT_SIGNAL",
+                  "actions": [
                     {
-                        "thumbnailOverlayToggleButtonRenderer": {
-                            "untoggledIcon": {
-                                "iconType": "ADD_TO_QUEUE_TAIL"
-                            },
-                            "toggledIcon": {
-                                "iconType": "PLAYLIST_ADD_CHECK"
-                            },
-                            "untoggledTooltip": "Add to queue",
-                            "toggledTooltip": "Added",
-                            "untoggledServiceEndpoint": {
-                                "clickTrackingParams": "CKQEEMfsBBgDIhMI47nlgbGF8QIVoCmtBh3pggtN",
-                                "commandMetadata": {
-                                    "webCommandMetadata": {
-                                        "sendPost": true
-                                    }
-                                },
-                                "signalServiceEndpoint": {
-                                    "signal": "CLIENT_SIGNAL",
-                                    "actions": [
-                                        {
-                                            "clickTrackingParams": "CKQEEMfsBBgDIhMI47nlgbGF8QIVoCmtBh3pggtN",
-                                            "addToPlaylistCommand": {
-                                                "openMiniplayer": true,
-                                                "videoId": curVidR.videoId,
-                                                "listType": "PLAYLIST_EDIT_LIST_TYPE_QUEUE",
-                                                "onCreateListCommand": {
-                                                    "clickTrackingParams": "CKQEEMfsBBgDIhMI47nlgbGF8QIVoCmtBh3pggtN",
-                                                    "commandMetadata": {
-                                                        "webCommandMetadata": {
-                                                            "sendPost": true,
-                                                            "apiUrl": "/youtubei/v1/playlist/create"
-                                                        }
-                                                    },
-                                                    "createPlaylistServiceEndpoint": {
-                                                        "videoIds": [
-                                                            curVidR.videoId
-                                                        ],
-                                                        "params": "CAQ%3D"
-                                                    }
-                                                },
-                                                "videoIds": [
-                                                    curVidR.videoId
-                                                ]
-                                            }
-                                        }
-                                    ]
-                                }
-                            },
-                            "untoggledAccessibility": {
-                                "accessibilityData": {
-                                    "label": "Add to queue"
-                                }
-                            },
-                            "toggledAccessibility": {
-                                "accessibilityData": {
-                                    "label": "Added"
-                                }
-                            },
-                            "trackingParams": "CKQEEMfsBBgDIhMI47nlgbGF8QIVoCmtBh3pggtN",
-                            "isToggled": false
-                        }
-                    },
-                    {
-                        "thumbnailOverlayNowPlayingRenderer": {
-                            "text": {
-                                "runs": [
-                                    {
-                                        "text": "Now playing"
-                                    }
-                                ]
+                      "clickTrackingParams": "CKQEEMfsBBgDIhMI47nlgbGF8QIVoCmtBh3pggtN",
+                      "addToPlaylistCommand": {
+                        "openMiniplayer": true,
+                        "videoId": curVidR.videoId,
+                        "listType": "PLAYLIST_EDIT_LIST_TYPE_QUEUE",
+                        "onCreateListCommand": {
+                          "clickTrackingParams": "CKQEEMfsBBgDIhMI47nlgbGF8QIVoCmtBh3pggtN",
+                          "commandMetadata": {
+                            "webCommandMetadata": {
+                              "sendPost": true,
+                              "apiUrl": "/youtubei/v1/playlist/create"
                             }
-                        }
-                    }
-                ];
-            }
-
-            curVidR.navigationEndpoint.commandMetadata = {
-                "webCommandMetadata": {
-                    "url": ("/watch?v=" + curVidR.videoId),
-                    "webPageType": "WEB_PAGE_TYPE_WATCH",
-                    "rootVe": 3832
-                }
-            };
-
-            curVidR.shortBylineText.runs[0].navigationEndpoint.commandMetadata = {
-                "webCommandMetadata": {
-                    "url": curVidR.longBylineText.runs[0].navigationEndpoint.browseEndpoint.canonicalBaseUrl,
-                    "webPageType": "WEB_PAGE_TYPE_CHANNEL",
-                    "rootVe": 3611
-                }
-            };
-
-            if (typeof curVidR.ownerBadges?.[0].verifiedBadge !== 'undefined') {
-                curVidR.ownerBadges[0] = {
-                    "metadataBadgeRenderer": {
-                        "icon": {
-                            "iconType": "CHECK_CIRCLE_THICK"
+                          },
+                          "createPlaylistServiceEndpoint": {
+                            "videoIds": [
+                              curVidR.videoId
+                            ],
+                            "params": "CAQ%3D"
+                          }
                         },
-                        "style": "BADGE_STYLE_TYPE_VERIFIED",
-                        "tooltip": "Verified",
-                        "trackingParams": "CKMEEJQ1GAAiEwjjueWBsYXxAhWgKa0GHemCC00="
+                        "videoIds": [
+                          curVidR.videoId
+                        ]
+                      }
                     }
+                  ]
                 }
+              },
+              "untoggledAccessibility": {
+                "accessibilityData": {
+                  "label": "Add to queue"
+                }
+              },
+              "toggledAccessibility": {
+                "accessibilityData": {
+                  "label": "Added"
+                }
+              },
+              "trackingParams": "CKQEEMfsBBgDIhMI47nlgbGF8QIVoCmtBh3pggtN",
+              "isToggled": false
             }
+          },
+          {
+            "thumbnailOverlayNowPlayingRenderer": {
+              "text": {
+                "runs": [
+                  {
+                    "text": "Now playing"
+                  }
+                ]
+              }
+            }
+          }
+        ];
+      }
+
+      curVidR.navigationEndpoint.commandMetadata = {
+        "webCommandMetadata": {
+          "url": ("/watch?v=" + curVidR.videoId),
+          "webPageType": "WEB_PAGE_TYPE_WATCH",
+          "rootVe": 3832
         }
+      };
 
-        curShelfR.nextButton = {
-            "buttonRenderer": {
-                "style": "STYLE_DEFAULT",
-                "size": "SIZE_DEFAULT",
-                "isDisabled": false,
-                "icon": {
-                    "iconType": "CHEVRON_RIGHT"
-                },
-                "accessibility": {
-                    "label": "Next"
-                },
-                "trackingParams": "CNICEPBbIhMIte6S3biF8QIVUrDECh1UFgYy"
-            }
-        };
+      curVidR.shortBylineText.runs[0].navigationEndpoint.commandMetadata = {
+        "webCommandMetadata": {
+          "url": curVidR.longBylineText.runs[0].navigationEndpoint.browseEndpoint.canonicalBaseUrl,
+          "webPageType": "WEB_PAGE_TYPE_CHANNEL",
+          "rootVe": 3611
+        }
+      };
 
-        curShelfR.previousButton = {
-            "buttonRenderer": {
-                "style": "STYLE_DEFAULT",
-                "size": "SIZE_DEFAULT",
-                "isDisabled": false,
-                "icon": {
-                    "iconType": "CHEVRON_LEFT"
-                },
-                "accessibility": {
-                    "label": "Previous"
-                },
-                "trackingParams": "CNECEPBbIhMIte6S3biF8QIVUrDECh1UFgYy"
-            }
-        };
+      if (typeof curVidR.ownerBadges?.[0].verifiedBadge !== 'undefined') {
+        curVidR.ownerBadges[0] = {
+          "metadataBadgeRenderer": {
+            "icon": {
+              "iconType": "CHECK_CIRCLE_THICK"
+            },
+            "style": "BADGE_STYLE_TYPE_VERIFIED",
+            "tooltip": "Verified",
+            "trackingParams": "CKMEEJQ1GAAiEwjjueWBsYXxAhWgKa0GHemCC00="
+          }
+        }
+      }
     }
 
-    return hpdata;
+    curShelfR.nextButton = {
+      "buttonRenderer": {
+        "style": "STYLE_DEFAULT",
+        "size": "SIZE_DEFAULT",
+        "isDisabled": false,
+        "icon": {
+          "iconType": "CHEVRON_RIGHT"
+        },
+        "accessibility": {
+          "label": "Next"
+        },
+        "trackingParams": "CNICEPBbIhMIte6S3biF8QIVUrDECh1UFgYy"
+      }
+    };
+
+    curShelfR.previousButton = {
+      "buttonRenderer": {
+        "style": "STYLE_DEFAULT",
+        "size": "SIZE_DEFAULT",
+        "isDisabled": false,
+        "icon": {
+          "iconType": "CHEVRON_LEFT"
+        },
+        "accessibility": {
+          "label": "Previous"
+        },
+        "trackingParams": "CNECEPBbIhMIte6S3biF8QIVUrDECh1UFgYy"
+      }
+    };
+  }
+
+  return hpdata;
 }
 
 async function injectShelvesHp() {
-    if (window.location.pathname != '/') return; // Have to do this so soft loading is supported, but it still only runs on homepage
+  if (window.location.pathname != '/') return; // Have to do this so soft loading is supported, but it still only runs on homepage
 
-    const shelvesHp = await getShelvesHp();
-    if (typeof shelvesHp.contents === 'undefined') {
-        console.log("Could not get homepage data.");
-        return;
-    }
+  const shelvesHp = await getShelvesHp();
+  if (typeof shelvesHp.contents === 'undefined') {
+    console.log("Could not get homepage data.");
+    return;
+  }
 
-    document.querySelector("ytd-app ytd-browse").data = parseHpData(shelvesHp);
+  document.querySelector("ytd-app ytd-browse").data = parseHpData(shelvesHp);
 
-    // For some reason, the first shelves loaded into view lack scrollers.
-    // Resizing the window fixes this, however it would be preferable to avoid having to do this every time.
-    // As such, here's a hack to go through each shelf and manually fix them.
-    const homeContents = document.querySelector("ytd-app ytd-browse[page-subtype=home] ytd-section-list-renderer #contents");
-    for (const elm of homeContents?.children) {
-        elm.querySelector("yt-horizontal-list-renderer").removeAttribute("at-end");
-    }
+  // For some reason, the first shelves loaded into view lack scrollers.
+  // Resizing the window fixes this, however it would be preferable to avoid having to do this every time.
+  // As such, here's a hack to go through each shelf and manually fix them.
+  const homeContents = document.querySelector("ytd-app ytd-browse[page-subtype=home] ytd-section-list-renderer #contents");
+  for (const elm of homeContents?.children) {
+    elm.querySelector("yt-horizontal-list-renderer").removeAttribute("at-end");
+  }
 }
 
 function gen_aspect_fix() {
-    "use strict";
-    var vidfix = {
-        inject: function(is_user_script) {
-            var modules;
-            var vidfix_api;
-            var user_settings;
-            var default_language;
-            var send_settings_to_page;
-            var receive_settings_from_page;
-            modules = [];
-            vidfix_api = {
-                initializeBypasses: function() {
-                    var ytd_watch;
-                    var sizeBypass;
-                    if (ytd_watch = document.querySelector("ytd-watch, ytd-watch-flexy")) {
-                        sizeBypass = function() {
-                            var width;
-                            var height;
-                            var movie_player;
-                            if (!ytd_watch.theater && !document.querySelector(".iri-full-browser") && (movie_player = document.querySelector("#movie_player"))) {
-                                width = movie_player.offsetWidth;
-                                height = Math.round(movie_player.offsetWidth / (16 / 9));
-                                if (ytd_watch.updateStyles) {
-                                    ytd_watch.updateStyles({
-                                        "--ytd-watch-flexy-width-ratio": 1,
-                                        "--ytd-watch-flexy-height-ratio": 0.5625
-                                    });
-                                    ytd_watch.updateStyles({
-                                        "--ytd-watch-width-ratio": 1,
-                                        "--ytd-watch-height-ratio": 0.5625
-                                    });
-                                }
-                            }
-                            else {
-                                width = window.NaN;
-                                height = window.NaN;
-                            }
-                            return {
-                                width: width,
-                                height: height
-                            };
-                        };
-                        if (ytd_watch.calculateCurrentPlayerSize_) {
-                            if (!ytd_watch.calculateCurrentPlayerSize_.bypassed) {
-                                ytd_watch.calculateCurrentPlayerSize_ = sizeBypass;
-                                ytd_watch.calculateCurrentPlayerSize_.bypassed = true;
-                            }
-                            if (!ytd_watch.calculateNormalPlayerSize_.bypassed) {
-                                ytd_watch.calculateNormalPlayerSize_ = sizeBypass;
-                                ytd_watch.calculateNormalPlayerSize_.bypassed = true;
-                            }
-                        }
-                    }
-                },
-                initializeSettings: function(new_settings) {
-                    var i;
-                    var j;
-                    var option;
-                    var options;
-                    var loaded_settings;
-                    var vidfix_settings;
-                    if (vidfix_settings = document.getElementById("vidfix-settings")) {
-                        loaded_settings = JSON.parse(vidfix_settings.textContent || "null");
-                        receive_settings_from_page = vidfix_settings.getAttribute("settings-beacon-from");
-                        send_settings_to_page = vidfix_settings.getAttribute("settings-beacon-to");
-                        vidfix_settings.remove();
-                    }
-                    user_settings = new_settings || loaded_settings || user_settings || {};
-                    for (i = 0; i < modules.length; i++) {
-                        for (options in modules[i].options) {
-                            if (modules[i].options.hasOwnProperty(options)) {
-                                option = modules[i].options[options];
-                                if (!(option.id in user_settings) && "value" in option) {
-                                    user_settings[option.id] = option.value;
-                                }
-                            }
-                        }
-                    }
-                },
-                initializeModulesUpdate: function() {
-                    var i;
-                    for (i = 0; i < modules.length; i++) {
-                        if (modules[i].onSettingsUpdated) {
-                            modules[i].onSettingsUpdated();
-                        }
-                    }
-                },
-                initializeModules: function() {
-                    var i;
-                    for (i = 0; i < modules.length; i++) {
-                        if (modules[i].ini) {
-                            modules[i].ini();
-                        }
-                    }
-                },
-                initializeOption: function() {
-                    var key;
-                    if (this.started) {
-                        return true;
-                    }
-                    this.started = true;
-                    for (key in this.options) {
-                        if (this.options.hasOwnProperty(key)) {
-                            if (!(key in user_settings) && this.options[key].value) {
-                                user_settings[key] = this.options[key].value;
-                            }
-                        }
-                    }
-                    return false;
-                },
-                initializeBroadcast: function(event) {
-                    if (event.data) {
-                        if (event.data.type === "settings") {
-                            if (event.data.payload) {
-                                if (event.data.payload.broadcast_id === this.broadcast_channel.name) {
-                                    this.initializeSettings(event.data.payload);
-                                    this.initializeModulesUpdate();
-                                }
-                            }
-                        }
-                    }
-                },
-                ini: function() {
-                    this.initializeSettings();
-                    this.broadcast_channel = new BroadcastChannel(user_settings.broadcast_id);
-                    this.broadcast_channel.addEventListener("message", this.initializeBroadcast.bind(this));
-                    document.documentElement.addEventListener("load", this.initializeSettingsButton, true);
-                    document.documentElement.addEventListener("load", this.initializeBypasses, true);
-                    if (this.isSettingsPage) {
-                        this.initializeModules();
-                    }
+  "use strict";
+  var vidfix = {
+    inject: function (is_user_script) {
+      var modules;
+      var vidfix_api;
+      var user_settings;
+      var default_language;
+      var send_settings_to_page;
+      var receive_settings_from_page;
+      modules = [];
+      vidfix_api = {
+        initializeBypasses: function () {
+          var ytd_watch;
+          var sizeBypass;
+          if (ytd_watch = document.querySelector("ytd-watch, ytd-watch-flexy")) {
+            sizeBypass = function () {
+              var width;
+              var height;
+              var movie_player;
+              if (!ytd_watch.theater && !document.querySelector(".iri-full-browser") && (movie_player = document.querySelector("#movie_player"))) {
+                width = movie_player.offsetWidth;
+                height = Math.round(movie_player.offsetWidth / (16 / 9));
+                if (ytd_watch.updateStyles) {
+                  ytd_watch.updateStyles({
+                    "--ytd-watch-flexy-width-ratio": 1,
+                    "--ytd-watch-flexy-height-ratio": 0.5625
+                  });
+                  ytd_watch.updateStyles({
+                    "--ytd-watch-width-ratio": 1,
+                    "--ytd-watch-height-ratio": 0.5625
+                  });
                 }
+              }
+              else {
+                width = window.NaN;
+                height = window.NaN;
+              }
+              return {
+                width: width,
+                height: height
+              };
             };
-            vidfix_api.ini();
-        },
-        isAllowedPage: function() {
-            var current_page;
-            if (current_page = window.location.pathname.match(/\/[a-z-]+/)) {
-                current_page = current_page[0];
+            if (ytd_watch.calculateCurrentPlayerSize_) {
+              if (!ytd_watch.calculateCurrentPlayerSize_.bypassed) {
+                ytd_watch.calculateCurrentPlayerSize_ = sizeBypass;
+                ytd_watch.calculateCurrentPlayerSize_.bypassed = true;
+              }
+              if (!ytd_watch.calculateNormalPlayerSize_.bypassed) {
+                ytd_watch.calculateNormalPlayerSize_ = sizeBypass;
+                ytd_watch.calculateNormalPlayerSize_.bypassed = true;
+              }
             }
-            else {
-                current_page = window.location.pathname;
-            }
-            return ["/tv", "/embed", "/live_chat", "/account", "/account_notifications", "/create_channel", "/dashboard", "/upload", "/webcam"].indexOf(current_page) < 0;
+          }
         },
-        generateUUID: function() {
-            return ([1e7] + -1e3 + -4e3 + -8e3 + -1e11)
-                .replace(/[018]/g, function(point) {
-                return (point ^ window.crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> point / 4)
-                    .toString(16);
+        initializeSettings: function (new_settings) {
+          var i;
+          var j;
+          var option;
+          var options;
+          var loaded_settings;
+          var vidfix_settings;
+          if (vidfix_settings = document.getElementById("vidfix-settings")) {
+            loaded_settings = JSON.parse(vidfix_settings.textContent || "null");
+            receive_settings_from_page = vidfix_settings.getAttribute("settings-beacon-from");
+            send_settings_to_page = vidfix_settings.getAttribute("settings-beacon-to");
+            vidfix_settings.remove();
+          }
+          user_settings = new_settings || loaded_settings || user_settings || {};
+          for (i = 0; i < modules.length; i++) {
+            for (options in modules[i].options) {
+              if (modules[i].options.hasOwnProperty(options)) {
+                option = modules[i].options[options];
+                if (!(option.id in user_settings) && "value" in option) {
+                  user_settings[option.id] = option.value;
+                }
+              }
+            }
+          }
+        },
+        initializeModulesUpdate: function () {
+          var i;
+          for (i = 0; i < modules.length; i++) {
+            if (modules[i].onSettingsUpdated) {
+              modules[i].onSettingsUpdated();
+            }
+          }
+        },
+        initializeModules: function () {
+          var i;
+          for (i = 0; i < modules.length; i++) {
+            if (modules[i].ini) {
+              modules[i].ini();
+            }
+          }
+        },
+        initializeOption: function () {
+          var key;
+          if (this.started) {
+            return true;
+          }
+          this.started = true;
+          for (key in this.options) {
+            if (this.options.hasOwnProperty(key)) {
+              if (!(key in user_settings) && this.options[key].value) {
+                user_settings[key] = this.options[key].value;
+              }
+            }
+          }
+          return false;
+        },
+        initializeBroadcast: function (event) {
+          if (event.data) {
+            if (event.data.type === "settings") {
+              if (event.data.payload) {
+                if (event.data.payload.broadcast_id === this.broadcast_channel.name) {
+                  this.initializeSettings(event.data.payload);
+                  this.initializeModulesUpdate();
+                }
+              }
+            }
+          }
+        },
+        ini: function () {
+          this.initializeSettings();
+          this.broadcast_channel = new BroadcastChannel(user_settings.broadcast_id);
+          this.broadcast_channel.addEventListener("message", this.initializeBroadcast.bind(this));
+          document.documentElement.addEventListener("load", this.initializeSettingsButton, true);
+          document.documentElement.addEventListener("load", this.initializeBypasses, true);
+          if (this.isSettingsPage) {
+            this.initializeModules();
+          }
+        }
+      };
+      vidfix_api.ini();
+    },
+    isAllowedPage: function () {
+      var current_page;
+      if (current_page = window.location.pathname.match(/\/[a-z-]+/)) {
+        current_page = current_page[0];
+      }
+      else {
+        current_page = window.location.pathname;
+      }
+      return ["/tv", "/embed", "/live_chat", "/account", "/account_notifications", "/create_channel", "/dashboard", "/upload", "/webcam"].indexOf(current_page) < 0;
+    },
+    generateUUID: function () {
+      return ([1e7] + -1e3 + -4e3 + -8e3 + -1e11)
+        .replace(/[018]/g, function (point) {
+          return (point ^ window.crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> point / 4)
+            .toString(16);
+        });
+    },
+    saveSettings: function () {
+      if (this.is_user_script) {
+        this.GM.setValue(this.id, JSON.stringify(this.user_settings));
+      }
+      else {
+        chrome.storage.local.set({
+          vidfixSettings: this.user_settings
+        });
+      }
+    },
+    updateSettingsOnOpenWindows: function () {
+      this.broadcast_channel.postMessage({
+        type: "settings",
+        payload: this.user_settings
+      });
+    },
+    settingsUpdatedFromOtherWindow: function (event) {
+      if (event.data && event.data.broadcast_id === this.broadcast_channel.name) {
+        this.user_settings = event.data;
+        this.saveSettings();
+      }
+    },
+    contentScriptMessages: function (custom_event) {
+      var updated_settings;
+      if ((updated_settings = custom_event.detail.settings) !== undefined) {
+        this.saveSettings();
+      }
+    },
+    initializeScript: function (event) {
+      var holder;
+      this.user_settings = event[this.id] || event;
+      if (!this.user_settings.broadcast_id) {
+        this.user_settings.broadcast_id = this.generateUUID();
+        this.saveSettings();
+      }
+      this.broadcast_channel = new BroadcastChannel(this.user_settings.broadcast_id);
+      this.broadcast_channel.addEventListener("message", this.settingsUpdatedFromOtherWindow.bind(this));
+      event = JSON.stringify(this.user_settings);
+      holder = document.createElement("vidfix-settings");
+      holder.id = "vidfix-settings";
+      holder.textContent = event;
+      holder.setAttribute("style", "display: none");
+      holder.setAttribute("settings-beacon-from", this.receive_settings_from_page);
+      holder.setAttribute("settings-beacon-to", this.send_settings_to_page);
+      document.documentElement.appendChild(holder);
+      holder = document.createElement("script");
+      holder.textContent = "(" + this.inject + "(" + this.is_user_script.toString() + "))";
+      document.documentElement.appendChild(holder);
+      holder.remove();
+      this.inject = null;
+      delete this.inject;
+    },
+    main: function (event) {
+      var now;
+      var context;
+      now = Date.now();
+      this.receive_settings_from_page = now + "-" + this.generateUUID();
+      this.send_settings_to_page = now + 1 + "-" + this.generateUUID();
+      window.addEventListener(this.receive_settings_from_page, this.contentScriptMessages.bind(this), false);
+      if (!event) {
+        if (this.is_user_script) {
+          context = this;
+          // javascript promises are horrible
+          this.GM.getValue(this.id, "{}")
+            .then(function (value) {
+              event = JSON.parse(value);
+              context.initializeScript(event);
             });
-        },
-        saveSettings: function() {
-            if (this.is_user_script) {
-                this.GM.setValue(this.id, JSON.stringify(this.user_settings));
-            }
-            else {
-                chrome.storage.local.set({
-                    vidfixSettings: this.user_settings
+        }
+      }
+      else {
+        this.initializeScript(event);
+      }
+    },
+    ini: function () {
+      if (this.isAllowedPage()) {
+        this.is_settings_page = window.location.pathname === "/vidfix-settings";
+        this.id = "vidfixSettings";
+        if (typeof GM === "object" || typeof GM_info === "object") {
+          this.is_user_script = true;
+          // GreaseMonkey 4 polly fill
+          // https://arantius.com/misc/greasemonkey/imports/greasemonkey4-polyfill.js
+          if (typeof GM === "undefined") {
+            this.GM = {
+              setValue: GM_setValue,
+              info: GM_info,
+              getValue: function () {
+                return new Promise((resolve, reject) => {
+                  try {
+                    resolve(GM_getValue.apply(this, arguments));
+                  }
+                  catch (e) {
+                    reject(e);
+                  }
                 });
-            }
-        },
-        updateSettingsOnOpenWindows: function() {
-            this.broadcast_channel.postMessage({
-                type: "settings",
-                payload: this.user_settings
-            });
-        },
-        settingsUpdatedFromOtherWindow: function(event) {
-            if (event.data && event.data.broadcast_id === this.broadcast_channel.name) {
-                this.user_settings = event.data;
-                this.saveSettings();
-            }
-        },
-        contentScriptMessages: function(custom_event) {
-            var updated_settings;
-            if ((updated_settings = custom_event.detail.settings) !== undefined) {
-                this.saveSettings();
-            }
-        },
-        initializeScript: function(event) {
-            var holder;
-            this.user_settings = event[this.id] || event;
-            if (!this.user_settings.broadcast_id) {
-                this.user_settings.broadcast_id = this.generateUUID();
-                this.saveSettings();
-            }
-            this.broadcast_channel = new BroadcastChannel(this.user_settings.broadcast_id);
-            this.broadcast_channel.addEventListener("message", this.settingsUpdatedFromOtherWindow.bind(this));
-            event = JSON.stringify(this.user_settings);
-            holder = document.createElement("vidfix-settings");
-            holder.id = "vidfix-settings";
-            holder.textContent = event;
-            holder.setAttribute("style", "display: none");
-            holder.setAttribute("settings-beacon-from", this.receive_settings_from_page);
-            holder.setAttribute("settings-beacon-to", this.send_settings_to_page);
-            document.documentElement.appendChild(holder);
-            holder = document.createElement("script");
-            holder.textContent = "(" + this.inject + "(" + this.is_user_script.toString() + "))";
-            document.documentElement.appendChild(holder);
-            holder.remove();
-            this.inject = null;
-            delete this.inject;
-        },
-        main: function(event) {
-            var now;
-            var context;
-            now = Date.now();
-            this.receive_settings_from_page = now + "-" + this.generateUUID();
-            this.send_settings_to_page = now + 1 + "-" + this.generateUUID();
-            window.addEventListener(this.receive_settings_from_page, this.contentScriptMessages.bind(this), false);
-            if (!event) {
-                if (this.is_user_script) {
-                    context = this;
-                    // javascript promises are horrible
-                    this.GM.getValue(this.id, "{}")
-                        .then(function(value) {
-                        event = JSON.parse(value);
-                        context.initializeScript(event);
-                    });
-                }
-            }
-            else {
-                this.initializeScript(event);
-            }
-        },
-        ini: function() {
-            if (this.isAllowedPage()) {
-                this.is_settings_page = window.location.pathname === "/vidfix-settings";
-                this.id = "vidfixSettings";
-                if (typeof GM === "object" || typeof GM_info === "object") {
-                    this.is_user_script = true;
-                    // GreaseMonkey 4 polly fill
-                    // https://arantius.com/misc/greasemonkey/imports/greasemonkey4-polyfill.js
-                    if (typeof GM === "undefined") {
-                        this.GM = {
-                            setValue: GM_setValue,
-                            info: GM_info,
-                            getValue: function() {
-                                return new Promise((resolve, reject) => {
-                                    try {
-                                        resolve(GM_getValue.apply(this, arguments));
-                                    }
-                                    catch (e) {
-                                        reject(e);
-                                    }
-                                });
-                            }
-                        };
-                    }
-                    else {
-                        this.GM = GM;
-                    }
-                    this.main();
-                }
-                else {
-                    this.is_user_script = false;
-                    chrome.storage.local.get(this.id, this.main.bind(this));
-                }
-            }
+              }
+            };
+          }
+          else {
+            this.GM = GM;
+          }
+          this.main();
         }
-    };
-
-    vidfix.ini();
-
-    function addGlobalStyle(css) {
-        var head, style;
-        head = document.getElementsByTagName('head')[0];
-        if (!head) {
-            return;
+        else {
+          this.is_user_script = false;
+          chrome.storage.local.get(this.id, this.main.bind(this));
         }
-        style = document.createElement('style');
-        style.type = 'text/css';
-        style.innerHTML = css;
-        head.appendChild(style);
+      }
     }
-    addGlobalStyle('.html5-video-player { background-color: #000!important; }');
+  };
+
+  vidfix.ini();
+
+  function addGlobalStyle(css) {
+    var head, style;
+    head = document.getElementsByTagName('head')[0];
+    if (!head) {
+      return;
+    }
+    style = document.createElement('style');
+    style.type = 'text/css';
+    style.innerHTML = css;
+    head.appendChild(style);
+  }
+  addGlobalStyle('.html5-video-player { background-color: #000!important; }');
 
 }
 
 function waitForElement(selector) {
-    return new Promise(resolve => {
-        if (document.querySelector(selector)) {
-            return resolve(document.querySelector(selector));
-        }
-        const observer = new MutationObserver(mutations => {
-            if (document.querySelector(selector)) {
-                resolve(document.querySelector(selector));
-                observer.disconnect();
-            }
-        });
-        observer.observe(document, {
-            childList: true,
-            subtree: true
-        });
+  return new Promise(resolve => {
+    if (document.querySelector(selector)) {
+      return resolve(document.querySelector(selector));
+    }
+    const observer = new MutationObserver(mutations => {
+      if (document.querySelector(selector)) {
+        resolve(document.querySelector(selector));
+        observer.disconnect();
+      }
     });
+    observer.observe(document, {
+      childList: true,
+      subtree: true
+    });
+  });
 }
 
 function subbutton() {
   function doMastheadFix() {
     if (!document.documentElement.hasAttribute("dark")) {
-        document.querySelector("ytd-masthead").removeAttribute("dark");
+      document.querySelector("ytd-masthead").removeAttribute("dark");
     }
-}
-window.addEventListener("yt-set-theater-mode-enabled", doMastheadFix, false);
-waitForElement('tp-yt-paper-button.ytd-subscribe-button-renderer[subscribed]').then(function(elm) {
+  }
+  window.addEventListener("yt-set-theater-mode-enabled", doMastheadFix, false);
+  waitForElement('tp-yt-paper-button.ytd-subscribe-button-renderer[subscribed]').then(function (elm) {
     var subhover = document.querySelector('tp-yt-paper-button.ytd-subscribe-button-renderer[subscribed]');
 
-    subhover.addEventListener("mouseenter", function( event ) {
-        event.target.innerText = "Unsubscribe";
+    subhover.addEventListener("mouseenter", function (event) {
+      event.target.innerText = "Unsubscribe";
     }, false);
-    subhover.addEventListener("mouseleave", function( event ) {
-        event.target.innerText = "Subscribed";
+    subhover.addEventListener("mouseleave", function (event) {
+      event.target.innerText = "Subscribed";
     }, false);
-});
+  });
 
-waitForElement('#primary #info #button.dropdown-trigger.style-scope.ytd-menu-renderer').then(function(elm) {
+  waitForElement('#primary #info #button.dropdown-trigger.style-scope.ytd-menu-renderer').then(function (elm) {
     var morebutton = document.querySelector('#primary #info #button.dropdown-trigger.style-scope.ytd-menu-renderer');
     document.querySelector('#top-level-buttons-computed').appendChild(morebutton);
-});
-waitForElement('ytd-app #info ytd-toggle-button-renderer.style-text[is-icon-button] #text.ytd-toggle-button-renderer').then(function(elm) {
+  });
+  waitForElement('ytd-app #info ytd-toggle-button-renderer.style-text[is-icon-button] #text.ytd-toggle-button-renderer').then(function (elm) {
     var likec = document.querySelector('#info ytd-toggle-button-renderer.style-text[is-icon-button] #text.ytd-toggle-button-renderer');
     likec.innerText.replace(likec.ariaLabel);
-});
+  });
 }
 
 function gen_history() {
-    /*
-     - Grey out watched video thumbnails info:
-     - Use ALT+LeftClick or ALT+RightClick on a video list item to manually toggle the watched marker. The mouse button is defined in the script and can be changed.
-     - For restoring/merging history, source file can also be a YouTube's history data JSON (downloadable from https://support.google.com/accounts/answer/3024190?hl=en). Or a list of YouTube video URLs (using current time as timestamps).
-   */
-    //=== config start ===
-    var maxWatchedVideoAge   = 5 * 365; //number of days. set to zero to disable (not recommended)
-    var contentLoadMarkDelay = 600;     //number of milliseconds to wait before marking video items on content load phase (increase if slow network/browser)
-    var markerMouseButtons   = [0, 1];  //one or more mouse buttons to use for manual marker toggle. 0=left, 1=right, 2=middle. e.g.:
-    //if `[0]`, only left button is used, which is ALT+LeftClick.
-    //if `[1]`, only right button is used, which is ALT+RightClick.
-    //if `[0,1]`, any left or right button can be used, which is: ALT+LeftClick or ALT+RightClick.
-    //=== config end ===
+  /*
+   - Grey out watched video thumbnails info:
+   - Use ALT+LeftClick or ALT+RightClick on a video list item to manually toggle the watched marker. The mouse button is defined in the script and can be changed.
+   - For restoring/merging history, source file can also be a YouTube's history data JSON (downloadable from https://support.google.com/accounts/answer/3024190?hl=en). Or a list of YouTube video URLs (using current time as timestamps).
+ */
+  //=== config start ===
+  var maxWatchedVideoAge = 5 * 365; //number of days. set to zero to disable (not recommended)
+  var contentLoadMarkDelay = 600;     //number of milliseconds to wait before marking video items on content load phase (increase if slow network/browser)
+  var markerMouseButtons = [0, 1];  //one or more mouse buttons to use for manual marker toggle. 0=left, 1=right, 2=middle. e.g.:
+  //if `[0]`, only left button is used, which is ALT+LeftClick.
+  //if `[1]`, only right button is used, which is ALT+RightClick.
+  //if `[0,1]`, any left or right button can be used, which is: ALT+LeftClick or ALT+RightClick.
+  //=== config end ===
 
-    var watchedVideos, ageMultiplier = 24 * 60 * 60 * 1000, xu = /\/watch(?:\?|.*?&)v=([^&]+)|\/shorts\/([^\/\?]+)/;
+  var watchedVideos, ageMultiplier = 24 * 60 * 60 * 1000, xu = /\/watch(?:\?|.*?&)v=([^&]+)|\/shorts\/([^\/\?]+)/;
 
-    function getVideoId(url) {
-        var vid = url.match(xu);
-        if (vid) vid = vid[1] || vid[2];
-        return vid;
+  function getVideoId(url) {
+    var vid = url.match(xu);
+    if (vid) vid = vid[1] || vid[2];
+    return vid;
+  }
+
+  function watched(vid) {
+    return !!watchedVideos.entries[vid];
+  }
+
+  function processVideoItems(selector) {
+    var items = document.querySelectorAll(selector), i, link;
+    for (i = items.length - 1; i >= 0; i--) {
+      if (link = items[i].querySelector("A")) {
+        if (watched(getVideoId(link.href))) {
+          items[i].classList.add("watched");
+        } else items[i].classList.remove("watched");
+      }
     }
+  }
 
-    function watched(vid) {
-        return !!watchedVideos.entries[vid];
+  function processAllVideoItems() {
+    //home page
+    processVideoItems(".yt-uix-shelfslider-list>.yt-shelf-grid-ite,ytd-thumbnail.ytd-rich-grid-media");
+    processVideoItems("#contents.ytd-rich-grid-renderer>ytd-rich-item-renderer,#contents.ytd-rich-shelf-renderer ytd-rich-item-renderer.ytd-rich-shelf-renderer");
+    //subscriptions page
+    processVideoItems(".multirow-shelf>.shelf-content>.yt-shelf-grid-item");
+    //history:watch page
+    processVideoItems('ytd-section-list-renderer[page-subtype="history"] .ytd-item-section-renderer>ytd-video-renderer');
+    //channel/user home page
+    processVideoItems("#contents>.ytd-item-section-renderer>.ytd-newspaper-renderer,#items>.yt-horizontal-list-renderer"); //old
+    processVideoItems("#contents>.ytd-channel-featured-content-renderer,#contents>.ytd-shelf-renderer>#grid-container>.ytd-expanded-shelf-contents-renderer"); //new
+    //channel/user video page
+    processVideoItems(".yt-uix-slider-list>.featured-content-item,.channels-browse-content-grid>.channels-content-item,#items>.ytd-grid-renderer");
+    //channel/user playlist page
+    processVideoItems(".expanded-shelf>.expanded-shelf-content-list>.expanded-shelf-content-item-wrapper,.ytd-playlist-video-renderer");
+    //channel/user playlist item page
+    processVideoItems(".pl-video-list .pl-video-table .pl-video,ytd-playlist-panel-video-renderer");
+    //channel/user search page
+    if (/^\/(?:c|channel|user)\/.*?\/search/.test(location.pathname)) {
+      processVideoItems(".ytd-browse #contents>.ytd-item-section-renderer"); //new
     }
+    //search page
+    processVideoItems("#results>.section-list .item-section>li,#browse-items-primary>.browse-list-item-container"); //old
+    processVideoItems(".ytd-search #contents>ytd-video-renderer,.ytd-search #contents>ytd-playlist-renderer,.ytd-search #items>ytd-video-renderer"); //new
+    //video page
+    processVideoItems(".watch-sidebar-body>.video-list>.video-list-item,.playlist-videos-container>.playlist-videos-list>li"); //old
+    processVideoItems(".ytd-compact-video-renderer,.ytd-compact-radio-renderer"); //new
+  }
 
-    function processVideoItems(selector) {
-        var items = document.querySelectorAll(selector), i, link;
-        for (i = items.length-1; i >= 0; i--) {
-            if (link = items[i].querySelector("A")) {
-                if (watched(getVideoId(link.href))) {
-                    items[i].classList.add("watched");
-                } else items[i].classList.remove("watched");
-            }
-        }
+  function addHistory(vid, time, noSave, i) {
+    if (!watchedVideos.entries[vid]) {
+      watchedVideos.index.push(vid);
+    } else {
+      i = watchedVideos.index.indexOf(vid);
+      if (i >= 0) watchedVideos.index.push(watchedVideos.index.splice(i, 1)[0])
     }
+    watchedVideos.entries[vid] = time;
+    if (!noSave) GM_setValue("watchedVideos", JSON.stringify(watchedVideos));
+  }
 
-    function processAllVideoItems() {
-        //home page
-        processVideoItems(".yt-uix-shelfslider-list>.yt-shelf-grid-ite,ytd-thumbnail.ytd-rich-grid-media");
-        processVideoItems("#contents.ytd-rich-grid-renderer>ytd-rich-item-renderer,#contents.ytd-rich-shelf-renderer ytd-rich-item-renderer.ytd-rich-shelf-renderer");
-        //subscriptions page
-        processVideoItems(".multirow-shelf>.shelf-content>.yt-shelf-grid-item");
-        //history:watch page
-        processVideoItems('ytd-section-list-renderer[page-subtype="history"] .ytd-item-section-renderer>ytd-video-renderer');
-        //channel/user home page
-        processVideoItems("#contents>.ytd-item-section-renderer>.ytd-newspaper-renderer,#items>.yt-horizontal-list-renderer"); //old
-        processVideoItems("#contents>.ytd-channel-featured-content-renderer,#contents>.ytd-shelf-renderer>#grid-container>.ytd-expanded-shelf-contents-renderer"); //new
-        //channel/user video page
-        processVideoItems(".yt-uix-slider-list>.featured-content-item,.channels-browse-content-grid>.channels-content-item,#items>.ytd-grid-renderer");
-        //channel/user playlist page
-        processVideoItems(".expanded-shelf>.expanded-shelf-content-list>.expanded-shelf-content-item-wrapper,.ytd-playlist-video-renderer");
-        //channel/user playlist item page
-        processVideoItems(".pl-video-list .pl-video-table .pl-video,ytd-playlist-panel-video-renderer");
-        //channel/user search page
-        if (/^\/(?:c|channel|user)\/.*?\/search/.test(location.pathname)) {
-            processVideoItems(".ytd-browse #contents>.ytd-item-section-renderer"); //new
-        }
-        //search page
-        processVideoItems("#results>.section-list .item-section>li,#browse-items-primary>.browse-list-item-container"); //old
-        processVideoItems(".ytd-search #contents>ytd-video-renderer,.ytd-search #contents>ytd-playlist-renderer,.ytd-search #items>ytd-video-renderer"); //new
-        //video page
-        processVideoItems(".watch-sidebar-body>.video-list>.video-list-item,.playlist-videos-container>.playlist-videos-list>li"); //old
-        processVideoItems(".ytd-compact-video-renderer,.ytd-compact-radio-renderer"); //new
-    }
+  function delHistory(index, noSave) {
+    delete watchedVideos.entries[watchedVideos.index[index]];
+    watchedVideos.index.splice(index, 1);
+    if (!noSave) GM_setValue("watchedVideos", JSON.stringify(watchedVideos));
+  }
 
-    function addHistory(vid, time, noSave, i) {
-        if (!watchedVideos.entries[vid]) {
-            watchedVideos.index.push(vid);
-        } else {
-            i = watchedVideos.index.indexOf(vid);
-            if (i >= 0) watchedVideos.index.push(watchedVideos.index.splice(i, 1)[0])
-        }
-        watchedVideos.entries[vid] = time;
-        if (!noSave) GM_setValue("watchedVideos", JSON.stringify(watchedVideos));
-    }
-
-    function delHistory(index, noSave) {
-        delete watchedVideos.entries[watchedVideos.index[index]];
-        watchedVideos.index.splice(index, 1);
-        if (!noSave) GM_setValue("watchedVideos", JSON.stringify(watchedVideos));
-    }
-
-    var dc, ut;
-    function parseData(s, a, i, j, z) {
-        try {
-            dc = false;
-            s = JSON.parse(s);
-            //convert to new format if old format.
-            //old: [{id:<strVID>, timestamp:<numDate>}, ...]
-            //new: {entries:{<stdVID>:<numDate>, ...}, index:[<strVID>, ...]}
-            if (Array.isArray(s) && (!s.length || (("object" === typeof s[0]) && s[0].id && s[0].timestamp))) {
-                a = s;
-                s = {entries: {}, index: []};
-                a.forEach(o => {
-                    s.entries[o.id] = o.timestamp;
-                    s.index.push(o.id);
-                });
-            } else if (("object" !== typeof s) || ("object" !== typeof s.entries) || !Array.isArray(s.index)) return null;
-            //reconstruct index if broken
-            if (s.index.length !== (a = Object.keys(s.entries)).length) {
-                s.index = a.map(k => [k, s.entries[k]]).sort((x, y) => x[1] - y[1]).map(v => v[0]);
-                dc = true;
-            }
-            return s;
-        } catch(z) {
-            return null;
-        }
-    }
-
-    function parseYouTubeData(s, a) {
-        try {
-            s = JSON.parse(s);
-            //convert to native format if YouTube format.
-            //old: [{titleUrl:<strUrl>, time:<strIsoDate>}, ...] (excludes irrelevant properties)
-            //new: {entries:{<stdVID>:<numDate>, ...}, index:[<strVID>, ...]}
-            if (Array.isArray(s) && (!s.length || (("object" === typeof s[0]) && s[0].titleUrl && s[0].time))) {
-                a = s;
-                s = {entries: {}, index: []};
-                a.forEach((o, m, t) => {
-                    if (o.titleUrl && (m = o.titleUrl.match(xu))) {
-                        if (isNaN(t = (new Date(o.time)).getTime())) t = (new Date()).getTime();
-                        s.entries[m[1] || m[2]] = t;
-                        s.index.push(m[1] || m[2]);
-                    }
-                });
-                s.index.reverse();
-                return s;
-            } else return null;
-        } catch(a) {
-            return null;
-        }
-    }
-
-    function mergeData(o, a) {
-        o.index.forEach(i => {
-            if (watchedVideos.entries[i]) {
-                if (watchedVideos.entries[i] < o.entries[i]) watchedVideos.entries[i] = o.entries[i];
-            } else watchedVideos.entries[i] = o.entries[i];
+  var dc, ut;
+  function parseData(s, a, i, j, z) {
+    try {
+      dc = false;
+      s = JSON.parse(s);
+      //convert to new format if old format.
+      //old: [{id:<strVID>, timestamp:<numDate>}, ...]
+      //new: {entries:{<stdVID>:<numDate>, ...}, index:[<strVID>, ...]}
+      if (Array.isArray(s) && (!s.length || (("object" === typeof s[0]) && s[0].id && s[0].timestamp))) {
+        a = s;
+        s = { entries: {}, index: [] };
+        a.forEach(o => {
+          s.entries[o.id] = o.timestamp;
+          s.index.push(o.id);
         });
-        a = Object.keys(watchedVideos.entries);
-        watchedVideos.index = a.map(k => [k, watchedVideos.entries[k]]).sort((x, y) => x[1] - y[1]).map(v => v[0]);
+      } else if (("object" !== typeof s) || ("object" !== typeof s.entries) || !Array.isArray(s.index)) return null;
+      //reconstruct index if broken
+      if (s.index.length !== (a = Object.keys(s.entries)).length) {
+        s.index = a.map(k => [k, s.entries[k]]).sort((x, y) => x[1] - y[1]).map(v => v[0]);
+        dc = true;
+      }
+      return s;
+    } catch (z) {
+      return null;
+    }
+  }
+
+  function parseYouTubeData(s, a) {
+    try {
+      s = JSON.parse(s);
+      //convert to native format if YouTube format.
+      //old: [{titleUrl:<strUrl>, time:<strIsoDate>}, ...] (excludes irrelevant properties)
+      //new: {entries:{<stdVID>:<numDate>, ...}, index:[<strVID>, ...]}
+      if (Array.isArray(s) && (!s.length || (("object" === typeof s[0]) && s[0].titleUrl && s[0].time))) {
+        a = s;
+        s = { entries: {}, index: [] };
+        a.forEach((o, m, t) => {
+          if (o.titleUrl && (m = o.titleUrl.match(xu))) {
+            if (isNaN(t = (new Date(o.time)).getTime())) t = (new Date()).getTime();
+            s.entries[m[1] || m[2]] = t;
+            s.index.push(m[1] || m[2]);
+          }
+        });
+        s.index.reverse();
+        return s;
+      } else return null;
+    } catch (a) {
+      return null;
+    }
+  }
+
+  function mergeData(o, a) {
+    o.index.forEach(i => {
+      if (watchedVideos.entries[i]) {
+        if (watchedVideos.entries[i] < o.entries[i]) watchedVideos.entries[i] = o.entries[i];
+      } else watchedVideos.entries[i] = o.entries[i];
+    });
+    a = Object.keys(watchedVideos.entries);
+    watchedVideos.index = a.map(k => [k, watchedVideos.entries[k]]).sort((x, y) => x[1] - y[1]).map(v => v[0]);
+  }
+
+  function getHistory(a, b) {
+    a = GM_getValue("watchedVideos");
+    if (a === undefined) {
+      a = '{"entries": {}, "index": []}';
+    } else if ("object" === typeof a) a = JSON.stringify(a);
+    if (b = parseData(a)) {
+      watchedVideos = b;
+      if (dc) b = JSON.stringify(b);
+    } else b = JSON.stringify(watchedVideos = { entries: {}, index: [] });
+    GM_setValue("watchedVideos", b);
+  }
+
+  function doProcessPage() {
+    //get list of watched videos
+    getHistory();
+
+    //remove old watched video history
+    var now = (new Date()).valueOf(), changed, vid;
+    if (maxWatchedVideoAge > 0) {
+      while (watchedVideos.index.length) {
+        if (((now - watchedVideos.entries[watchedVideos.index[0]]) / ageMultiplier) > maxWatchedVideoAge) {
+          delHistory(0, false);
+          changed = true;
+        } else break;
+      }
+      if (changed) GM_setValue("watchedVideos", JSON.stringify(watchedVideos));
     }
 
-    function getHistory(a, b) {
-        a = GM_getValue("watchedVideos");
-        if (a === undefined) {
-            a = '{"entries": {}, "index": []}';
-        } else if ("object" === typeof a) a = JSON.stringify(a);
-        if (b = parseData(a)) {
-            watchedVideos = b;
-            if (dc) b = JSON.stringify(b);
-        } else b = JSON.stringify(watchedVideos = {entries: {}, index: []});
-        GM_setValue("watchedVideos", b);
-    }
+    //check and remember current video
+    if ((vid = getVideoId(location.href)) && !watched(vid)) addHistory(vid, now);
 
-    function doProcessPage() {
-        //get list of watched videos
-        getHistory();
+    //mark watched videos
+    processAllVideoItems();
+  }
+  function processPage() {
+    setTimeout(doProcessPage, Math.floor(contentLoadMarkDelay / 2));
+  }
 
-        //remove old watched video history
-        var now = (new Date()).valueOf(), changed, vid;
-        if (maxWatchedVideoAge > 0) {
-            while (watchedVideos.index.length) {
-                if (((now - watchedVideos.entries[watchedVideos.index[0]]) / ageMultiplier) > maxWatchedVideoAge) {
-                    delHistory(0, false);
-                    changed = true;
-                } else break;
-            }
-            if (changed) GM_setValue("watchedVideos", JSON.stringify(watchedVideos));
+  function delayedProcessPage() {
+    setTimeout(doProcessPage, contentLoadMarkDelay);
+  }
+
+  function toggleMarker(ele, i) {
+    if (ele) {
+      if (ele.href) {
+        i = getVideoId(ele.href);
+      } else {
+        ele = ele.parentNode;
+        while (ele) {
+          if (ele.tagName === "A") {
+            i = getVideoId(ele.href);
+            break;
+          }
+          ele = ele.parentNode;
         }
-
-        //check and remember current video
-        if ((vid = getVideoId(location.href)) && !watched(vid)) addHistory(vid, now);
-
-        //mark watched videos
+      }
+      if (i) {
+        if ((ele = watchedVideos.index.indexOf(i)) >= 0) {
+          delHistory(ele);
+        } else addHistory(i, (new Date()).valueOf());
         processAllVideoItems();
+      }
     }
-    function processPage() {
-        setTimeout(doProcessPage, Math.floor(contentLoadMarkDelay / 2));
+  }
+
+
+  var rxListUrl = /\/\w+_ajax\?|\/results\?search_query|\/v1\/v1\/(browse|next|search)\?/;
+  var xhropen = XMLHttpRequest.prototype.open, xhrsend = XMLHttpRequest.prototype.send;
+  XMLHttpRequest.prototype.open = function (method, url) {
+    this.url_mwyv = url;
+    return xhropen.apply(this, arguments);
+  };
+  XMLHttpRequest.prototype.send = function (method, url) {
+    if (rxListUrl.test(this.url_mwyv) && !this.listened_mwyv) {
+      this.listened_mwyv = 1;
+      this.addEventListener("load", delayedProcessPage);
     }
+    return xhrsend.apply(this, arguments);
+  };
 
-    function delayedProcessPage() {
-        setTimeout(doProcessPage, contentLoadMarkDelay);
-    }
+  var fetch_ = unsafeWindow.fetch;
+  unsafeWindow.fetch = function (opt) {
+    let url = opt.url || opt;
+    if (rxListUrl.test(opt.url || opt)) {
+      return fetch_.apply(this, arguments).finally(delayedProcessPage);
+    } else return fetch_.apply(this, arguments);
+  };
 
-    function toggleMarker(ele, i) {
-        if (ele) {
-            if (ele.href) {
-                i = getVideoId(ele.href);
-            } else {
-                ele = ele.parentNode;
-                while (ele) {
-                    if (ele.tagName === "A") {
-                        i = getVideoId(ele.href);
-                        break;
-                    }
-                    ele = ele.parentNode;
-                }
-            }
-            if (i) {
-                if ((ele = watchedVideos.index.indexOf(i)) >= 0) {
-                    delHistory(ele);
-                } else addHistory(i, (new Date()).valueOf());
-                processAllVideoItems();
-            }
-        }
-    }
-
-
-    var rxListUrl = /\/\w+_ajax\?|\/results\?search_query|\/v1\/v1\/(browse|next|search)\?/;
-    var xhropen = XMLHttpRequest.prototype.open, xhrsend = XMLHttpRequest.prototype.send;
-    XMLHttpRequest.prototype.open = function(method, url) {
-        this.url_mwyv = url;
-        return xhropen.apply(this, arguments);
-    };
-    XMLHttpRequest.prototype.send = function(method, url) {
-        if (rxListUrl.test(this.url_mwyv) && !this.listened_mwyv) {
-            this.listened_mwyv = 1;
-            this.addEventListener("load", delayedProcessPage);
-        }
-        return xhrsend.apply(this, arguments);
-    };
-
-    var fetch_ = unsafeWindow.fetch;
-    unsafeWindow.fetch = function(opt) {
-        let url = opt.url || opt;
-        if (rxListUrl.test(opt.url || opt)) {
-            return fetch_.apply(this, arguments).finally(delayedProcessPage);
-        } else return fetch_.apply(this, arguments);
-    };
-
-    addEventListener("DOMContentLoaded", sty => {
-        sty = document.createElement("STYLE");
-        sty.innerHTML = `
+  addEventListener("DOMContentLoaded", sty => {
+    sty = document.createElement("STYLE");
+    sty.innerHTML = `
 
 `;
-        document.head.appendChild(sty);
-        var nde = Node.prototype.dispatchEvent;
-        Node.prototype.dispatchEvent = function(ev) {
-            if (ev.type === "yt-service-request-completed") {
-                clearTimeout(ut);
-                ut = setTimeout(doProcessPage, contentLoadMarkDelay / 2)
-            }
-            return nde.apply(this, arguments)
-        };
-    });
+    document.head.appendChild(sty);
+    var nde = Node.prototype.dispatchEvent;
+    Node.prototype.dispatchEvent = function (ev) {
+      if (ev.type === "yt-service-request-completed") {
+        clearTimeout(ut);
+        ut = setTimeout(doProcessPage, contentLoadMarkDelay / 2)
+      }
+      return nde.apply(this, arguments)
+    };
+  });
 
-    var lastFocusState = document.hasFocus();
-    addEventListener("blur", () => {
-        lastFocusState = false;
-    });
-    addEventListener("focus", () => {
-        if (!lastFocusState) processPage();
-        lastFocusState = true;
-    });
-    addEventListener("click", (ev) => {
-        if ((markerMouseButtons.indexOf(ev.button) >= 0) && ev.altKey) toggleMarker(ev.target);
-    });
+  var lastFocusState = document.hasFocus();
+  addEventListener("blur", () => {
+    lastFocusState = false;
+  });
+  addEventListener("focus", () => {
+    if (!lastFocusState) processPage();
+    lastFocusState = true;
+  });
+  addEventListener("click", (ev) => {
+    if ((markerMouseButtons.indexOf(ev.button) >= 0) && ev.altKey) toggleMarker(ev.target);
+  });
 
-    if (markerMouseButtons.indexOf(1) >= 0) {
-        addEventListener("contextmenu", (ev) => {
-            if (ev.altKey) toggleMarker(ev.target);
-        });
+  if (markerMouseButtons.indexOf(1) >= 0) {
+    addEventListener("contextmenu", (ev) => {
+      if (ev.altKey) toggleMarker(ev.target);
+    });
+  }
+  if (window["body-container"]) { //old
+    addEventListener("spfdone", processPage);
+    processPage();
+  } else { //new
+    var t = 0;
+    function pl() {
+      clearTimeout(t);
+      t = setTimeout(processPage, 300);
     }
-    if (window["body-container"]) { //old
-        addEventListener("spfdone", processPage);
-        processPage();
-    } else { //new
-        var t = 0;
-        function pl() {
-            clearTimeout(t);
-            t = setTimeout(processPage, 300);
-        }
-        (function init(vm) {
-            if (vm = document.getElementById("visibility-monitor")) {
-                vm.addEventListener("viewport-load", pl);
-            } else setTimeout(init, 100);
-        })();
-        (function init2(mh) {
-            if (mh = document.getElementById("masthead")) {
-                mh.addEventListener("yt-rendererstamper-finished", pl);
-            } else setTimeout(init2, 100);
-        })();
-        addEventListener("load", delayedProcessPage);
-        addEventListener("spfprocess", delayedProcessPage);
-    }
+    (function init(vm) {
+      if (vm = document.getElementById("visibility-monitor")) {
+        vm.addEventListener("viewport-load", pl);
+      } else setTimeout(init, 100);
+    })();
+    (function init2(mh) {
+      if (mh = document.getElementById("masthead")) {
+        mh.addEventListener("yt-rendererstamper-finished", pl);
+      } else setTimeout(init2, 100);
+    })();
+    addEventListener("load", delayedProcessPage);
+    addEventListener("spfprocess", delayedProcessPage);
+  }
 
-    GM_registerMenuCommand("Display History Statistics", () => {
-        function sum(r, v) {
-            return r + v;
-        }
-        function avg(arr) {
-            return arr && arr.length ? Math.round(arr.reduce(sum, 0) / arr.length) : "(n/a)";
-        }
-        var pd, pm, py, ld = [], lm = [], ly = [];
-        getHistory();
-        Object.keys(watchedVideos.entries).forEach((k, t) => {
-            t = new Date(watchedVideos.entries[k]);
-            if (!pd || (pd !== t.getDate())) {
-                ld.push(1);
-                pd = t.getDate();
-            } else ld[ld.length - 1]++;
-            if (!pm || (pm !== (t.getMonth() + 1))) {
-                lm.push(1);
-                pm = t.getMonth() + 1;
-            } else lm[lm.length - 1]++;
-            if (!py || (py !== t.getFullYear())) {
-                ly.push(1);
-                py = t.getFullYear();
-            } else ly[ly.length - 1]++;
-        });
-        if (watchedVideos.index.length) {
-            pd = (new Date(watchedVideos.entries[watchedVideos.index[0]])).toLocaleString();
-            pm = (new Date(watchedVideos.entries[watchedVideos.index[watchedVideos.index.length - 1]])).toLocaleString();
-        } else {
-            pd = "(n/a)";
-            pm = "(n/a)";
-        }
-        alert(`\
+  GM_registerMenuCommand("Display History Statistics", () => {
+    function sum(r, v) {
+      return r + v;
+    }
+    function avg(arr) {
+      return arr && arr.length ? Math.round(arr.reduce(sum, 0) / arr.length) : "(n/a)";
+    }
+    var pd, pm, py, ld = [], lm = [], ly = [];
+    getHistory();
+    Object.keys(watchedVideos.entries).forEach((k, t) => {
+      t = new Date(watchedVideos.entries[k]);
+      if (!pd || (pd !== t.getDate())) {
+        ld.push(1);
+        pd = t.getDate();
+      } else ld[ld.length - 1]++;
+      if (!pm || (pm !== (t.getMonth() + 1))) {
+        lm.push(1);
+        pm = t.getMonth() + 1;
+      } else lm[lm.length - 1]++;
+      if (!py || (py !== t.getFullYear())) {
+        ly.push(1);
+        py = t.getFullYear();
+      } else ly[ly.length - 1]++;
+    });
+    if (watchedVideos.index.length) {
+      pd = (new Date(watchedVideos.entries[watchedVideos.index[0]])).toLocaleString();
+      pm = (new Date(watchedVideos.entries[watchedVideos.index[watchedVideos.index.length - 1]])).toLocaleString();
+    } else {
+      pd = "(n/a)";
+      pm = "(n/a)";
+    }
+    alert(`\
 Number of entries: ${watchedVideos.index.length}
 Oldest entry: ${pd}
 Newest entry: ${pm}
@@ -1113,30 +1113,30 @@ Average viewed videos per day: ${avg(ld)}
 Average viewed videos per month: ${avg(lm)}
 Average viewed videos per year: ${avg(ly)}\
 `);
-    });
+  });
 
-    GM_registerMenuCommand("Backup History Data", (a, b) => {
-        document.body.appendChild(a = document.createElement("A")).href = URL.createObjectURL(new Blob([JSON.stringify(watchedVideos)], {type: "application/json"}));
-        a.download = `MarkWatchedYouTubeVideos_${(new Date()).toISOString()}.json`;
-        a.click();
+  GM_registerMenuCommand("Backup History Data", (a, b) => {
+    document.body.appendChild(a = document.createElement("A")).href = URL.createObjectURL(new Blob([JSON.stringify(watchedVideos)], { type: "application/json" }));
+    a.download = `MarkWatchedYouTubeVideos_${(new Date()).toISOString()}.json`;
+    a.click();
+    a.remove();
+    URL.revokeObjectURL(a.href);
+  });
+
+  GM_registerMenuCommand("Restore History Data", (a, b) => {
+    function askRestore(o) {
+      if (confirm(`Selected history data file contains ${o.index.length} entries.\n\nRestore from this data?`)) {
+        if (mwyvrhm_ujs.checked) {
+          mergeData(o);
+        } else watchedVideos = o;
+        GM_setValue("watchedVideos", JSON.stringify(watchedVideos));
         a.remove();
-        URL.revokeObjectURL(a.href);
-    });
-
-    GM_registerMenuCommand("Restore History Data", (a, b) => {
-        function askRestore(o) {
-            if (confirm(`Selected history data file contains ${o.index.length} entries.\n\nRestore from this data?`)) {
-                if (mwyvrhm_ujs.checked) {
-                    mergeData(o);
-                } else watchedVideos = o;
-                GM_setValue("watchedVideos", JSON.stringify(watchedVideos));
-                a.remove();
-                doProcessPage();
-            }
-        }
-        if (window.mwyvrh_ujs) return;
-        (a = document.createElement("DIV")).id = "mwyvrh_ujs";
-        a.innerHTML = `<style>
+        doProcessPage();
+      }
+    }
+    if (window.mwyvrh_ujs) return;
+    (a = document.createElement("DIV")).id = "mwyvrh_ujs";
+    a.innerHTML = `<style>
        #mwyvrh_ujs {display:flex;position:fixed;z-index:99999;left:0;top:0;right:0;bottom:0;margin:0;border:none;padding:0;background:rgb(0,0,0,0.5);color:#000;font-family:sans-serif;font-size:12pt;line-height:12pt;font-weight:normal;cursor:pointer}
        #mwyvrhb_ujs {margin:auto;border:.3rem solid #007;border-radius:.3rem;padding:.5rem .5em;background-color:#fff;cursor:auto}
        #mwyvrht_ujs {margin-bottom:1rem;font-size:14pt;line-height:14pt;font-weight:bold}
@@ -1149,349 +1149,389 @@ Average viewed videos per year: ${avg(ly)}\
   <div id="mwyvrhmc_ujs"><label><input id="mwyvrhm_ujs" type="checkbox" checked /> Merge history data instead of replace.</label></div>
   <input id="mwyvrhi_ujs" type="file" multiple />
 </div>`;
-        a.onclick = e => {
-            (e.target === a) && a.remove();
-        };
-        (b = a.querySelector("#mwyvrhi_ujs")).onchange = r => {
-            r = new FileReader();
-            r.onload = (o, t) => {
-                if (o = parseData(r = r.result)) { //parse as native format
-                    if (o.index.length) {
-                        askRestore(o);
-                    } else alert("File doesn't contain any history entry.");
-                } else if (o = parseYouTubeData(r)) { //parse as YouTube format
-                    if (o.index.length) {
-                        askRestore(o);
-                    } else alert("File doesn't contain any history entry.");
-                } else { //parse as URL list
-                    o = {entries: {}, index: []};
-                    t = (new Date()).getTime();
-                    r = r.replace(/\r/g, "").split("\n");
-                    while (r.length && !r[0].trim()) r.shift();
-                    if (r.length && xu.test(r[0])) {
-                        r.forEach(s => {
-                            if (s = s.match(xu)) {
-                                o.entries[s[1] || s[2]] = t;
-                                o.index.push(s[1] || s[2]);
-                            }
-                        });
-                        if (o.index.length) {
-                            askRestore(o);
-                        } else alert("File doesn't contain any history entry.");
-                    } else alert("Invalid history data file.");
-                }
-            };
-            r.readAsText(b.files[0]);
-        };
-        document.documentElement.appendChild(a);
-        b.click();
-    });
+    a.onclick = e => {
+      (e.target === a) && a.remove();
+    };
+    (b = a.querySelector("#mwyvrhi_ujs")).onchange = r => {
+      r = new FileReader();
+      r.onload = (o, t) => {
+        if (o = parseData(r = r.result)) { //parse as native format
+          if (o.index.length) {
+            askRestore(o);
+          } else alert("File doesn't contain any history entry.");
+        } else if (o = parseYouTubeData(r)) { //parse as YouTube format
+          if (o.index.length) {
+            askRestore(o);
+          } else alert("File doesn't contain any history entry.");
+        } else { //parse as URL list
+          o = { entries: {}, index: [] };
+          t = (new Date()).getTime();
+          r = r.replace(/\r/g, "").split("\n");
+          while (r.length && !r[0].trim()) r.shift();
+          if (r.length && xu.test(r[0])) {
+            r.forEach(s => {
+              if (s = s.match(xu)) {
+                o.entries[s[1] || s[2]] = t;
+                o.index.push(s[1] || s[2]);
+              }
+            });
+            if (o.index.length) {
+              askRestore(o);
+            } else alert("File doesn't contain any history entry.");
+          } else alert("Invalid history data file.");
+        }
+      };
+      r.readAsText(b.files[0]);
+    };
+    document.documentElement.appendChild(a);
+    b.click();
+  });
 }
 
 function gen_setting_page() {
-    let fix_version = '3.1.3';	// as close to header as possible: in hopes to not forget
-    if (window.YTEngine2) return; // in-development kill-switch
-    if (document.location.pathname == '/error') return;
+  let fix_version = '3.1.3';	// as close to header as possible: in hopes to not forget
+  if (window.YTEngine2) return; // in-development kill-switch
+  if (document.location.pathname == '/error') return;
 
 
-    // Test storage for saving user-settings
+  // Test storage for saving user-settings
 
-    let settings = {}, ls;
+  let settings = {}, ls;
 
-    try {
-        function lsTest(st, v) {
-            st.setItem('__storage_test__', v);
-            return st.getItem('__storage_test__') == v;
+  try {
+    function lsTest(st, v) {
+      st.setItem('__storage_test__', v);
+      return st.getItem('__storage_test__') == v;
 
-        };
-        let _s = window.localStorage;
-        if (lsTest(_s, 'qwe') && lsTest(_s, 'rty')) {
-            ls = _s;
-            settings = JSON.parse(ls.getItem('__storage__settings__')) || {};
+    };
+    let _s = window.localStorage;
+    if (lsTest(_s, 'qwe') && lsTest(_s, 'rty')) {
+      ls = _s;
+      settings = JSON.parse(ls.getItem('__storage__settings__')) || {};
+    }
+  }
+  catch (e) { }
+  // delete old settings
+  if ("default_player_640" in settings) {
+    settings.default_player = settings.default_player_640 ? 3 : 0;
+    delete settings.default_player_640;
+  }
+  if ("reduce_thumbnail" in settings) {
+    settings.thumbnail_size = settings.reduce_thumbnail ? 2 : 0;
+    delete settings.reduce_thumbnail;
+  }
+  // set script default values
+  if (!("inst_ver" in settings)) settings.inst_ver = fix_version;
+  if (!("old_player" in settings)) settings.old_player = true;
+  if (!("search_left" in settings)) settings.search_left = true;
+  if (!("no_apps" in settings)) settings.no_apps = true;
+  if (!("thumb_preview" in settings)) settings.thumb_preview = false;
+  if (!("hideclip" in settings)) settings.hideclip = true;
+  if (!("profile_picture" in settings)) settings.profile_picture = true;
+  if (!("grey_watched" in settings)) settings.grey_watched = true;
+  if (!("blur_watched" in settings)) settings.blur_watched = true;
+  if (!("hide_filters" in settings)) settings.hide_filters = true;
+  if (!("hide_queue" in settings)) settings.hide_queue = false;
+  if (!("small_recc" in settings)) settings.small_recc = true;
+  if (!("olderhh" in settings)) settings.olderhh = false;
+  if (!("hide_dis" in settings)) settings.hide_dis = true;
+  if (!("channel_list" in settings)) settings.channel_list = false;
+  if (!("rightside" in settings)) settings.rightside = false;
+  if (!("trending" in settings)) settings.trending = true;
+  if (!("shelves" in settings)) settings.shelves = true;
+  if (!("search_estimate" in settings)) settings.search_estimate = true;
+  if (!("default_player" in settings)) settings.default_player = 2;
+  if (!("hide_guide" in settings)) settings.hide_guide = false;
+  if (!("hide_yt_suggested_blocks" in settings)) settings.hide_yt_suggested_blocks = true;
+  if (!("logo_target" in settings)) settings.logo_target = "";
+  if (!("thumbnail_size" in settings)) settings.thumbnail_size = 1;
+  if (!("thumbnail_size_m" in settings)) settings.thumbnail_size_m = 720;
+  if (!("search_thumbnail" in settings)) settings.search_thumbnail = 1;
+  if (!("clear_search" in settings)) settings.clear_search = true;
+  if (!("logo_style" in settings)) settings.logo_style = 0;
+  if (!("channel_top" in settings)) settings.channel_top = 0;
+  if (!("video_quality" in settings)) settings.video_quality = 0;
+  // catch "settings" page
+  console.log('fix settings:', settings);
+  if (document.location.pathname == '/7kttube-settings') {
+
+    let back = document.createElement('div');
+    back.className = 'ytfixback';
+    let e1, e2, e3, e4, plane = document.createElement('div');
+    plane.className = 'ytfix';
+    let style = document.createElement('style');
+    style.type = 'text/css';
+    style.innerHTML = [
+      'ytfix_line2 {background: #575757;color: white;padding: 5px;}.ytfix_line span, .ytfix_line checkbox {text-transform: full-size-kana; border-bottom: 1px dotted;}.ytfix{font-size: 13px;position:absolute;left:0;top:0;right:0;padding:3em;background: #eee url(https://i.ibb.co/jgXjyZn/7kttube.png) no-repeat;background-size:570px;background-repeat-y: no-repeat;background-position-x: 300px;background-position-y: 20px;}', '.ytfix_line{margin-bottom: 9px;text-shadow: 1px 0px 0px #b0b0b0;}', '.ytfix_line span,.ytfix_line input,.ytfix_line select{margin-right:0.3em}', 'form{padding-left: 10px;}', '.ytfix_field{font-size:13px; padding:0.2em;border:1px solid #888}', '.ytfix_button{color: #fff;font-weight: bold;background: #ec2828;padding:0.6em;border:1px solid #fff;margin-bottom: 10px;}', '.ytfix_button:hover {background: #525252;cursor: pointer}', '.ytfix_hide{display:none}', '.ytfixback{position:absolute;left:0;top:0;right:0;height:100%;background:#eee}', '.ytfix donate{padding:0;border:1px solid #888}', 'h2{text-decoration: underline; font-variant: all-petite-caps; font-family: YouTube Noto, Roboto, arial, sans-serif !important; font-size:24px;}', 'h5{font-style: italic}', 'paypal{padding-left: 60px; font-size: 13px; font-weight: bold;}'
+    ].join('');
+    plane.appendChild(style);
+    e4 = document.createElement('br')
+    e4 = document.createElement('ytfix_line2')
+    e4.appendChild(document.createTextNode('7ktTube Video Downloader & 7ktTube old icons script now available!'));
+    AddLine(e4);
+    e4 = document.createElement('br')
+    e4 = document.createElement('span')
+    e2 = document.createElement('input');
+    e2.type = 'button';
+    e2.className = 'ytfix_button';
+    e2.value = 'DOWNLOAD PAGE';
+    e2.addEventListener('click', () => location.href = 'https://7kttube.tk/downloads');
+    e3 = document.createElement('input');
+    AddLine(e2);
+    e1 = document.createElement('h2');
+    e1.appendChild(document.createTextNode('7ktTube²⁰¹⁶ REDUX settings'));
+    AddLine(e1);
+
+    if (!ls) {
+      e1 = document.createElement('span');
+      e1.style = 'color:red';
+      e1.appendChild(document.createTextNode('Cannot edit settings: no access to local storage.'));
+      AddLine(e1);
+      e1 = document.createElement('span');
+      e1.appendChild(document.createTextNode('If you are using Firefox, allow cookies for this site.'));
+      AddLine(e1);
+    }
+
+    else {
+      let ess = {};
+
+      function MakeDesc(desc) {
+        let e = document.createElement('span');
+        e.appendChild(document.createTextNode(desc));
+        return e;
+      }
+
+      function MakeBoolElement(nm) {
+        let e = document.createElement('input');
+        e.type = 'checkbox';
+        e.checked = settings[nm];
+        ess[nm] = e;
+        return e;
+      }
+
+      function MakeListElement(nm, opts) {
+        let e = document.createElement('select');
+        e.className = 'ytfix_field';
+        ess[nm] = e;
+        for (let i = 0, L = opts.length; i < L; ++i) {
+          let o = document.createElement('option');
+          o.appendChild(document.createTextNode(opts[i]));
+          e.appendChild(o);
         }
-    }
-    catch (e) { }
-    // delete old settings
-    if ("default_player_640" in settings) {
-        settings.default_player = settings.default_player_640 ? 3 : 0;
-        delete settings.default_player_640;
-    }
-    if ("reduce_thumbnail" in settings) {
-        settings.thumbnail_size = settings.reduce_thumbnail ? 2 : 0;
-        delete settings.reduce_thumbnail;
-    }
-    // set script default values
-    if (!("inst_ver" in settings)) settings.inst_ver = fix_version;
-    if (!("old_player" in settings)) settings.old_player = true;
-    if (!("search_left" in settings)) settings.search_left = true;
-    if (!("no_apps" in settings)) settings.no_apps = true;
-    if (!("thumb_preview" in settings)) settings.thumb_preview = false;
-    if (!("hideclip" in settings)) settings.hideclip = true;
-    if (!("profile_picture" in settings)) settings.profile_picture = true;
-    if (!("grey_watched" in settings)) settings.grey_watched = true;
-    if (!("blur_watched" in settings)) settings.blur_watched = true;
-    if (!("hide_filters" in settings)) settings.hide_filters = true;
-    if (!("hide_queue" in settings)) settings.hide_queue = false;
-    if (!("small_recc" in settings)) settings.small_recc = true;
-    if (!("olderhh" in settings)) settings.olderhh = false;
-    if (!("hide_dis" in settings)) settings.hide_dis = true;
-    if (!("channel_list" in settings)) settings.channel_list = false;
-    if (!("rightside" in settings)) settings.rightside = false;
-    if (!("trending" in settings)) settings.trending = true;
-    if (!("shelves" in settings)) settings.shelves = true;
-    if (!("search_estimate" in settings)) settings.search_estimate = true;
-    if (!("default_player" in settings)) settings.default_player = 2;
-    if (!("hide_guide" in settings)) settings.hide_guide = false;
-    if (!("hide_yt_suggested_blocks" in settings)) settings.hide_yt_suggested_blocks = true;
-    if (!("logo_target" in settings)) settings.logo_target = "";
-    if (!("thumbnail_size" in settings)) settings.thumbnail_size = 1;
-    if (!("thumbnail_size_m" in settings)) settings.thumbnail_size_m = 720;
-    if (!("search_thumbnail" in settings)) settings.search_thumbnail = 1;
-    if (!("clear_search" in settings)) settings.clear_search = true;
-    if (!("logo_style" in settings)) settings.logo_style = 0;
-    if (!("channel_top" in settings)) settings.channel_top = 0;
-    if (!("video_quality" in settings)) settings.video_quality = 0;
-    // catch "settings" page
-    console.log('fix settings:', settings);
-    if (document.location.pathname == '/7kttube-settings') {
+        e.selectedIndex = settings[nm];
+        return e;
+      }
+      var delayInMilliseconds = 25; //1 second
 
-        let back = document.createElement('div');
-        back.className = 'ytfixback';
-        let e1, e2, e3, e4, plane = document.createElement('div');
-        plane.className = 'ytfix';
-        let style = document.createElement('style');
-        style.type = 'text/css';
-        style.innerHTML = [
-            'ytfix_line2 {background: #575757;color: white;padding: 5px;}.ytfix_line span, .ytfix_line checkbox {text-transform: full-size-kana; border-bottom: 1px dotted;}.ytfix{font-size: 13px;position:absolute;left:0;top:0;right:0;padding:3em;background: #eee url(https://i.ibb.co/jgXjyZn/7kttube.png) no-repeat;background-size:570px;background-repeat-y: no-repeat;background-position-x: 300px;background-position-y: 20px;}', '.ytfix_line{margin-bottom: 9px;text-shadow: 1px 0px 0px #b0b0b0;}', '.ytfix_line span,.ytfix_line input,.ytfix_line select{margin-right:0.3em}', 'form{padding-left: 10px;}', '.ytfix_field{font-size:13px; padding:0.2em;border:1px solid #888}', '.ytfix_button{color: #fff;font-weight: bold;background: #ec2828;padding:0.6em;border:1px solid #fff;margin-bottom: 10px;}', '.ytfix_button:hover {background: #525252;cursor: pointer}', '.ytfix_hide{display:none}', '.ytfixback{position:absolute;left:0;top:0;right:0;height:100%;background:#eee}', '.ytfix donate{padding:0;border:1px solid #888}', 'h2{text-decoration: underline; font-variant: all-petite-caps; font-family: YouTube Noto, Roboto, arial, sans-serif !important; font-size:24px;}', 'h5{font-style: italic}', 'paypal{padding-left: 60px; font-size: 13px; font-weight: bold;}'
-        ].join('');
-        plane.appendChild(style);
-        e4 = document.createElement('br')
-        e4 = document.createElement('ytfix_line2')
-        e4.appendChild(document.createTextNode('7ktTube Video Downloader & 7ktTube old icons script now available!'));
-        AddLine(e4);
-        e4 = document.createElement('br')
-        e4 = document.createElement('span')
-        e2 = document.createElement('input');
-        e2.type = 'button';
-        e2.className = 'ytfix_button';
-        e2.value = 'DOWNLOAD PAGE';
-        e2.addEventListener('click', () => location.href = 'https://7kttube.tk/downloads');
-        e3 = document.createElement('input');
-        AddLine(e2);
-        e1 = document.createElement('h2');
-        e1.appendChild(document.createTextNode('7ktTube²⁰¹⁶ REDUX settings'));
-        AddLine(e1);
-
-        if (!ls) {
-            e1 = document.createElement('span');
-            e1.style = 'color:red';
-            e1.appendChild(document.createTextNode('Cannot edit settings: no access to local storage.'));
-            AddLine(e1);
-            e1 = document.createElement('span');
-            e1.appendChild(document.createTextNode('If you are using Firefox, allow cookies for this site.'));
-            AddLine(e1);
+      setTimeout(function () {
+        window.parent.document.title = "𝟳𝗸𝘁𝗧𝘂𝗯𝗲 𝗥𝗘𝗗𝗨𝗫 : sᴇᴛᴛɪɴɢs";
+      }, delayInMilliseconds);
+      function MakeTextElement(nm) {
+        let e = document.createElement('input');
+        e.className = 'ytfix_field';
+        e.value = settings[nm];
+        ess[nm] = e;
+        return e;
+      }
+      AddLine(MakeBoolElement("old_player"), MakeDesc("YouTube old player style(smaller buttons and menu)"));
+      AddLine(MakeBoolElement("search_left"), MakeDesc('Align searchbar to the left'));
+      AddLine(MakeBoolElement("no_apps"), MakeDesc("Hide apps button"));
+      AddLine(MakeBoolElement("hide_guide"), MakeDesc('Auto-close side-bar to compact'));
+      AddLine(MakeBoolElement("profile_picture"), MakeDesc("Square profile-pictures"));
+      AddLine(MakeBoolElement("thumb_preview"), MakeDesc("Disable video previews on :hover"));
+      AddLine(MakeBoolElement("hideclip"), MakeDesc("Hide clip and thanks buttons"));
+      AddLine(MakeBoolElement("hide_queue"), MakeDesc("Hide queue button on thumbnails"));
+      AddLine(MakeBoolElement("hide_filters"), MakeDesc('Hide all filter by category bars'));
+      AddLine(MakeBoolElement("hide_yt_suggested_blocks"), MakeDesc('Hide suggestion blocks on main page (recommended playlists, latest posts, etc)'));
+      AddLine(MakeBoolElement("grey_watched"), MakeDesc("Make watched video thumbnails black & white and less visible"));
+      AddLine(MakeBoolElement("blur_watched"), MakeDesc("Make watched video thumbnails black & white on home screen [FIX]"));
+      AddLine(MakeBoolElement("channel_list"), MakeDesc("Use list view on channels"));
+      AddLine(MakeBoolElement("small_recc"), MakeDesc("Use smaller thumbnails on watch page recommended"));
+      AddLine(MakeBoolElement("olderhh"), MakeDesc("Use older button styles and colors"));
+      AddLine(MakeBoolElement("hide_dis"), MakeDesc("Hide 'DISLIKE' string"));
+      let tsm = MakeTextElement("thumbnail_size_m");
+      tsm.className = settings.thumbnail_size == 5 ? 'ytfix_field' : 'ytfix_hide';
+      let tsi = MakeListElement("thumbnail_size", ['default', '193px', '240px', '360px', '480px', 'manual']);
+      tsi.addEventListener('change', function () {
+        ess.thumbnail_size_m.className = ess.thumbnail_size.selectedIndex == 5 ? 'ytfix_field' : 'ytfix_hide';
+      });
+      AddLine(MakeBoolElement("clear_search"), MakeDesc("Hide suggestion blocks on search page (for you, people also watched, etc)"));
+      AddLine(MakeBoolElement("trending"), MakeDesc("Replace explore with trending"));
+      AddLine(MakeBoolElement("shelves"), MakeDesc("Use shelves homepage style"));
+      AddLine(MakeBoolElement("search_estimate"), MakeDesc("Show estimates in search results"));
+      AddLine(MakeBoolElement("rightside"), MakeDesc("CHECK this if you use the Right Side Description extension"));
+      AddLine(MakeDesc('Logo '), MakeListElement("logo_style", ["2015-2017 (Default)", "2017-2020", "Current"]));
+      AddLine(MakeDesc('Home screen thumbnail size '), tsi, tsm);
+      AddLine(MakeDesc('Search video thumbnail size '), MakeListElement("search_thumbnail", ['TOO BIG', 'Small', 'Medium']));
+      AddLine(MakeDesc('Watch page video player size:'), MakeListElement("default_player", ['Flexible', '640x360px', '853x480px', '1280x720px']));
+      AddLine(MakeDesc('Force video quality'), MakeListElement('video_quality', ['Auto (default)', '144p', '240p', '360p', '480p', '720p', '1080p (HD)', '1440p (HD)', '2160p (4K)']));
+      AddLine(MakeDesc("Modify channels' pages behaviour"), MakeListElement('channel_top', ['default', 'hide banner with scrolling', 'hide banner on load']));
+      AddLine(MakeDesc("Change YouTube logo link to https://www.youtube.com/..."), MakeTextElement("logo_target"));
+      let e0 = document.createElement('input');
+      e0.type = 'button';
+      e0.className = 'ytfix_button';
+      e0.value = 'Save settings';
+      e0.addEventListener('click', function () {
+        settings.old_player = ess.old_player.checked;
+        settings.search_left = ess.search_left.checked;
+        settings.no_apps = ess.no_apps.checked;
+        settings.thumb_preview = ess.thumb_preview.checked;
+        settings.hideclip = ess.hideclip.checked;
+        settings.profile_picture = ess.profile_picture.checked;
+        settings.grey_watched = ess.grey_watched.checked;
+        settings.blur_watched = ess.blur_watched.checked;
+        settings.hide_filters = ess.hide_filters.checked;
+        settings.small_recc = ess.small_recc.checked;
+        settings.olderhh = ess.olderhh.checked;
+        settings.hide_dis = ess.hide_dis.checked;
+        settings.hide_queue = ess.hide_queue.checked;
+        settings.channel_list = ess.channel_list.checked;
+        settings.hide_guide = ess.hide_guide.checked;
+        settings.rightside = ess.rightside.checked;
+        settings.trending = ess.trending.checked;
+        settings.shelves = ess.shelves.checked;
+        settings.search_estimate = ess.search_estimate.checked;
+        settings.thumbnail_size = ess.thumbnail_size.selectedIndex;
+        if (settings.thumbnail_size == 5) {
+          let v = ess.thumbnail_size_m.value;
+          if (!/^\d+$/.test(v)) return alert('Error: invalid value for thumbnails size');
+          settings.thumbnail_size_m = parseInt(v);
         }
+        settings.search_thumbnail = ess.search_thumbnail.selectedIndex;
+        settings.default_player = ess.default_player.selectedIndex;
+        settings.hide_yt_suggested_blocks = ess.hide_yt_suggested_blocks.checked;
+        settings.logo_style = ess.logo_style.selectedIndex;
+        settings.channel_top = ess.channel_top.selectedIndex;
+        settings.logo_target = ess.logo_target.value;
+        settings.clear_search = ess.clear_search.checked;
+        settings.video_quality = ess.video_quality.selectedIndex;
+        ls.setItem('__storage__settings__', JSON.stringify(settings));
+        alert('Settings saved');
+      });
+      e1 = document.createElement('input');
+      e1.type = 'button';
+      e1.className = 'ytfix_button';
+      e1.value = 'Save & return to YouTube';
+      e1.addEventListener('click', function () {
+        settings.old_player = ess.old_player.checked;
+        settings.search_left = ess.search_left.checked;
+        settings.no_apps = ess.no_apps.checked;
+        settings.thumb_preview = ess.thumb_preview.checked;
+        settings.hideclip = ess.hideclip.checked;
+        settings.profile_picture = ess.profile_picture.checked;
+        settings.grey_watched = ess.grey_watched.checked;
+        settings.blur_watched = ess.blur_watched.checked;
+        settings.hide_filters = ess.hide_filters.checked;
+        settings.small_recc = ess.small_recc.checked;
+        settings.olderhh = ess.olderhh.checked;
+        settings.hide_dis = ess.hide_dis.checked;
+        settings.hide_queue = ess.hide_queue.checked;
+        settings.channel_list = ess.channel_list.checked;
+        settings.hide_guide = ess.hide_guide.checked;
+        settings.rightside = ess.rightside.checked;
+        settings.trending = ess.trending.checked;
+        settings.shelves = ess.shelves.checked;
+        settings.search_estimate = ess.search_estimate.checked;
+        settings.thumbnail_size = ess.thumbnail_size.selectedIndex;
+        if (settings.thumbnail_size == 5) {
+          let v = ess.thumbnail_size_m.value;
+          if (!/^\d+$/.test(v)) return alert('Error: invalid value for thumbnails size');
+          settings.thumbnail_size_m = parseInt(v);
+        }
+        settings.search_thumbnail = ess.search_thumbnail.selectedIndex;
+        settings.default_player = ess.default_player.selectedIndex;
+        settings.hide_yt_suggested_blocks = ess.hide_yt_suggested_blocks.checked;
+        settings.logo_style = ess.logo_style.selectedIndex;
+        settings.channel_top = ess.channel_top.selectedIndex;
+        settings.logo_target = ess.logo_target.value;
+        settings.clear_search = ess.clear_search.checked;
+        settings.video_quality = ess.video_quality.selectedIndex;
+        ls.setItem('__storage__settings__', JSON.stringify(settings));
+        alert('Settings saved');
+        history.back();
+      });
+      e2 = document.createElement('input');
+      e2.type = 'button';
+      e2.className = 'ytfix_button';
+      e2.value = 'Cancel';
+      e2.addEventListener('click', () => history.back());
+      e3 = document.createElement('input');
+      e3.type = 'button';
+      e3.className = 'ytfix_button';
+      e3.value = 'DONATE PayPal';
+      e3.addEventListener('click', () => location.href = 'https://www.paypal.com/donate?hosted_button_id=2EJR4DLTR4Y7Q');
+      AddLine(e0, e1, e2);
+      e4 = document.createElement('b');
+      e4.appendChild(document.createElement("br"));
+      e4.appendChild(document.createTextNode('Do you like this script?'));
+      AddLine(e4);
+      e4 = document.createElement('h5');
+      e4.appendChild(document.createTextNode('Please donate to support this project & the developer!'));
 
+      AddLine(e4);
+      e4 = document.createElement('paypal');
+      e4.appendChild(document.createTextNode('PayPal'));
+      AddLine(e4);
+      e4.innerHTML += "<form action='https://www.paypal.com/donate' method='post' target='_top'><input type='hidden' name='hosted_button_id' value='2EJR4DLTR4Y7Q' /><input type='image' src='https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif' border='0' name='submit' title='PayPal - The safer, easier way to pay online!' alt='Donate with PayPal button' /><img alt='' border='0' src='https://www.paypal.com/en_US/i/scr/pixel.gif' width='1' height='1' /></form>";
+    }
+
+    let int = setInterval(function () {
+      if (!document.body) return;
+      clearInterval(int);
+      document.body.appendChild(back);
+      document.body.appendChild(plane);
+    }, 1);
+
+    function AddLine() {
+      let q = document.createElement('div');
+      q.className = 'ytfix_line';
+      for (let i = 0, L = arguments.length; i < L; ++i) q.appendChild(arguments[i]);
+      plane.appendChild(q);
+
+      return q;
+    }
+  }
+  // apply settings
+  let styles = [], intervals = [];
+  function addInterval(period, func, params) {
+    if (!period) period = 1;
+
+    intervals.push({
+      cnt: period,
+      period: period,
+      call: func,
+      params: params || []
+    });
+  }
+  if (settings.hide_guide)
+    addInterval(1, function (info) {
+      if (info.act == 0) { // observe location change
+        let url = document.location.toString();
+        if (url != info.url) info.act = 1;
+      }
+      if (info.act == 1) { // wait for sorp page load completion
+        let Q = document.querySelector('yt-page-navigation-progress');
+        if (!Q) return;
+        if (Q.hasAttribute('hidden')) info.act = 2;
+      }
+      if (info.act == 2) { // wait for button and press it if necessary
+        let guide_button = document.getElementById('guide-button');
+        if (!guide_button) return;
+
+        let tmp = guide_button.querySelector('button');
+        if (!tmp || !tmp.hasAttribute('aria-pressed')) return;
+
+        if (tmp.attributes['aria-pressed'].value == 'true') guide_button.click();
         else {
-            let ess = {};
-
-            function MakeDesc(desc) {
-                let e = document.createElement('span');
-                e.appendChild(document.createTextNode(desc));
-                return e;
-            }
-
-            function MakeBoolElement(nm) {
-                let e = document.createElement('input');
-                e.type = 'checkbox';
-                e.checked = settings[nm];
-                ess[nm] = e;
-                return e;
-            }
-
-            function MakeListElement(nm, opts) {
-                let e = document.createElement('select');
-                e.className = 'ytfix_field';
-                ess[nm] = e;
-                for (let i = 0, L = opts.length; i < L; ++i) {
-                    let o = document.createElement('option');
-                    o.appendChild(document.createTextNode(opts[i]));
-                    e.appendChild(o);
-                }
-                e.selectedIndex = settings[nm];
-                return e;
-            }
-            var delayInMilliseconds = 25; //1 second
-
-            setTimeout(function() {
-                window.parent.document.title = "𝟳𝗸𝘁𝗧𝘂𝗯𝗲 𝗥𝗘𝗗𝗨𝗫 : sᴇᴛᴛɪɴɢs";
-            }, delayInMilliseconds);
-            function MakeTextElement(nm) {
-                let e = document.createElement('input');
-                e.className = 'ytfix_field';
-                e.value = settings[nm];
-                ess[nm] = e;
-                return e;
-            }
-            AddLine(MakeBoolElement("old_player"), MakeDesc("YouTube old player style(smaller buttons and menu)"));
-            AddLine(MakeBoolElement("search_left"), MakeDesc('Align searchbar to the left'));
-            AddLine(MakeBoolElement("no_apps"), MakeDesc("Hide apps button"));
-            AddLine(MakeBoolElement("hide_guide"), MakeDesc('Auto-close side-bar to compact'));
-            AddLine(MakeBoolElement("profile_picture"), MakeDesc("Square profile-pictures"));
-            AddLine(MakeBoolElement("thumb_preview"), MakeDesc("Disable video previews on :hover"));
-            AddLine(MakeBoolElement("hideclip"), MakeDesc("Hide clip and thanks buttons"));
-            AddLine(MakeBoolElement("hide_queue"), MakeDesc("Hide queue button on thumbnails"));
-            AddLine(MakeBoolElement("hide_filters"), MakeDesc('Hide all filter by category bars'));
-            AddLine(MakeBoolElement("hide_yt_suggested_blocks"), MakeDesc('Hide suggestion blocks on main page (recommended playlists, latest posts, etc)'));
-            AddLine(MakeBoolElement("grey_watched"), MakeDesc("Make watched video thumbnails black & white and less visible"));
-            AddLine(MakeBoolElement("blur_watched"), MakeDesc("Make watched video thumbnails black & white on home screen [FIX]"));
-            AddLine(MakeBoolElement("channel_list"), MakeDesc("Use list view on channels"));
-            AddLine(MakeBoolElement("small_recc"), MakeDesc("Use smaller thumbnails on watch page recommended"));
-            AddLine(MakeBoolElement("olderhh"), MakeDesc("Use older button styles and colors"));
-            AddLine(MakeBoolElement("hide_dis"), MakeDesc("Hide 'DISLIKE' string"));
-            let tsm = MakeTextElement("thumbnail_size_m");
-            tsm.className = settings.thumbnail_size == 5 ? 'ytfix_field' : 'ytfix_hide';
-            let tsi = MakeListElement("thumbnail_size", ['default', '193px', '240px', '360px', '480px', 'manual']);
-            tsi.addEventListener('change', function () {
-                ess.thumbnail_size_m.className = ess.thumbnail_size.selectedIndex == 5 ? 'ytfix_field' : 'ytfix_hide';
-            });
-            AddLine(MakeBoolElement("clear_search"), MakeDesc("Hide suggestion blocks on search page (for you, people also watched, etc)"));
-            AddLine(MakeBoolElement("trending"), MakeDesc("Replace explore with trending"));
-            AddLine(MakeBoolElement("shelves"), MakeDesc("Use shelves homepage style"));
-            AddLine(MakeBoolElement("search_estimate"), MakeDesc("Show estimates in search results"));
-            AddLine(MakeBoolElement("rightside"), MakeDesc("CHECK this if you use the Right Side Description extension"));
-            AddLine(MakeDesc('Logo '), MakeListElement("logo_style", ["2015-2017 (Default)", "2017-2020", "Current"]));
-            AddLine(MakeDesc('Home screen thumbnail size '), tsi, tsm);
-            AddLine(MakeDesc('Search video thumbnail size '), MakeListElement("search_thumbnail", ['TOO BIG', 'Small', 'Medium']));
-            AddLine(MakeDesc('Watch page video player size:'), MakeListElement("default_player", ['Flexible', '640x360px', '853x480px', '1280x720px']));
-            AddLine(MakeDesc('Force video quality'), MakeListElement('video_quality', ['Auto (default)', '144p', '240p', '360p', '480p', '720p', '1080p (HD)', '1440p (HD)', '2160p (4K)']));
-            AddLine(MakeDesc("Modify channels' pages behaviour"), MakeListElement('channel_top', ['default', 'hide banner with scrolling', 'hide banner on load']));
-            AddLine(MakeDesc("Change YouTube logo link to https://www.youtube.com/..."), MakeTextElement("logo_target"));
-
-            e1 = document.createElement('input');
-            e1.type = 'button';
-            e1.className = 'ytfix_button';
-            e1.value = 'Save & return to YouTube';
-            e1.addEventListener('click', function () {
-                settings.old_player = ess.old_player.checked;
-                settings.search_left = ess.search_left.checked;
-                settings.no_apps = ess.no_apps.checked;
-                settings.thumb_preview = ess.thumb_preview.checked;
-                settings.hideclip = ess.hideclip.checked;
-                settings.profile_picture = ess.profile_picture.checked;
-                settings.grey_watched = ess.grey_watched.checked;
-                settings.blur_watched = ess.blur_watched.checked;
-                settings.hide_filters = ess.hide_filters.checked;
-                settings.small_recc = ess.small_recc.checked;
-                settings.olderhh = ess.olderhh.checked;
-                settings.hide_dis = ess.hide_dis.checked;
-                settings.hide_queue = ess.hide_queue.checked;
-                settings.channel_list = ess.channel_list.checked;
-                settings.hide_guide = ess.hide_guide.checked;
-                settings.rightside = ess.rightside.checked;
-                settings.trending = ess.trending.checked;
-                settings.shelves = ess.shelves.checked;
-                settings.search_estimate = ess.search_estimate.checked;
-                settings.thumbnail_size = ess.thumbnail_size.selectedIndex;
-                if (settings.thumbnail_size == 5) {
-                    let v = ess.thumbnail_size_m.value;
-                    if (!/^\d+$/.test(v)) return alert('Error: invalid value for thumbnails size');
-                    settings.thumbnail_size_m = parseInt(v);
-                }
-                settings.search_thumbnail = ess.search_thumbnail.selectedIndex;
-                settings.default_player = ess.default_player.selectedIndex;
-                settings.hide_yt_suggested_blocks = ess.hide_yt_suggested_blocks.checked;
-                settings.logo_style = ess.logo_style.selectedIndex;
-                settings.channel_top = ess.channel_top.selectedIndex;
-                settings.logo_target = ess.logo_target.value;
-                settings.clear_search = ess.clear_search.checked;
-                settings.video_quality = ess.video_quality.selectedIndex;
-                ls.setItem('__storage__settings__', JSON.stringify(settings));
-                alert('Settings saved');
-                history.back();
-            });
-            e2 = document.createElement('input');
-            e2.type = 'button';
-            e2.className = 'ytfix_button';
-            e2.value = 'Cancel';
-            e2.addEventListener('click', () => history.back());
-            e3 = document.createElement('input');
-            e3.type = 'button';
-            e3.className = 'ytfix_button';
-            e3.value = 'DONATE PayPal';
-            e3.addEventListener('click', () => location.href = 'https://www.paypal.com/donate?hosted_button_id=2EJR4DLTR4Y7Q');
-            AddLine(e1, e2);
-            e4 = document.createElement('b');
-            e4.appendChild(document.createElement("br"));
-            e4.appendChild(document.createTextNode('Do you like this script?'));
-            AddLine(e4);
-            e4 = document.createElement('h5');
-            e4.appendChild(document.createTextNode('Please donate to support this project & the developer!'));
-
-            AddLine(e4);
-            e4 = document.createElement('paypal');
-            e4.appendChild(document.createTextNode('PayPal'));
-            AddLine(e4);
-            e4.innerHTML += "<form action='https://www.paypal.com/donate' method='post' target='_top'><input type='hidden' name='hosted_button_id' value='2EJR4DLTR4Y7Q' /><input type='image' src='https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif' border='0' name='submit' title='PayPal - The safer, easier way to pay online!' alt='Donate with PayPal button' /><img alt='' border='0' src='https://www.paypal.com/en_US/i/scr/pixel.gif' width='1' height='1' /></form>";
+          info.url = document.location.toString();
+          info.act = 0;
         }
+      }
+    }, [{ act: 2 }]);
+  /*player*/
 
-        let int = setInterval(function () {
-            if (!document.body) return;
-            clearInterval(int);
-            document.body.appendChild(back);
-            document.body.appendChild(plane);
-        }, 1);
-
-        function AddLine() {
-            let q = document.createElement('div');
-            q.className = 'ytfix_line';
-            for (let i = 0, L = arguments.length; i < L; ++i) q.appendChild(arguments[i]);
-            plane.appendChild(q);
-
-            return q;
-        }
-    }
-    // apply settings
-    let styles = [], intervals = [];
-    function addInterval(period, func, params) {
-        if (!period) period = 1;
-
-        intervals.push({
-            cnt: period,
-            period: period,
-            call: func,
-            params: params || []
-        });
-    }
-    if (settings.hide_guide)
-        addInterval(1, function (info) {
-            if (info.act == 0) { // observe location change
-                let url = document.location.toString();
-                if (url != info.url) info.act = 1;
-            }
-            if (info.act == 1) { // wait for sorp page load completion
-                let Q = document.querySelector('yt-page-navigation-progress');
-                if (!Q) return;
-                if (Q.hasAttribute('hidden')) info.act = 2;
-            }
-            if (info.act == 2) { // wait for button and press it if necessary
-                let guide_button = document.getElementById('guide-button');
-                if (!guide_button) return;
-
-                let tmp = guide_button.querySelector('button');
-                if (!tmp || !tmp.hasAttribute('aria-pressed')) return;
-
-                if (tmp.attributes['aria-pressed'].value == 'true') guide_button.click();
-                else {
-                    info.url = document.location.toString();
-                    info.act = 0;
-                }
-            }
-        }, [{ act: 2 }]);
-    /*player*/
-
-    if (settings.old_player) {
-        styles.push(`
+  if (settings.old_player) {
+    styles.push(`
       .ytp-volume-slider {
           height: 100%;
           min-height: 40px;
@@ -1648,13 +1688,13 @@ function gen_setting_page() {
           padding: 2px 5px 0 0;
           line-height:40px!important
       }`);
-        (function() {
-            'use strict';
-            waitForElement(".ytp-exp-bigger-button-like-mobile").then((elm) => elm.setAttribute("class", "html5-video-player ytp-transparent ytp-hide-info-bar")); // fix player
-        })();
-    }
-    if (settings.thumb_preview) {
-        styles.push(`
+    (function () {
+      'use strict';
+      waitForElement(".ytp-exp-bigger-button-like-mobile").then((elm) => elm.setAttribute("class", "html5-video-player ytp-transparent ytp-hide-info-bar")); // fix player
+    })();
+  }
+  if (settings.thumb_preview) {
+    styles.push(`
       #avatar-link.ytd-rich-grid-media, #avatar-link.ytd-rich-grid-video-renderer, #masthead-ad, #offer-module, #play.fade-in.ytd-moving-thumbnail-renderer, #play.show.ytd-moving-thumbnail-renderer, #selectionBar.paper-tabs, #thumbnail.ytd-moving-thumbnail-renderer, .not-visible.paper-tabs, .ytp-miniplayer-button, [id*=skeleton], paper-ripple, ytd-compact-movie-renderer.ytd-watch-next-secondary-results-renderer, ytd-compact-promoted-item-renderer, ytd-search ytd-video-renderer[use-prominent-thumbs] #channel-info.ytd-video-renderer>a>yt-img-shadow.ytd-video-renderer {
          display: none!important
       }
@@ -1668,19 +1708,19 @@ function gen_setting_page() {
          cursor: pointer!important;
          pointer-events: initial!important
       }`);
-    }
-    if (settings.hideclip && window.location.href.includes('watch')) {
-        waitForElement('#info path[d="M9.64 7.64c.23-.5.36-1.05.36-1.64 0-2.21-1.79-4-4-4S2 3.79 2 6s1.79 4 4 4c.59 0 1.14-.13 1.64-.36L10 12l-2.36 2.36C7.14 14.13 6.59 14 6 14c-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4c0-.59-.13-1.14-.36-1.64L12 14l7 7h3v-1L9.64 7.64zM6 8c-1.1 0-2-.89-2-2s.9-2 2-2 2 .89 2 2-.9 2-2 2zm0 12c-1.1 0-2-.89-2-2s.9-2 2-2 2 .89 2 2-.9 2-2 2zm6-7.5c-.28 0-.5-.22-.5-.5s.22-.5.5-.5.5.22.5.5-.22.5-.5.5zM19 3l-6 6 2 2 7-7V3z"]').then(function(elm) {
-            document.querySelector('#info path[d="M9.64 7.64c.23-.5.36-1.05.36-1.64 0-2.21-1.79-4-4-4S2 3.79 2 6s1.79 4 4 4c.59 0 1.14-.13 1.64-.36L10 12l-2.36 2.36C7.14 14.13 6.59 14 6 14c-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4c0-.59-.13-1.14-.36-1.64L12 14l7 7h3v-1L9.64 7.64zM6 8c-1.1 0-2-.89-2-2s.9-2 2-2 2 .89 2 2-.9 2-2 2zm0 12c-1.1 0-2-.89-2-2s.9-2 2-2 2 .89 2 2-.9 2-2 2zm6-7.5c-.28 0-.5-.22-.5-.5s.22-.5.5-.5.5.22.5.5-.22.5-.5.5zM19 3l-6 6 2 2 7-7V3z"]').closest('ytd-button-renderer').style.display = 'none';
-            document.querySelector('#info path[d*="M21.8,6.9c-0.2-0.7-0.5-1.4-1.1-2c-0.5-0.6-1.2-1.1-2-1.4C18,3.2,17.2,3,16.3,3c-0.8,0-1.7,0.2-2.4,0.6"]').closest('ytd-button-renderer').style.display = 'none';
-        })
-        waitForElement('#info path[d="M8,7c0,0.55-0.45,1-1,1S6,7.55,6,7c0-0.55,0.45-1,1-1S8,6.45,8,7z M7,16c-0.55,0-1,0.45-1,1c0,0.55,0.45,1,1,1s1-0.45,1-1 C8,16.45,7.55,16,7,16z M10.79,8.23L21,18.44V20h-3.27l-5.76-5.76l-1.27,1.27C10.89,15.97,11,16.47,11,17c0,2.21-1.79,4-4,4 c-2.21,0-4-1.79-4-4c0-2.21,1.79-4,4-4c0.42,0,0.81,0.08,1.19,0.2l1.37-1.37l-1.11-1.11C8,10.89,7.51,11,7,11c-2.21,0-4-1.79-4-4 c0-2.21,1.79-4,4-4c2.21,0,4,1.79,4,4C11,7.43,10.91,7.84,10.79,8.23z M10.08,8.94L9.65,8.5l0.19-0.58C9.95,7.58,10,7.28,10,7 c0-1.65-1.35-3-3-3S4,5.35,4,7c0,1.65,1.35,3,3,3c0.36,0,0.73-0.07,1.09-0.21L8.7,9.55l0.46,0.46l1.11,1.11l0.71,0.71l-0.71,0.71 L8.9,13.91l-0.43,0.43l-0.58-0.18C7.55,14.05,7.27,14,7,14c-1.65,0-3,1.35-3,3c0,1.65,1.35,3,3,3s3-1.35,3-3 c0-0.38-0.07-0.75-0.22-1.12l-0.25-0.61L10,14.8l1.27-1.27l0.71-0.71l0.71,0.71L18.15,19H20v-0.15L10.08,8.94z M17.73,4H21v1.56 l-5.52,5.52l-2.41-2.41L17.73,4z M18.15,5l-3.67,3.67l1,1L20,5.15V5H18.15z"]').then(function(elm) {
-            document.querySelector('#info path[d="M8,7c0,0.55-0.45,1-1,1S6,7.55,6,7c0-0.55,0.45-1,1-1S8,6.45,8,7z M7,16c-0.55,0-1,0.45-1,1c0,0.55,0.45,1,1,1s1-0.45,1-1 C8,16.45,7.55,16,7,16z M10.79,8.23L21,18.44V20h-3.27l-5.76-5.76l-1.27,1.27C10.89,15.97,11,16.47,11,17c0,2.21-1.79,4-4,4 c-2.21,0-4-1.79-4-4c0-2.21,1.79-4,4-4c0.42,0,0.81,0.08,1.19,0.2l1.37-1.37l-1.11-1.11C8,10.89,7.51,11,7,11c-2.21,0-4-1.79-4-4 c0-2.21,1.79-4,4-4c2.21,0,4,1.79,4,4C11,7.43,10.91,7.84,10.79,8.23z M10.08,8.94L9.65,8.5l0.19-0.58C9.95,7.58,10,7.28,10,7 c0-1.65-1.35-3-3-3S4,5.35,4,7c0,1.65,1.35,3,3,3c0.36,0,0.73-0.07,1.09-0.21L8.7,9.55l0.46,0.46l1.11,1.11l0.71,0.71l-0.71,0.71 L8.9,13.91l-0.43,0.43l-0.58-0.18C7.55,14.05,7.27,14,7,14c-1.65,0-3,1.35-3,3c0,1.65,1.35,3,3,3s3-1.35,3-3 c0-0.38-0.07-0.75-0.22-1.12l-0.25-0.61L10,14.8l1.27-1.27l0.71-0.71l0.71,0.71L18.15,19H20v-0.15L10.08,8.94z M17.73,4H21v1.56 l-5.52,5.52l-2.41-2.41L17.73,4z M18.15,5l-3.67,3.67l1,1L20,5.15V5H18.15z"]').closest('ytd-button-renderer').style.display = 'none';
-            document.querySelector('#info path[d="M16.5,3C19.02,3,21,5.19,21,7.99c0,3.7-3.28,6.94-8.25,11.86L12,20.59l-0.74-0.73l-0.04-0.04C6.27,14.92,3,11.69,3,7.99 C3,5.19,4.98,3,7.5,3c1.4,0,2.79,0.71,3.71,1.89L12,5.9l0.79-1.01C13.71,3.71,15.1,3,16.5,3 M16.5,2c-1.74,0-3.41,0.88-4.5,2.28 C10.91,2.88,9.24,2,7.5,2C4.42,2,2,4.64,2,7.99c0,4.12,3.4,7.48,8.55,12.58L12,22l1.45-1.44C18.6,15.47,22,12.11,22,7.99 C22,4.64,19.58,2,16.5,2L16.5,2z M11.33,10.86c0.2,0.14,0.53,0.26,1,0.36c0.47,0.1,0.86,0.22,1.18,0.35 c0.99,0.4,1.49,1.09,1.49,2.07c0,0.7-0.28,1.27-0.83,1.71c-0.33,0.26-0.73,0.43-1.17,0.54V17h-2v-1.16 c-0.18-0.05-0.37-0.1-0.53-0.19c-0.46-0.23-0.92-0.55-1.18-0.95C9.15,14.48,9.06,14.24,9,14h2c0.05,0.09,0.07,0.18,0.15,0.25 c0.23,0.19,0.54,0.29,0.92,0.29c0.36,0,0.63-0.07,0.82-0.22s0.28-0.35,0.28-0.59c0-0.25-0.11-0.45-0.34-0.6s-0.59-0.27-1.1-0.39 c-1.67-0.39-2.51-1.16-2.51-2.34c0-0.68,0.26-1.26,0.78-1.71c0.28-0.25,0.62-0.43,1-0.54V7h2v1.12c0.46,0.11,0.85,0.29,1.18,0.57 C14.59,9.05,14.9,9.48,15,10h-2c-0.04-0.09-0.1-0.17-0.16-0.24c-0.17-0.19-0.44-0.29-0.81-0.29c-0.32,0-0.56,0.08-0.74,0.24 c-0.17,0.16-0.26,0.36-0.26,0.6C11.03,10.53,11.13,10.72,11.33,10.86z"]').closest('ytd-button-renderer').style.display = 'none';
-        })
-    }
-    if (settings.logo_style == 0) {
-        styles.push(`
+  }
+  if (settings.hideclip && window.location.href.includes('watch')) {
+    waitForElement('#info path[d="M9.64 7.64c.23-.5.36-1.05.36-1.64 0-2.21-1.79-4-4-4S2 3.79 2 6s1.79 4 4 4c.59 0 1.14-.13 1.64-.36L10 12l-2.36 2.36C7.14 14.13 6.59 14 6 14c-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4c0-.59-.13-1.14-.36-1.64L12 14l7 7h3v-1L9.64 7.64zM6 8c-1.1 0-2-.89-2-2s.9-2 2-2 2 .89 2 2-.9 2-2 2zm0 12c-1.1 0-2-.89-2-2s.9-2 2-2 2 .89 2 2-.9 2-2 2zm6-7.5c-.28 0-.5-.22-.5-.5s.22-.5.5-.5.5.22.5.5-.22.5-.5.5zM19 3l-6 6 2 2 7-7V3z"]').then(function (elm) {
+      document.querySelector('#info path[d="M9.64 7.64c.23-.5.36-1.05.36-1.64 0-2.21-1.79-4-4-4S2 3.79 2 6s1.79 4 4 4c.59 0 1.14-.13 1.64-.36L10 12l-2.36 2.36C7.14 14.13 6.59 14 6 14c-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4c0-.59-.13-1.14-.36-1.64L12 14l7 7h3v-1L9.64 7.64zM6 8c-1.1 0-2-.89-2-2s.9-2 2-2 2 .89 2 2-.9 2-2 2zm0 12c-1.1 0-2-.89-2-2s.9-2 2-2 2 .89 2 2-.9 2-2 2zm6-7.5c-.28 0-.5-.22-.5-.5s.22-.5.5-.5.5.22.5.5-.22.5-.5.5zM19 3l-6 6 2 2 7-7V3z"]').closest('ytd-button-renderer').style.display = 'none';
+      document.querySelector('#info path[d*="M21.8,6.9c-0.2-0.7-0.5-1.4-1.1-2c-0.5-0.6-1.2-1.1-2-1.4C18,3.2,17.2,3,16.3,3c-0.8,0-1.7,0.2-2.4,0.6"]').closest('ytd-button-renderer').style.display = 'none';
+    })
+    waitForElement('#info path[d="M8,7c0,0.55-0.45,1-1,1S6,7.55,6,7c0-0.55,0.45-1,1-1S8,6.45,8,7z M7,16c-0.55,0-1,0.45-1,1c0,0.55,0.45,1,1,1s1-0.45,1-1 C8,16.45,7.55,16,7,16z M10.79,8.23L21,18.44V20h-3.27l-5.76-5.76l-1.27,1.27C10.89,15.97,11,16.47,11,17c0,2.21-1.79,4-4,4 c-2.21,0-4-1.79-4-4c0-2.21,1.79-4,4-4c0.42,0,0.81,0.08,1.19,0.2l1.37-1.37l-1.11-1.11C8,10.89,7.51,11,7,11c-2.21,0-4-1.79-4-4 c0-2.21,1.79-4,4-4c2.21,0,4,1.79,4,4C11,7.43,10.91,7.84,10.79,8.23z M10.08,8.94L9.65,8.5l0.19-0.58C9.95,7.58,10,7.28,10,7 c0-1.65-1.35-3-3-3S4,5.35,4,7c0,1.65,1.35,3,3,3c0.36,0,0.73-0.07,1.09-0.21L8.7,9.55l0.46,0.46l1.11,1.11l0.71,0.71l-0.71,0.71 L8.9,13.91l-0.43,0.43l-0.58-0.18C7.55,14.05,7.27,14,7,14c-1.65,0-3,1.35-3,3c0,1.65,1.35,3,3,3s3-1.35,3-3 c0-0.38-0.07-0.75-0.22-1.12l-0.25-0.61L10,14.8l1.27-1.27l0.71-0.71l0.71,0.71L18.15,19H20v-0.15L10.08,8.94z M17.73,4H21v1.56 l-5.52,5.52l-2.41-2.41L17.73,4z M18.15,5l-3.67,3.67l1,1L20,5.15V5H18.15z"]').then(function (elm) {
+      document.querySelector('#info path[d="M8,7c0,0.55-0.45,1-1,1S6,7.55,6,7c0-0.55,0.45-1,1-1S8,6.45,8,7z M7,16c-0.55,0-1,0.45-1,1c0,0.55,0.45,1,1,1s1-0.45,1-1 C8,16.45,7.55,16,7,16z M10.79,8.23L21,18.44V20h-3.27l-5.76-5.76l-1.27,1.27C10.89,15.97,11,16.47,11,17c0,2.21-1.79,4-4,4 c-2.21,0-4-1.79-4-4c0-2.21,1.79-4,4-4c0.42,0,0.81,0.08,1.19,0.2l1.37-1.37l-1.11-1.11C8,10.89,7.51,11,7,11c-2.21,0-4-1.79-4-4 c0-2.21,1.79-4,4-4c2.21,0,4,1.79,4,4C11,7.43,10.91,7.84,10.79,8.23z M10.08,8.94L9.65,8.5l0.19-0.58C9.95,7.58,10,7.28,10,7 c0-1.65-1.35-3-3-3S4,5.35,4,7c0,1.65,1.35,3,3,3c0.36,0,0.73-0.07,1.09-0.21L8.7,9.55l0.46,0.46l1.11,1.11l0.71,0.71l-0.71,0.71 L8.9,13.91l-0.43,0.43l-0.58-0.18C7.55,14.05,7.27,14,7,14c-1.65,0-3,1.35-3,3c0,1.65,1.35,3,3,3s3-1.35,3-3 c0-0.38-0.07-0.75-0.22-1.12l-0.25-0.61L10,14.8l1.27-1.27l0.71-0.71l0.71,0.71L18.15,19H20v-0.15L10.08,8.94z M17.73,4H21v1.56 l-5.52,5.52l-2.41-2.41L17.73,4z M18.15,5l-3.67,3.67l1,1L20,5.15V5H18.15z"]').closest('ytd-button-renderer').style.display = 'none';
+      document.querySelector('#info path[d="M16.5,3C19.02,3,21,5.19,21,7.99c0,3.7-3.28,6.94-8.25,11.86L12,20.59l-0.74-0.73l-0.04-0.04C6.27,14.92,3,11.69,3,7.99 C3,5.19,4.98,3,7.5,3c1.4,0,2.79,0.71,3.71,1.89L12,5.9l0.79-1.01C13.71,3.71,15.1,3,16.5,3 M16.5,2c-1.74,0-3.41,0.88-4.5,2.28 C10.91,2.88,9.24,2,7.5,2C4.42,2,2,4.64,2,7.99c0,4.12,3.4,7.48,8.55,12.58L12,22l1.45-1.44C18.6,15.47,22,12.11,22,7.99 C22,4.64,19.58,2,16.5,2L16.5,2z M11.33,10.86c0.2,0.14,0.53,0.26,1,0.36c0.47,0.1,0.86,0.22,1.18,0.35 c0.99,0.4,1.49,1.09,1.49,2.07c0,0.7-0.28,1.27-0.83,1.71c-0.33,0.26-0.73,0.43-1.17,0.54V17h-2v-1.16 c-0.18-0.05-0.37-0.1-0.53-0.19c-0.46-0.23-0.92-0.55-1.18-0.95C9.15,14.48,9.06,14.24,9,14h2c0.05,0.09,0.07,0.18,0.15,0.25 c0.23,0.19,0.54,0.29,0.92,0.29c0.36,0,0.63-0.07,0.82-0.22s0.28-0.35,0.28-0.59c0-0.25-0.11-0.45-0.34-0.6s-0.59-0.27-1.1-0.39 c-1.67-0.39-2.51-1.16-2.51-2.34c0-0.68,0.26-1.26,0.78-1.71c0.28-0.25,0.62-0.43,1-0.54V7h2v1.12c0.46,0.11,0.85,0.29,1.18,0.57 C14.59,9.05,14.9,9.48,15,10h-2c-0.04-0.09-0.1-0.17-0.16-0.24c-0.17-0.19-0.44-0.29-0.81-0.29c-0.32,0-0.56,0.08-0.74,0.24 c-0.17,0.16-0.26,0.36-0.26,0.6C11.03,10.53,11.13,10.72,11.33,10.86z"]').closest('ytd-button-renderer').style.display = 'none';
+    })
+  }
+  if (settings.logo_style == 0) {
+    styles.push(`
       ytd-masthead #logo-icon-container, #contentContainer #logo-icon-container, ytd-topbar-logo-renderer>#logo {
          content:var(--logo-2015-light-header) !important;
          width: 71px !important;
@@ -1755,9 +1795,9 @@ html #subscribe-button ytd-button-renderer #button.ytd-button-renderer:active,ht
     background:#b31217
 }
       `);
-    }
-    if (settings.logo_style == 1) {
-        styles.push(`
+  }
+  if (settings.logo_style == 1) {
+    styles.push(`
       ytd-masthead #logo-icon-container, #contentContainer #logo-icon-container, ytd-topbar-logo-renderer>#logo {
          content:var(--logo-2017-light-header) !important;
          width: 100px !important;
@@ -1827,9 +1867,9 @@ html #subscribe-button ytd-button-renderer #button.ytd-button-renderer:active,ht
       }
 
       `);
-    }
-    if (settings.profile_picture) {
-        styles.push(`
+  }
+  if (settings.profile_picture) {
+    styles.push(`
       #thumbnail.ytd-profile-column-user-info-renderer,
       yt-img-shadow.ytd-channel-renderer,
       #avatar.ytd-active-account-header-renderer,
@@ -1846,9 +1886,9 @@ html #subscribe-button ytd-button-renderer #button.ytd-button-renderer:active,ht
       ytd-commentbox[is-reply][is-backstage-comment] #author-thumbnail.ytd-commentbox, #author-thumbnail.ytd-backstage-post-renderer yt-img-shadow.ytd-backstage-post-renderer {
          border-radius: 0%!important;
       }`);
-    }
-    if (settings.hide_filters) {
-        styles.push(`
+  }
+  if (settings.hide_filters) {
+    styles.push(`
       #header.ytd-rich-grid-renderer {
          display: none!important
       }
@@ -1856,15 +1896,15 @@ html #subscribe-button ytd-button-renderer #button.ytd-button-renderer:active,ht
       yt-related-chip-cloud-renderer {
          display: none!important
       }`);
-    }
-    if (settings.hide_queue) {
-        styles.push(`
+  }
+  if (settings.hide_queue) {
+    styles.push(`
       .ytd-thumbnail[top-right-overlay] ~ .ytd-thumbnail[top-right-overlay] {
          display:none;
       } `);
-    }
-    if (settings.search_left) {
-        styles.push(`
+  }
+  if (settings.search_left) {
+    styles.push(`
       #center.ytd-masthead {
          margin-right: auto;
       }
@@ -1873,15 +1913,15 @@ html #subscribe-button ytd-button-renderer #button.ytd-button-renderer:active,ht
       margin-top:30px
       }
       `);
-    }
-    if (settings.no_apps) {
-        styles.push(`
+  }
+  if (settings.no_apps) {
+    styles.push(`
       ytd-topbar-menu-button-renderer.style-scope:nth-child(4) {
          display: none !important;
       } `);
-    }
-    if (settings.blur_watched) {
-        styles.push(`
+  }
+  if (settings.blur_watched) {
+    styles.push(`
       .watched yt-img-shadow.ytd-thumbnail {
          transition: ease-in;
          transition-duration: 0.2s;
@@ -1892,9 +1932,9 @@ html #subscribe-button ytd-button-renderer #button.ytd-button-renderer:active,ht
          transition-duration: 0.7s;
          filter: blur(0px) grayscale(0)!important;
       }`);
-    }
-    if (settings.grey_watched) {
-        styles.push(`
+  }
+  if (settings.grey_watched) {
+    styles.push(`
       .watched ytd-thumbnail #thumbnail.ytd-thumbnail yt-img-shadow.ytd-thumbnail {
          transition: ease-in;
          transition-duration: 0.2s;
@@ -1908,21 +1948,21 @@ html #subscribe-button ytd-button-renderer #button.ytd-button-renderer:active,ht
          opacity: 1.0 !important;
          filter: grayscale(0);
       }`);
-    }
-    if (settings.thumbnail_size) {
-        styles.push(`div#contents.style-scope.ytd-rich-grid-renderer {display:block!important}
+  }
+  if (settings.thumbnail_size) {
+    styles.push(`div#contents.style-scope.ytd-rich-grid-renderer {display:block!important}
 
           ytd-rich-grid-row.style-scope.ytd-rich-grid-renderer {display:inline!important}
           ytd-rich-grid-row.style-scope.ytd-rich-grid-renderer > div {display:inline!important;margin:0!important}
           ytd-rich-grid-row.style-scope.ytd-rich-grid-renderer > div > ytd-rich-item-renderer {display:inline-block!important; width: ${[0, 193, 240, 360, 480, settings.thumbnail_size_m][settings.thumbnail_size]}px !important; contain:none!important
        }`);
-    }
-    if (!(settings.rightside)) {
-        waitForElement('#top-row.ytd-video-secondary-info-renderer').then(function(elm) {
-            var watchfrag = document.querySelector('#top-row.ytd-video-secondary-info-renderer');
-            document.querySelector('ytd-video-primary-info-renderer > #container').appendChild(watchfrag);
-        });
-        styles.push(`
+  }
+  if (!(settings.rightside)) {
+    waitForElement('#top-row.ytd-video-secondary-info-renderer').then(function (elm) {
+      var watchfrag = document.querySelector('#top-row.ytd-video-secondary-info-renderer');
+      document.querySelector('ytd-video-primary-info-renderer > #container').appendChild(watchfrag);
+    });
+    styles.push(`
         ytd-app #channel-name.ytd-video-owner-renderer {
           top:-16px!important
       }
@@ -1949,13 +1989,13 @@ html #subscribe-button ytd-button-renderer #button.ytd-button-renderer:active,ht
     left:0
        }
       `);
-    }
-    if (settings.trending) {
-        waitForElement('#items > ytd-guide-entry-renderer').then(() => restoreAppbarLinks());
-    }
-    if (settings.shelves) {
-        window.addEventListener("yt-page-data-updated", injectShelvesHp, false);
-        styles.push(`
+  }
+  if (settings.trending) {
+    waitForElement('#items > ytd-guide-entry-renderer').then(() => restoreAppbarLinks());
+  }
+  if (settings.shelves) {
+    window.addEventListener("yt-page-data-updated", injectShelvesHp, false);
+    styles.push(`
         ytd-browse[page-subtype='home'] ytd-rich-grid-renderer {
             display: none !important;
         }
@@ -1979,12 +2019,12 @@ html #subscribe-button ytd-button-renderer #button.ytd-button-renderer:active,ht
         ytd-browse[page-subtype='home'] #contents.ytd-item-section-renderer {
             padding: 0 16px;
         }`);
-    }
-    if (settings.search_estimate) {
-        window.addEventListener("yt-page-data-updated", insertResultsEstimate, false);
-    }
-    if (settings.small_recc) {
-        styles.push(`#secondary :not([watch-feed-big-thumbs]) ytd-thumbnail, #secondary :not([watch-feed-big-thumbs]) ytd-playlist-thumbnail {
+  }
+  if (settings.search_estimate) {
+    window.addEventListener("yt-page-data-updated", insertResultsEstimate, false);
+  }
+  if (settings.small_recc) {
+    styles.push(`#secondary :not([watch-feed-big-thumbs]) ytd-thumbnail, #secondary :not([watch-feed-big-thumbs]) ytd-playlist-thumbnail {
         width:120px;
         height:67.5px
     }
@@ -2023,9 +2063,9 @@ html #subscribe-button ytd-button-renderer #button.ytd-button-renderer:active,ht
        top:2px!important
     }
     `);
-    }
-    if (settings.olderhh) {
-        styles.push(`
+  }
+  if (settings.olderhh) {
+    styles.push(`
 .ytd-yoodle-renderer, html ytd-yoodle-renderer {
     display:none!important
 }
@@ -2388,26 +2428,26 @@ ytd-app ytd-playlist-panel-video-renderer[selected] #byline.ytd-playlist-panel-v
     color:#fff!important
 }
 `);
-    }
-    if (settings.hide_dis) {
-        styles.push(`ytd-toggle-button-renderer.style-text[is-icon-button]:nth-of-type(2) #text {
+  }
+  if (settings.hide_dis) {
+    styles.push(`ytd-toggle-button-renderer.style-text[is-icon-button]:nth-of-type(2) #text {
     display: none !important;
 }`);
-    }
-    if (settings.hide_yt_suggested_blocks) {
-        styles.push(`div#contents.ytd-rich-grid-renderer ytd-rich-section-renderer {
+  }
+  if (settings.hide_yt_suggested_blocks) {
+    styles.push(`div#contents.ytd-rich-grid-renderer ytd-rich-section-renderer {
          display: none!important;
          }
          ytd-thumbnail-overlay-endorsement-renderer {
          display: none !important; }
          ytd-rich-section-renderer[align-within-rich-grid]{display: none!important;
       }`);
-    }
-    if (settings.search_thumbnail) {
-        let sz = [0, 193, 240][settings.search_thumbnail] + 'px !important';
-        // min-width defaults to 240px, max-width defaults to 360px
-        // sizes for: videos, playlists, channels, mixes
-        styles.push(`ytd-video-renderer[use-prominent-thumbs] ytd-thumbnail.ytd-video-renderer,
+  }
+  if (settings.search_thumbnail) {
+    let sz = [0, 193, 240][settings.search_thumbnail] + 'px !important';
+    // min-width defaults to 240px, max-width defaults to 360px
+    // sizes for: videos, playlists, channels, mixes
+    styles.push(`ytd-video-renderer[use-prominent-thumbs] ytd-thumbnail.ytd-video-renderer,
 
       ytd-video-renderer[use-prominent-thumbs] #channel-info.ytd-video-renderer,
       ytd-playlist-renderer[use-prominent-thumbs] ytd-playlist-thumbnail.ytd-playlist-renderer, ytd-radio-renderer[use-prominent-thumbs] ytd-thumbnail.ytd-radio-renderer {
@@ -2419,9 +2459,9 @@ ytd-app ytd-playlist-panel-video-renderer[selected] #byline.ytd-playlist-panel-v
             min-height: 108.55px !important;
             max-height: 138.55px;
       }`);
-    }
-    if (settings.channel_list) {
-        styles.push(`
+  }
+  if (settings.channel_list) {
+    styles.push(`
 [page-subtype="channels"] ytd-section-list-renderer #header-container ytd-channel-sub-menu-renderer {
     border-bottom:0!important;
     padding-bottom:0!important;
@@ -2470,18 +2510,18 @@ ytd-browse[page-subtype~="channels"] ytd-two-column-browse-results-renderer.ytd-
   margin-left: -17px;
   padding-left: 17px !important;
 }`);
-    }
-    if (settings.clear_search) {
-        styles.push(`
+  }
+  if (settings.clear_search) {
+    styles.push(`
       ytd-two-column-search-results-renderer ytd-shelf-renderer.style-scope.ytd-item-section-renderer, ytd-two-column-search-results-renderer ytd-horizontal-card-list-renderer.style-scope.ytd-item-section-renderer {
          display: none!important
       }`);
-    }
+  }
 
-    const sizes = [undefined, { w: 640, h: 360 }, { w: 854, h: 480 }, { w: 1280, h: 720 }];
-    let size_norm = sizes[settings.default_player];
-    if (size_norm) {
-        styles.push(`
+  const sizes = [undefined, { w: 640, h: 360 }, { w: 854, h: 480 }, { w: 1280, h: 720 }];
+  let size_norm = sizes[settings.default_player];
+  if (size_norm) {
+    styles.push(`
       #primary.ytd-watch-flexy, #player-container-outer {
          --ytd-watch-flexy-min-player-width: ${size_norm.h}px !important;
          min-width: --ytd-watch-flexy-min-player-width: 100% !important;
@@ -2495,193 +2535,193 @@ ytd-browse[page-subtype~="channels"] ytd-two-column-browse-results-renderer.ytd-
       ytd-watch-flexy[flexy_][flexy-large-window_]:not([is-extra-wide-video_]), ytd-watch-flexy[flexy_][flexy-large-window_][transcript-opened_][is-two-columns_]:not([is-extra-wide-video_]), ytd-watch-flexy[flexy_][flexy-large-window_][playlist][is-two-columns_]:not([is-extra-wide-video_]), ytd-watch-flexy[flexy_][flexy-large-window_][should-stamp-chat][is-two-columns_]:not([is-extra-wide-video_]) {
          --ytd-watch-flexy-min-player-height: ${size_norm.h}px !important;`);
 
-        addInterval(1, function (sn, st) {
-            let eq = document.getElementsByTagName("ytd-watch-flexy");
-            if (!eq.length) return;
-            let s = eq[0].hasAttribute('size_norm') ? st : sn;
-            if (!s) return;
-            let ep = document.getElementById("movie_player");
-            if (ep && ep.setInternalSize && ep.isFullscreen && ep.getPlayerSize && !ep.isFullscreen() && ep.getPlayerSize().width != s[0])
-                ep.setInternalSize(s[0], s[1]);
-        }, [size_norm]);
-    }
-    if (settings.logo_target) {
-        let X = settings.logo_target;
-        if (X[0] != '/') X = '/' + X;
-        X = document.location.origin + X;
-        addInterval(1, function (url) {
-            let l = document.querySelectorAll('a#logo');
-            for (let i = l.length; --i >= 0;) {
-                let Q = l[i];
-                let D = Q.data;
-                if (D && D.commandMetadata && Q.href != url) {
-                    Q.href = url;
-                    D.commandMetadata.webCommandMetadata.url = url;
-                }
-            }
-        }, [X]);
-    }
-    if (settings.channel_top)
-        styles.push('app-header#header.style-scope.ytd-c4-tabbed-header-renderer{transform:none!important;position:absolute;left:0px!important;top:0px;margin-top:0px}');
-    if (settings.channel_top > 1) {
-        styles.push('div#contentContainer.style-scope.app-header-layout{padding-top:148px!important}');
-        styles.push('div#contentContainer.style-scope.app-header{height:148px!important}');
-        styles.push('div.banner-visible-area.style-scope.ytd-c4-tabbed-header-renderer{display:none!important}');
-    }
-    if (settings.video_quality) {
-        const qv = ['', 'tiny', 'small', 'medium', 'large', 'hd720', 'hd1080', 'hd1440', 'hd2160'];
-        function IsQualityAvailable(qq, q) {
-            for (let i = qq.length; --i >= 0;) if (q == qq[i]) return true;
-            return false;
+    addInterval(1, function (sn, st) {
+      let eq = document.getElementsByTagName("ytd-watch-flexy");
+      if (!eq.length) return;
+      let s = eq[0].hasAttribute('size_norm') ? st : sn;
+      if (!s) return;
+      let ep = document.getElementById("movie_player");
+      if (ep && ep.setInternalSize && ep.isFullscreen && ep.getPlayerSize && !ep.isFullscreen() && ep.getPlayerSize().width != s[0])
+        ep.setInternalSize(s[0], s[1]);
+    }, [size_norm]);
+  }
+  if (settings.logo_target) {
+    let X = settings.logo_target;
+    if (X[0] != '/') X = '/' + X;
+    X = document.location.origin + X;
+    addInterval(1, function (url) {
+      let l = document.querySelectorAll('a#logo');
+      for (let i = l.length; --i >= 0;) {
+        let Q = l[i];
+        let D = Q.data;
+        if (D && D.commandMetadata && Q.href != url) {
+          Q.href = url;
+          D.commandMetadata.webCommandMetadata.url = url;
         }
-        function UpdateVideoQuality(st) {
-            let ep = document.getElementById("movie_player");
-            if (!ep || !ep.getPreferredQuality || !ep.getAvailableQualityLevels || !ep.setPlaybackQualityRange || !ep.getVideoData || ep.getPreferredQuality() != 'auto') return;
-            let vid = ep.getVideoData().video_id;
-            if (st.fail == vid) return;	// last time on this video we've issues
-
-            let qq = ep.getAvailableQualityLevels();
-            if (!qq || !qq.length) return;
-            let det = settings.video_quality;
-            while (det < qv.length && !IsQualityAvailable(qq, qv[det])) ++det;
-            if (det == qv.length) {
-                console.log('Unknown video qualities in list: ', qq);
-                st.fail = vid;
-                return;
-            }
-            ep.setPlaybackQualityRange(qv[det], qv[det]);
-        };
-        addInterval(1, UpdateVideoQuality, [{}]);
+      }
+    }, [X]);
+  }
+  if (settings.channel_top)
+    styles.push('app-header#header.style-scope.ytd-c4-tabbed-header-renderer{transform:none!important;position:absolute;left:0px!important;top:0px;margin-top:0px}');
+  if (settings.channel_top > 1) {
+    styles.push('div#contentContainer.style-scope.app-header-layout{padding-top:148px!important}');
+    styles.push('div#contentContainer.style-scope.app-header{height:148px!important}');
+    styles.push('div.banner-visible-area.style-scope.ytd-c4-tabbed-header-renderer{display:none!important}');
+  }
+  if (settings.video_quality) {
+    const qv = ['', 'tiny', 'small', 'medium', 'large', 'hd720', 'hd1080', 'hd1440', 'hd2160'];
+    function IsQualityAvailable(qq, q) {
+      for (let i = qq.length; --i >= 0;) if (q == qq[i]) return true;
+      return false;
     }
+    function UpdateVideoQuality(st) {
+      let ep = document.getElementById("movie_player");
+      if (!ep || !ep.getPreferredQuality || !ep.getAvailableQualityLevels || !ep.setPlaybackQualityRange || !ep.getVideoData || ep.getPreferredQuality() != 'auto') return;
+      let vid = ep.getVideoData().video_id;
+      if (st.fail == vid) return;	// last time on this video we've issues
 
-    // "settings" button
+      let qq = ep.getAvailableQualityLevels();
+      if (!qq || !qq.length) return;
+      let det = settings.video_quality;
+      while (det < qv.length && !IsQualityAvailable(qq, qv[det])) ++det;
+      if (det == qv.length) {
+        console.log('Unknown video qualities in list: ', qq);
+        st.fail = vid;
+        return;
+      }
+      ep.setPlaybackQualityRange(qv[det], qv[det]);
+    };
+    addInterval(1, UpdateVideoQuality, [{}]);
+  }
 
-    let settingsButtonMark;
+  // "settings" button
 
-    function createSettingsButton() {
-        if (settingsButtonMark && settingsButtonMark.parentNode) return;
-        let toolBar = document.getElementsByTagName('ytd-topbar-menu-button-renderer');
-        let _1st = toolBar[0];
-        if (!_1st) return;
-        toolBar = _1st.parentNode;
-        let sb = document.createElement('ytd-topbar-menu-button-renderer');
-        sb.className = 'style-scope ytd-masthead style-default';
-        sb.setAttribute('use-keyboard-focused', '');
-        sb.setAttribute('is-icon-button', '');
-        sb.setAttribute('has-no-text', '');
-        toolBar.insertBefore(sb, toolBar.childNodes[0]);
-        let mark = document.createElement('fix-settings-mark');
-        mark.style = 'display:none';
-        toolBar.insertBefore(mark, sb); // must be added to parent node of buttons in order to Polymer dropped it on soft reload
-        let icb = document.createElement('yt-icon-button');
-        icb.id = 'button';
-        icb.className = 'style-scope ytd-topbar-menu-button-renderer style-default';
-        let aa = document.createElement('a');
-        aa.className = 'yt-simple-endpoint style-scope ytd-topbar-menu-button-renderer';
-        aa.setAttribute('tabindex', '-1');
-        aa.href = '/7kttube-settings';
-        aa.appendChild(icb);
-        sb.getElementsByTagName('div')[0].appendChild(aa); // created by YT scripts
-        let bb = icb.getElementsByTagName('button')[0]; // created by YT scripts
-        bb.setAttribute('aria-label', 'fixes settings');
-        let ic = document.createElement('yt-icon');
-        ic.className = 'style-scope ytd-topbar-menu-button-renderer';
-        bb.appendChild(ic);
-        let gpath = document.createElementNS('http://www.w3.org/2000/svg', 'path');
-        gpath.className.baseVal = 'style-scope yt-icon';
-        gpath.setAttribute('d', 'M1 20l6-6h2l11-11v-1l2-1 1 1-1 2h-1l-11 11v2l-6 6h-1l-2-2zM13 15l2-2 8 8v1l-1 1h-1zM9 11l2-2-2-2 1.5-3-3-3h-2l3 3-1.5 3-3 1.5-3-3v2l3 3 3-1.5z');
-        let svgg = document.createElementNS('http://www.w3.org/2000/svg', 'g');
-        svgg.className.baseVal = 'style-scope yt-icon';
-        svgg.appendChild(gpath);
-        let svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
-        svg.className.baseVal = 'style-scope yt-icon';
-        svg.setAttributeNS(null, 'viewBox', '0 0 24 24');
-        svg.setAttributeNS(null, 'preserveAspectRatio', 'xMidYMid meet');
-        svg.setAttribute('focusable', 'false');
-        svg.setAttribute('style', 'pointer-events: none; display: block; width: 100%; height: 100%;');
-        svg.appendChild(svgg);
-        ic.appendChild(svg); // YT clears *ic
-        settingsButtonMark = mark;
+  let settingsButtonMark;
+
+  function createSettingsButton() {
+    if (settingsButtonMark && settingsButtonMark.parentNode) return;
+    let toolBar = document.getElementsByTagName('ytd-topbar-menu-button-renderer');
+    let _1st = toolBar[0];
+    if (!_1st) return;
+    toolBar = _1st.parentNode;
+    let sb = document.createElement('ytd-topbar-menu-button-renderer');
+    sb.className = 'style-scope ytd-masthead style-default';
+    sb.setAttribute('use-keyboard-focused', '');
+    sb.setAttribute('is-icon-button', '');
+    sb.setAttribute('has-no-text', '');
+    toolBar.insertBefore(sb, toolBar.childNodes[0]);
+    let mark = document.createElement('fix-settings-mark');
+    mark.style = 'display:none';
+    toolBar.insertBefore(mark, sb); // must be added to parent node of buttons in order to Polymer dropped it on soft reload
+    let icb = document.createElement('yt-icon-button');
+    icb.id = 'button';
+    icb.className = 'style-scope ytd-topbar-menu-button-renderer style-default';
+    let aa = document.createElement('a');
+    aa.className = 'yt-simple-endpoint style-scope ytd-topbar-menu-button-renderer';
+    aa.setAttribute('tabindex', '-1');
+    aa.href = '/7kttube-settings';
+    aa.appendChild(icb);
+    sb.getElementsByTagName('div')[0].appendChild(aa); // created by YT scripts
+    let bb = icb.getElementsByTagName('button')[0]; // created by YT scripts
+    bb.setAttribute('aria-label', 'fixes settings');
+    let ic = document.createElement('yt-icon');
+    ic.className = 'style-scope ytd-topbar-menu-button-renderer';
+    bb.appendChild(ic);
+    let gpath = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+    gpath.className.baseVal = 'style-scope yt-icon';
+    gpath.setAttribute('d', 'M1 20l6-6h2l11-11v-1l2-1 1 1-1 2h-1l-11 11v2l-6 6h-1l-2-2zM13 15l2-2 8 8v1l-1 1h-1zM9 11l2-2-2-2 1.5-3-3-3h-2l3 3-1.5 3-3 1.5-3-3v2l3 3 3-1.5z');
+    let svgg = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+    svgg.className.baseVal = 'style-scope yt-icon';
+    svgg.appendChild(gpath);
+    let svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+    svg.className.baseVal = 'style-scope yt-icon';
+    svg.setAttributeNS(null, 'viewBox', '0 0 24 24');
+    svg.setAttributeNS(null, 'preserveAspectRatio', 'xMidYMid meet');
+    svg.setAttribute('focusable', 'false');
+    svg.setAttribute('style', 'pointer-events: none; display: block; width: 100%; height: 100%;');
+    svg.appendChild(svgg);
+    ic.appendChild(svg); // YT clears *ic
+    settingsButtonMark = mark;
+  }
+  addInterval(1, createSettingsButton, []);
+
+  GM_addStyle(styles.join(''));
+  // intervals
+  setInterval(function () {
+    for (let i = intervals.length; --i >= 0;) {
+      let Q = intervals[i];
+      if (--Q.cnt > 0) continue;
+      Q.call.apply(this, Q.params);
+      Q.cnt = Q.period;
     }
-    addInterval(1, createSettingsButton, []);
-
-    GM_addStyle(styles.join(''));
-    // intervals
-    setInterval(function () {
-        for (let i = intervals.length; --i >= 0;) {
-            let Q = intervals[i];
-            if (--Q.cnt > 0) continue;
-            Q.call.apply(this, Q.params);
-            Q.cnt = Q.period;
-        }
-    }, 1000);
-    console.log('Fixed loaded');
+  }, 1000);
+  console.log('Fixed loaded');
 }
 
 function counterstuff() {
-function getCounterText (x) {	// x is not wrapper
+  function getCounterText(x) {	// x is not wrapper
     try { return x.__data.data.viewCountText.simpleText; } catch (ex) { }
     try { return x.__data.data.content.videoRenderer.viewCountText.simpleText; } catch (ex) { }
-}
-function replaceCountersText (x) {
+  }
+  function replaceCountersText(x) {
     x = x.wrappedJSObject || x;
     const par = x.parentNode.__ytfix_parent;
     if (!par)
-        return;
-    const tgt = getCounterText (par);
+      return;
+    const tgt = getCounterText(par);
     if (tgt && x.textContent != tgt)
-        x.textContent = tgt;
-}
-function replaceCountersCallback (mm) {
-    for (let i = mm.length; --i >= 0; ) {
-        const m = mm [i];
-        if (m.type == 'characterData')
-            replaceCountersText (m.target);
+      x.textContent = tgt;
+  }
+  function replaceCountersCallback(mm) {
+    for (let i = mm.length; --i >= 0;) {
+      const m = mm[i];
+      if (m.type == 'characterData')
+        replaceCountersText(m.target);
     }
-}
-const m = new MutationObserver (replaceCountersCallback);
-const opt = { subtree: true, characterData: true };
-function replaceCountersEach (x) {
-    x.setAttribute ('ytfix', '');
-    const ee = x.querySelectorAll ('#metadata-line span');
+  }
+  const m = new MutationObserver(replaceCountersCallback);
+  const opt = { subtree: true, characterData: true };
+  function replaceCountersEach(x) {
+    x.setAttribute('ytfix', '');
+    const ee = x.querySelectorAll('#metadata-line span');
     if (ee.length != 2)
-        return;
-    const e = ee [0];
+      return;
+    const e = ee[0];
     (e.wrappedJSObject || e).__ytfix_parent = x;
-    replaceCountersText (e.firstChild);
-    m.observe (e, opt);
-}
-setInterval (function () {
-    document.querySelectorAll ('ytd-compact-video-renderer:not([ytfix])').forEach (replaceCountersEach);
-    document.querySelectorAll ('ytd-grid-video-renderer:not([ytfix])').forEach (replaceCountersEach);
-    document.querySelectorAll ('ytd-rich-item-renderer:not([ytfix])').forEach (replaceCountersEach);
-    document.querySelectorAll ('ytd-video-renderer:not([ytfix])').forEach (replaceCountersEach);
-}, 1000);
+    replaceCountersText(e.firstChild);
+    m.observe(e, opt);
+  }
+  setInterval(function () {
+    document.querySelectorAll('ytd-compact-video-renderer:not([ytfix])').forEach(replaceCountersEach);
+    document.querySelectorAll('ytd-grid-video-renderer:not([ytfix])').forEach(replaceCountersEach);
+    document.querySelectorAll('ytd-rich-item-renderer:not([ytfix])').forEach(replaceCountersEach);
+    document.querySelectorAll('ytd-video-renderer:not([ytfix])').forEach(replaceCountersEach);
+  }, 1000);
   // this observer disables the like count updating while watching a live stream because it messes with a bunch of things and we can't get full like count from it either
-var likeObserver = new MutationObserver(function(mutations) {
-    mutations.forEach(function(mutation) {
-        for (const node of mutation.addedNodes) {
-            while (mutation.target.childNodes.length > 1) {
-                mutation.target.removeChild(mutation.target.lastChild);
-            }
+  var likeObserver = new MutationObserver(function (mutations) {
+    mutations.forEach(function (mutation) {
+      for (const node of mutation.addedNodes) {
+        while (mutation.target.childNodes.length > 1) {
+          mutation.target.removeChild(mutation.target.lastChild);
         }
+      }
     });
-});
+  });
 
-waitForElement("#info ytd-toggle-button-renderer.style-text[is-icon-button]:first-child #text.ytd-toggle-button-renderer").then(function(elm) {
+  waitForElement("#info ytd-toggle-button-renderer.style-text[is-icon-button]:first-child #text.ytd-toggle-button-renderer").then(function (elm) {
     likeObserver.observe(elm, {
-        childList: true,
-        subtree: true
+      childList: true,
+      subtree: true
     });
     document.querySelector('#info ytd-button-renderer:last-of-type yt-formatted-string').innerText = 'Add to';
-});
+  });
 
-// thanks objectful for a actual working one
+  // thanks objectful for a actual working one
 }
 
 function patch_css() {
-    // patch css
-    GM_addStyle(`
+  // patch css
+  GM_addStyle(`
 f:root {
   --dgyt-bg-color-dark: rgb(15, 15, 15);
   --dgyt-bg-color-medium: rgb(33, 33, 33);
@@ -9459,60 +9499,60 @@ html[dark] .num-results {
 }
 `);
 }
-waitForElement('ytd-compact-link-renderer').then(function(elm) {
-    document.querySelector('#container yt-multi-page-menu-section-renderer:nth-child(2) ytd-compact-link-renderer:nth-child(4)').style.left = document.querySelector('[menu-style="multi-page-menu-style-type-system"] #container yt-multi-page-menu-section-renderer:first-child ytd-compact-link-renderer:nth-child(3) a').offsetWidth+"px";
+waitForElement('ytd-compact-link-renderer').then(function (elm) {
+  document.querySelector('#container yt-multi-page-menu-section-renderer:nth-child(2) ytd-compact-link-renderer:nth-child(4)').style.left = document.querySelector('[menu-style="multi-page-menu-style-type-system"] #container yt-multi-page-menu-section-renderer:first-child ytd-compact-link-renderer:nth-child(3) a').offsetWidth + "px";
 });
 
 function getLikes() {
-    const topLevelButtons = document.querySelector("ytd-app").data.response.contents.twoColumnWatchNextResults.results.results.contents.find(e => e.hasOwnProperty("videoPrimaryInfoRenderer")).videoPrimaryInfoRenderer.videoActions.menuRenderer.topLevelButtons[0];
-    const buttonText = topLevelButtons.isToggled ? topLevelButtons.toggleButtonRenderer.toggledText : topLevelButtons.toggleButtonRenderer.defaultText;
-    const likes = parseInt(buttonText.accessibility.accessibilityData.label.match(/\d/g).join(""));
-    const likesText = document.querySelector("#info ytd-toggle-button-renderer.style-text[is-icon-button]:first-child #text.ytd-toggle-button-renderer");
-    likesText.innerHTML = likes.toLocaleString();
+  const topLevelButtons = document.querySelector("ytd-app").data.response.contents.twoColumnWatchNextResults.results.results.contents.find(e => e.hasOwnProperty("videoPrimaryInfoRenderer")).videoPrimaryInfoRenderer.videoActions.menuRenderer.topLevelButtons[0];
+  const buttonText = topLevelButtons.isToggled ? topLevelButtons.toggleButtonRenderer.toggledText : topLevelButtons.toggleButtonRenderer.defaultText;
+  const likes = parseInt(buttonText.accessibility.accessibilityData.label.match(/\d/g).join(""));
+  const likesText = document.querySelector("#info ytd-toggle-button-renderer.style-text[is-icon-button]:first-child #text.ytd-toggle-button-renderer");
+  likesText.innerHTML = likes.toLocaleString();
 
-    document.querySelector("ytd-toggle-button-renderer.style-scope:first-child").addEventListener("click", function() {
-        const liked = likesText.classList.contains("style-default-active");
-        likesText.innerHTML = liked ? (likes + 1).toLocaleString() : likes.toLocaleString();
-    }, false);
+  document.querySelector("ytd-toggle-button-renderer.style-scope:first-child").addEventListener("click", function () {
+    const liked = likesText.classList.contains("style-default-active");
+    likesText.innerHTML = liked ? (likes + 1).toLocaleString() : likes.toLocaleString();
+  }, false);
 }
 
 async function getDislikes() {
-    await new Promise(resolve => setTimeout(resolve, 500)); // this is necessary because otherwise RYD will *sometimes* update the value after this does. would like to do a better way than this though
-    const videoId = document.querySelector("ytd-app").data.endpoint.watchEndpoint.videoId;
-    let response = await fetch(`https://returnyoutubedislikeapi.com/votes?videoId=${videoId}`).then((response) => response.json()).catch();
-    if (response === undefined || "traceId" in response) return;
+  await new Promise(resolve => setTimeout(resolve, 500)); // this is necessary because otherwise RYD will *sometimes* update the value after this does. would like to do a better way than this though
+  const videoId = document.querySelector("ytd-app").data.endpoint.watchEndpoint.videoId;
+  let response = await fetch(`https://returnyoutubedislikeapi.com/votes?videoId=${videoId}`).then((response) => response.json()).catch();
+  if (response === undefined || "traceId" in response) return;
 
-    const dislikesText = document.querySelector("#info ytd-toggle-button-renderer.style-text[is-icon-button]:nth-child(2) #text.ytd-toggle-button-renderer");
-    const likesText = document.querySelector("#info ytd-toggle-button-renderer.style-text[is-icon-button]:first-child #text.ytd-toggle-button-renderer");
-    if (response.dislikes == 0 && response.likes == 0 && response.viewCount == 0) { // no ratings
-        dislikesText.innerHTML = "";
-        likesText.innerHTML = "";
-    } else { // we have ratings!
-        dislikesText.innerHTML = response.dislikes.toLocaleString();
-        document.querySelector("ytd-toggle-button-renderer.style-scope:nth-child(2)").addEventListener("click", function() {
-            const disliked = dislikesText.classList.contains("style-default-active");
-            dislikesText.innerHTML = disliked ? (response.dislikes + 1).toLocaleString() : response.dislikes.toLocaleString();
-        }, false);
-    }
+  const dislikesText = document.querySelector("#info ytd-toggle-button-renderer.style-text[is-icon-button]:nth-child(2) #text.ytd-toggle-button-renderer");
+  const likesText = document.querySelector("#info ytd-toggle-button-renderer.style-text[is-icon-button]:first-child #text.ytd-toggle-button-renderer");
+  if (response.dislikes == 0 && response.likes == 0 && response.viewCount == 0) { // no ratings
+    dislikesText.innerHTML = "";
+    likesText.innerHTML = "";
+  } else { // we have ratings!
+    dislikesText.innerHTML = response.dislikes.toLocaleString();
+    document.querySelector("ytd-toggle-button-renderer.style-scope:nth-child(2)").addEventListener("click", function () {
+      const disliked = dislikesText.classList.contains("style-default-active");
+      dislikesText.innerHTML = disliked ? (response.dislikes + 1).toLocaleString() : response.dislikes.toLocaleString();
+    }, false);
+  }
 }
 
 function restoreDropdown(iconLabel, firstChild, dropdownChildren) {
-    const iconLabelSel = document.querySelector(iconLabel);
-    if (!window.location.search.includes("sort")) // channel sort dropdown fix
-        iconLabelSel.innerHTML = document.querySelector(firstChild).innerHTML;
+  const iconLabelSel = document.querySelector(iconLabel);
+  if (!window.location.search.includes("sort")) // channel sort dropdown fix
+    iconLabelSel.innerHTML = document.querySelector(firstChild).innerHTML;
 
-    for (const x of document.querySelectorAll(dropdownChildren)) {
-        x.addEventListener("click", function() {
-            iconLabelSel.innerHTML = this.innerHTML;
-        }, false);
-    }
+  for (const x of document.querySelectorAll(dropdownChildren)) {
+    x.addEventListener("click", function () {
+      iconLabelSel.innerHTML = this.innerHTML;
+    }, false);
+  }
 }
 
 function restoreOldAutoplay() {
-    if (!document.querySelector("ytd-playlist-panel-renderer").hidden)
-        return;
+  if (!document.querySelector("ytd-playlist-panel-renderer").hidden)
+    return;
 
-    let autoplayTemplate = `<ytd-compact-autoplay-renderer is-two-columns="" queue-is-empty="" style="border-bottom-color:rgba(0, 0, 0, 0.1);border-bottom-style:solid;border-bottom-width:1px;display:block;margin-bottom:16px;padding-bottom:8px;"><div id="head" style="background-position:initial;background-repeat:initial;-alias-webkit-background-clip:border-box;align-items:center;background-attachment:scroll;background-clip:border-box;background-color:rgba(0, 0, 0, 0);background-image:none;background-origin:padding-box;background-size:auto;border-bottom-color:rgb(0, 0, 0);border-bottom-style:none;border-bottom-width:0px;border-image-outset:0;border-image-repeat:stretch;border-image-slice:100%;border-image-source:none;border-image-width:1;border-left-color:rgb(0, 0, 0);border-left-style:none;border-left-width:0px;border-right-color:rgb(0, 0, 0);border-right-style:none;border-right-width:0px;border-top-color:rgb(0, 0, 0);border-top-style:none;border-top-width:0px;display:flex;flex-direction:row;margin-bottom:12px;margin-left:0px;margin-right:0px;margin-top:0px;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;">
+  let autoplayTemplate = `<ytd-compact-autoplay-renderer is-two-columns="" queue-is-empty="" style="border-bottom-color:rgba(0, 0, 0, 0.1);border-bottom-style:solid;border-bottom-width:1px;display:block;margin-bottom:16px;padding-bottom:8px;"><div id="head" style="background-position:initial;background-repeat:initial;-alias-webkit-background-clip:border-box;align-items:center;background-attachment:scroll;background-clip:border-box;background-color:rgba(0, 0, 0, 0);background-image:none;background-origin:padding-box;background-size:auto;border-bottom-color:rgb(0, 0, 0);border-bottom-style:none;border-bottom-width:0px;border-image-outset:0;border-image-repeat:stretch;border-image-slice:100%;border-image-source:none;border-image-width:1;border-left-color:rgb(0, 0, 0);border-left-style:none;border-left-width:0px;border-right-color:rgb(0, 0, 0);border-right-style:none;border-right-width:0px;border-top-color:rgb(0, 0, 0);border-top-style:none;border-top-width:0px;display:flex;flex-direction:row;margin-bottom:12px;margin-left:0px;margin-right:0px;margin-top:0px;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;">
 	  <div id="autoplay" style="background-position:initial;background-repeat:initial;-alias-webkit-background-clip:border-box;color:rgb(96, 96, 96);font-size:13px;font-weight:500;background-attachment:scroll;background-clip:border-box;background-color:rgba(0, 0, 0, 0);background-image:none;background-origin:padding-box;background-size:auto;border-bottom-color:rgb(96, 96, 96);border-bottom-style:none;border-bottom-width:0px;border-image-outset:0;border-image-repeat:stretch;border-image-slice:100%;border-image-source:none;border-image-width:1;border-left-color:rgb(96, 96, 96);border-left-style:none;border-left-width:0px;border-right-color:rgb(96, 96, 96);border-right-style:none;border-right-width:0px;border-top-color:rgb(96, 96, 96);border-top-style:none;border-top-width:0px;display:block;letter-spacing:0.007px;margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;text-transform:uppercase;">Autoplay</div>
 	  <paper-toggle-button active="" aria-disabled="false" aria-label="Autoplay" aria-pressed="true" checked="" id="toggle" noink="" role="button" tabindex="0" toggles="" style="font-family:Roboto, Noto, sans-serif;-webkit-font-smoothing:antialiased;align-items:center;display:flex;flex-direction:row;margin-left:8px;touch-action:pan-y;"><div style="background-position:initial;background-repeat:initial;-alias-webkit-background-clip:border-box;background-attachment:scroll;background-clip:border-box;background-color:rgba(0, 0, 0, 0);background-image:none;background-origin:padding-box;background-size:auto;border-bottom-color:rgb(0, 0, 0);border-bottom-style:none;border-bottom-width:0px;border-image-outset:0;border-image-repeat:stretch;border-image-slice:100%;border-image-source:none;border-image-width:1;border-left-color:rgb(0, 0, 0);border-left-style:none;border-left-width:0px;border-right-color:rgb(0, 0, 0);border-right-style:none;border-right-width:0px;border-top-color:rgb(0, 0, 0);border-top-style:none;border-top-width:0px;display:inline-block;height:14px;margin-bottom:4px;margin-left:1px;margin-right:1px;margin-top:4px;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;position:relative;width:36px;"><div id="toggleBar" style="min-height:13.9985px;background-position:initial;background-repeat:initial;-alias-webkit-background-clip:border-box;background-attachment:scroll;background-clip:border-box;background-color:rgb(204, 204, 204);background-image:none;background-origin:padding-box;background-size:auto;border-bottom-color:rgb(0, 0, 0);border-bottom-left-radius:8px;border-bottom-right-radius:8px;border-bottom-style:none;border-bottom-width:0px;border-image-outset:0;border-image-repeat:stretch;border-image-slice:100%;border-image-source:none;border-image-width:1;border-left-color:rgb(0, 0, 0);border-left-style:none;border-left-width:0px;border-right-color:rgb(0, 0, 0);border-right-style:none;border-right-width:0px;border-top-color:rgb(0, 0, 0);border-top-left-radius:8px;border-top-right-radius:8px;border-top-style:none;border-top-width:0px;display:block;height:100%;margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;opacity:0.5;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;pointer-events:none;position:absolute;width:100%;"></div><div id="toggleButton" style="background-position:initial;background-repeat:initial;-alias-webkit-background-clip:border-box;background-attachment:scroll;background-clip:border-box;background-color:rgb(6, 95, 212);background-image:none;background-origin:padding-box;background-size:auto;border-bottom-color:rgb(0, 0, 0);border-bottom-left-radius:50%;border-bottom-right-radius:50%;border-bottom-style:none;border-bottom-width:0px;border-image-outset:0;border-image-repeat:stretch;border-image-slice:100%;border-image-source:none;border-image-width:1;border-left-color:rgb(0, 0, 0);border-left-style:none;border-left-width:0px;border-right-color:rgb(0, 0, 0);border-right-style:none;border-right-width:0px;border-top-color:rgb(0, 0, 0);border-top-left-radius:50%;border-top-right-radius:50%;border-top-style:none;border-top-width:0px;box-shadow:rgba(0, 0, 0, 0.6) 0px 1px 5px 0px;display:block;height:20px;left:0px;margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;position:absolute;right:15.9916px;top:-3px;transform:matrix(1, 0, 0, 1, 16, 0);width:20px;will-change:transform;"></div></div><div style="background-position:initial;background-repeat:initial;-alias-webkit-background-clip:border-box;color:rgb(33, 33, 33);background-attachment:scroll;background-clip:border-box;background-color:rgba(0, 0, 0, 0);background-image:none;background-origin:padding-box;background-size:auto;border-bottom-color:rgb(33, 33, 33);border-bottom-style:none;border-bottom-width:0px;border-image-outset:0;border-image-repeat:stretch;border-image-slice:100%;border-image-source:none;border-image-width:1;border-left-color:rgb(33, 33, 33);border-left-style:none;border-left-width:0px;border-right-color:rgb(33, 33, 33);border-right-style:none;border-right-width:0px;border-top-color:rgb(33, 33, 33);border-top-style:none;border-top-width:0px;display:inline-block;margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;padding-bottom:0px;padding-left:8px;padding-right:0px;padding-top:0px;pointer-events:none;position:relative;vertical-align:middle;">
 	  </div></paper-toggle-button>
@@ -9607,62 +9647,62 @@ function restoreOldAutoplay() {
 	<div id="dismissed" style="background-position:initial;background-repeat:initial;-alias-webkit-background-clip:border-box;background-attachment:scroll;background-clip:border-box;background-color:rgba(0, 0, 0, 0);background-image:none;background-origin:padding-box;background-size:auto;border-bottom-color:rgba(0, 0, 0, 0.1);border-bottom-style:solid;border-bottom-width:1px;border-image-outset:0;border-image-repeat:stretch;border-image-slice:100%;border-image-source:none;border-image-width:1;border-left-color:rgba(0, 0, 0, 0.1);border-left-style:solid;border-left-width:1px;border-right-color:rgba(0, 0, 0, 0.1);border-right-style:solid;border-right-width:1px;border-top-color:rgba(0, 0, 0, 0.1);border-top-style:solid;border-top-width:1px;display:none;margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;padding-bottom:8px;padding-left:8px;padding-right:8px;padding-top:8px;width:100%;"></div>
 	</ytd-compact-video-renderer></div>
 	</ytd-compact-autoplay-renderer>`;
-    var firstvid = document.querySelector("#items.ytd-watch-next-secondary-results-renderer ytd-compact-video-renderer.style-scope:first-child");
-    firstvid.insertAdjacentHTML("beforebegin", autoplayTemplate);
-    document.querySelector("ytd-compact-autoplay-renderer #upnext").innerHTML = "Up next";
-    document.querySelector("ytd-compact-autoplay-renderer #autoplay").innerHTML = "Autoplay";
-    document.querySelector("ytd-compact-autoplay-renderer").removeAttribute("hide-autonav-headline");
-    document.querySelector("ytd-compact-autoplay-renderer").removeAttribute("player-move-autonav-toggle");
-    document.querySelector("ytd-compact-autoplay-renderer").appendChild(firstvid);
+  var firstvid = document.querySelector("#items.ytd-watch-next-secondary-results-renderer ytd-compact-video-renderer.style-scope:first-child");
+  firstvid.insertAdjacentHTML("beforebegin", autoplayTemplate);
+  document.querySelector("ytd-compact-autoplay-renderer #upnext").innerHTML = "Up next";
+  document.querySelector("ytd-compact-autoplay-renderer #autoplay").innerHTML = "Autoplay";
+  document.querySelector("ytd-compact-autoplay-renderer").removeAttribute("hide-autonav-headline");
+  document.querySelector("ytd-compact-autoplay-renderer").removeAttribute("player-move-autonav-toggle");
+  document.querySelector("ytd-compact-autoplay-renderer").appendChild(firstvid);
 }
 
 function setupSecondaryInfoRenderer() {
-    if (window.location.href.indexOf("/watch?") == -1) return;
+  if (window.location.href.indexOf("/watch?") == -1) return;
 
-    const uploadDate = document.querySelector('#info-strings.ytd-video-primary-info-renderer');
-    document.querySelector('ytd-video-secondary-info-renderer > #container').prepend(uploadDate);
+  const uploadDate = document.querySelector('#info-strings.ytd-video-primary-info-renderer');
+  document.querySelector('ytd-video-secondary-info-renderer > #container').prepend(uploadDate);
 
-    if (!document.querySelector("ytd-app").data.response.responseContext.mainAppWebResponseContext.loggedOut) {
-        const subCountRenderer = document.querySelector('#owner-sub-count.ytd-video-owner-renderer');
-        const subBtnRenderer = document.querySelector("ytd-subscribe-button-renderer");
-        subBtnRenderer.appendChild(subCountRenderer);
-    }
+  if (!document.querySelector("ytd-app").data.response.responseContext.mainAppWebResponseContext.loggedOut) {
+    const subCountRenderer = document.querySelector('#owner-sub-count.ytd-video-owner-renderer');
+    const subBtnRenderer = document.querySelector("ytd-subscribe-button-renderer");
+    subBtnRenderer.appendChild(subCountRenderer);
+  }
 
-    getLikes();
+  getLikes();
 }
 
 function setUploadedText(elm) {
-    const isNormalUpload = document.querySelector("#chat") == null;
-    if (!elm.innerHTML.startsWith("Published on ") && isNormalUpload) {
-        elm.insertAdjacentText("afterbegin", "Published on ");
-    }
+  const isNormalUpload = document.querySelector("#chat") == null;
+  if (!elm.innerHTML.startsWith("Published on ") && isNormalUpload) {
+    elm.insertAdjacentText("afterbegin", "Published on ");
+  }
 }
 
 async function setupUpdateDependentElements() {
-    if (window.location.pathname == "/watch") {
-        waitForElement('.ryd-tooltip-bar-container').then(() => getDislikes());
-        waitForElement('#items.ytd-watch-next-secondary-results-renderer ytd-compact-video-renderer.style-scope:first-child').then(() => restoreOldAutoplay());
-        waitForElement('#top-row.ytd-video-secondary-info-renderer').then(() => setupSecondaryInfoRenderer());
-        waitForElement('#info-strings.ytd-video-primary-info-renderer yt-formatted-string').then((elm) => setUploadedText(elm));
+  if (window.location.pathname == "/watch") {
+    waitForElement('.ryd-tooltip-bar-container').then(() => getDislikes());
+    waitForElement('#items.ytd-watch-next-secondary-results-renderer ytd-compact-video-renderer.style-scope:first-child').then(() => restoreOldAutoplay());
+    waitForElement('#top-row.ytd-video-secondary-info-renderer').then(() => setupSecondaryInfoRenderer());
+    waitForElement('#info-strings.ytd-video-primary-info-renderer yt-formatted-string').then((elm) => setUploadedText(elm));
 
-        // classic description
-        var description;
-        waitForElement('tp-yt-paper-button[id="more"]').then((elm) => elm.addEventListener("click", () => description.removeAttribute("collapsed")));
-        waitForElement('ytd-expander.ytd-video-secondary-info-renderer').then((elm) => { description = elm });
-        waitForElement('ytd-engagement-panel-section-list-renderer[target-id="engagement-panel-structured-description"]').then((elm) => elm?.remove());
-    }
+    // classic description
+    var description;
+    waitForElement('tp-yt-paper-button[id="more"]').then((elm) => elm.addEventListener("click", () => description.removeAttribute("collapsed")));
+    waitForElement('ytd-expander.ytd-video-secondary-info-renderer').then((elm) => { description = elm });
+    waitForElement('ytd-engagement-panel-section-list-renderer[target-id="engagement-panel-structured-description"]').then((elm) => elm?.remove());
+  }
 
-    waitForElement("ytd-comments-header-renderer yt-dropdown-menu:last-of-type").then(function() {
-        restoreDropdown("ytd-comments-header-renderer #icon-label.yt-dropdown-menu",
-                        "ytd-comments-header-renderer a.yt-dropdown-menu:first-child > tp-yt-paper-item:first-child > tp-yt-paper-item-body:first-child > div:first-child",
-                        "ytd-comments-header-renderer a.yt-dropdown-menu > tp-yt-paper-item:first-child > tp-yt-paper-item-body:first-child > div:first-child");
-    });
+  waitForElement("ytd-comments-header-renderer yt-dropdown-menu:last-of-type").then(function () {
+    restoreDropdown("ytd-comments-header-renderer #icon-label.yt-dropdown-menu",
+      "ytd-comments-header-renderer a.yt-dropdown-menu:first-child > tp-yt-paper-item:first-child > tp-yt-paper-item-body:first-child > div:first-child",
+      "ytd-comments-header-renderer a.yt-dropdown-menu > tp-yt-paper-item:first-child > tp-yt-paper-item-body:first-child > div:first-child");
+  });
 
-    waitForElement("yt-sort-filter-sub-menu-renderer yt-dropdown-menu:last-of-type").then(function() {
-        restoreDropdown("yt-sort-filter-sub-menu-renderer #icon-label.yt-dropdown-menu",
-                        "yt-sort-filter-sub-menu-renderer a.yt-dropdown-menu:nth-child(3) > tp-yt-paper-item:first-child > tp-yt-paper-item-body:first-child > div:first-child",
-                        "yt-sort-filter-sub-menu-renderer a.yt-dropdown-menu > tp-yt-paper-item:first-child > tp-yt-paper-item-body:first-child > div:first-child");
-    });
+  waitForElement("yt-sort-filter-sub-menu-renderer yt-dropdown-menu:last-of-type").then(function () {
+    restoreDropdown("yt-sort-filter-sub-menu-renderer #icon-label.yt-dropdown-menu",
+      "yt-sort-filter-sub-menu-renderer a.yt-dropdown-menu:nth-child(3) > tp-yt-paper-item:first-child > tp-yt-paper-item-body:first-child > div:first-child",
+      "yt-sort-filter-sub-menu-renderer a.yt-dropdown-menu > tp-yt-paper-item:first-child > tp-yt-paper-item-body:first-child > div:first-child");
+  });
 }
 
 window.addEventListener("yt-page-data-updated", setupUpdateDependentElements, false);
