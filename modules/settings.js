@@ -155,7 +155,7 @@ function gen_setting_page() {
     if (!("channel_list" in settings)) settings.channel_list = false;
     if (!("rightside" in settings)) settings.rightside = false;
     if (!("trending" in settings)) settings.trending = true;
-    if (!("shelves" in settings)) settings.shelves = true;
+    if (!("shelves" in settings)) settings.shelves = false;
     if (!("search_estimate" in settings)) settings.search_estimate = true;
     if (!("default_player" in settings)) settings.default_player = 2;
     if (!("hide_guide" in settings)) settings.hide_guide = false;
