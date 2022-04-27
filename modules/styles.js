@@ -6810,7 +6810,7 @@ html[dark] tp-yt-paper-item[aria-selected="true"] path[d="M18 3v2h-2V3H8v2H6V3H4
 
 yt-horizontal-list-renderer[override-arrow-position-for-reel-items] #left-arrow.yt-horizontal-list-renderer, 
 yt-horizontal-list-renderer[override-arrow-position-for-reel-items] #right-arrow.yt-horizontal-list-renderer {
-    height: 118px;
+    height: 118px !important;
 }
 
 [page-subtype="channels"] ytd-thumbnail.ytd-reel-item-renderer::before {
@@ -6832,18 +6832,19 @@ yt-horizontal-list-renderer[override-arrow-position-for-reel-items] #right-arrow
 }
 
 #contents.ytd-reel-shelf-renderer {
-    margin-top: 10px;
+    margin-top: 10px !important;
 }
 
 #title-container.ytd-reel-shelf-renderer {
-    margin-top: 17px;
+    margin-top: 17px !important;
 }
 
 ytd-browse:not([page-subtype="channels"]) #header {
     display: none;
 }
 
-ytd-video-renderer[use-prominent-thumbs] #title-wrapper.ytd-video-renderer {
+ytd-video-renderer[use-prominent-thumbs] #title-wrapper.ytd-video-renderer,
+[page-subtype="trending"] #title-wrapper.ytd-video-renderer {
     margin-top: 8px;
 }
 
@@ -6859,13 +6860,13 @@ html #video-title.ytd-grid-movie-renderer {
 
 ytd-grid-movie-renderer {
     margin-right: 10px;
-    width: var(--ytd-grid-thumbnail_-_width);
+    width: var(--ytd-grid-thumbnail_-_width) !important;
 }
 
 ytd-thumbnail.ytd-grid-movie-renderer,
 ytd-thumbnail.ytd-grid-movie-renderer img.yt-img-shadow {
-    width: calc(var(--ytd-grid-thumbnail_-_width) / 2);
-    height: var(--ytd-grid-thumbnail_-_height);
+    width: calc(var(--ytd-grid-thumbnail_-_width) / 2) !important;
+    height: var(--ytd-grid-thumbnail_-_height) !important;
 }
 
 .sbpqs_a {
@@ -6907,10 +6908,31 @@ yt-icon:hover path[d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.9 2 2 2zm6-6v-5c0-3.07-1.64
 }
 
 .badge-style-type-featured.ytd-badge-supported-renderer {
-    color: var(--yt-spec-text-primary);
+    color: var(--yt-spec-text-primary) !important;
 }
 
 [page-subtype="trending"] #channel-name.ytd-video-renderer {
     padding-left: 0;
+}
+
+ytd-video-meta-block:not([rich-meta]) #byline-container.ytd-video-meta-block {
+    line-height: 1.4rem !important;
+}
+
+[page-subtype="trending"] #description-text.ytd-video-renderer {
+    line-height: 1.3em !important;
+    padding-top: 20px !important;
+}
+
+[page-subtype="trending"] #title-wrapper.ytd-video-renderer {
+    height: 18px !important;
+}
+
+[page-subtype="trending"] #metadata-line.ytd-video-meta-block {
+    position: absolute !important;
+    top: 42px !important;
+    line-height: 1.5rem !important;
+    font-size: 1.2rem !important;
 }`);
 }
+
