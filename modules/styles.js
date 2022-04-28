@@ -5122,6 +5122,11 @@ ytd-settings-sidebar-renderer #label {
   color: #222;
 }
 
+html[dark] ytd-settings-sidebar-renderer #label,
+html[dark] ytd-browse #title.ytd-settings-sidebar-renderer {
+  color: var(--yt-spec-text-primary);
+}
+
 ytd-settings-sidebar-renderer ytd-compact-link-renderer[compact-link-style] tp-yt-paper-item.ytd-compact-link-renderer {
   padding: 0 6px;
   height: 28px !important;
@@ -5130,11 +5135,16 @@ ytd-settings-sidebar-renderer ytd-compact-link-renderer[compact-link-style] tp-y
 ytd-browse ytd-settings-sidebar-renderer,
 ytd-settings-sidebar-renderer {
   width: 186px;
-  background: #fff;
+  background: var(--yt-spec-brand-background-solid);
   padding: 0 22px;
   box-sizing: content-box;
   border-right: 1px solid #e8e8e8;
   margin-top: -14px;
+}
+
+html[dark] ytd-browse ytd-settings-sidebar-renderer, 
+html[dark] ytd-settings-sidebar-renderer {
+  border-right: none;
 }
 
 ytd-browse #title.ytd-settings-sidebar-renderer {
@@ -5142,6 +5152,10 @@ ytd-browse #title.ytd-settings-sidebar-renderer {
   font-size: 16px;
   color: #222;
   text-transform: none;
+}
+
+ytd-compact-link-renderer[compact-link-style="compact-link-style-type-settings-sidebar"][active] #label.ytd-compact-link-renderer {
+  font-weight: 500 !important;
 }
 
 html:not([dark]) #meta #top-row ytd-video-owner-renderer yt-formatted-string[has-link-only_]:not([force-default-style]) a.yt-simple-endpoint.yt-formatted-string {
@@ -5940,6 +5954,14 @@ ytd-settings-sidebar-renderer ytd-compact-link-renderer[compact-link-style]:hove
 ytd-compact-link-renderer[compact-link-style][active]:hover,
 ytd-settings-sidebar-renderer ytd-compact-link-renderer[compact-link-style][active] {
   background: var(--oldcolor);
+}
+
+html[dark] ytd-settings-sidebar-renderer ytd-compact-link-renderer[compact-link-style][active] {
+  background: none;
+}
+
+html[dark] ytd-compact-link-renderer[compact-link-style][active]:hover {
+  background: #444;
 }
 
 #title.ytd-settings-sidebar-renderer {
@@ -6935,4 +6957,3 @@ ytd-video-meta-block:not([rich-meta]) #byline-container.ytd-video-meta-block {
     font-size: 1.2rem !important;
 }`);
 }
-
