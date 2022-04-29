@@ -900,6 +900,10 @@ html #subscribe-button ytd-button-renderer #button.ytd-button-renderer:active,ht
         
         ytd-browse[page-subtype='home'] #scroll-container.yt-horizontal-list-renderer ytd-thumbnail-overlay-time-status-renderer {
             margin-top: 5px !important;
+        }
+        
+        ytd-browse[page-subtype='home'] ytd-rich-grid-renderer img.yt-img-shadow {
+            max-height: var(--ytd-grid-thumbnail_-_height);
         }`);
     }
     if (settings.search_estimate) {
