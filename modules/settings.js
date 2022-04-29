@@ -902,7 +902,7 @@ html #subscribe-button ytd-button-renderer #button.ytd-button-renderer:active,ht
             margin-top: 5px !important;
         }
         
-        ytd-browse[page-subtype='home'] ytd-rich-grid-renderer img.yt-img-shadow {
+        ytd-browse[page-subtype='home'] ytd-shelf-renderer img.yt-img-shadow {
             max-height: var(--ytd-grid-thumbnail_-_height);
         }`);
     }
