@@ -1562,6 +1562,7 @@ html[dark] #play-button ytd-button-renderer yt-formatted-string.ytd-button-rende
 html[dark] yt-icon-button.ytd-expandable-tab-renderer,
 html[dark] yt-icon.ytd-menu-renderer,
 html[dark] ytd-button-renderer.style-default[is-icon-button] #text.ytd-button-renderer,
+html[dark] ytd-button-renderer.style-visibly-disabled[is-icon-button] #text.ytd-button-renderer
 html[dark] ytd-button-renderer[is-paper-button] yt-icon.ytd-button-renderer,
 html[dark] ytd-notification-topbar-button-shape-renderer #button yt-icon {
   filter: invert(1);
@@ -3618,7 +3619,8 @@ html .arrow.yt-horizontal-list-renderer {
   opacity: 0.5 !important;
 }
 
-html[dark] #button.size-default.style-default.ytd-button-renderer.style-scope {
+html[dark] #button.size-default.style-default.ytd-button-renderer.style-scope,
+html[dark] #button.size-default.style-visibly-disabled.ytd-button-renderer.style-scope {
   filter: invert(1);
 }
 
