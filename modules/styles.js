@@ -6935,5 +6935,56 @@ ytd-video-meta-block:not([rich-meta]) #byline-container.ytd-video-meta-block {
 .addto-btn yt-icon {
     background: no-repeat url(//s.ytimg.com/yts/imgbin/www-hitchhiker-vfllYIUv0.png) -151px -725px;
     fill: none !important;
+}
+
+.yt-spec-icon-badge-shape__icon {
+    fill: none;
+    left: 0;
+    opacity: .85;
+    margin-top: -2px;
+    margin-left: 1px;
+    background: no-repeat url(//s.ytimg.com/yts/imgbin/www-hitchhiker-vflNlthLq.webp) -698px -257px;
+    background-size: auto;
+    width: 30px !important;
+    height: 30px !important;
+    filter: invert(0.60);
+}
+
+yt-icon-button.ytd-notification-topbar-button-renderer:hover{
+    filter: contrast(0.3);
+}
+
+html[dark] yt-icon-button.ytd-notification-topbar-button-renderer:hover{
+    filter: contrast(2);
+}
+
+yt-icon-button.ytd-notification-topbar-button-renderer:active {
+    filter: contrast(1);
+}
+
+html[dark] yt-icon-button.ytd-notification-topbar-button-renderer:active {
+    filter: contrast(3);
+}
+
+.yt-spec-icon-badge-shape--type-notification.yt-spec-icon-badge-shape > .yt-spec-icon-badge-shape__icon > yt-icon {
+    display: none;
+}
+
+yt-interaction {
+    display: none;
+}
+
+.yt-spec-icon-badge-shape--type-notification .yt-spec-icon-badge-shape__badge {
+    background: no-repeat url(//i.imgur.com/LIkBxJb.png) !important;
+    height: 29px;
+    width: 31px;
+    left: 4px;
+    padding-left: 8px;
+    padding-top: 2px;
+    top: -5px;
+    min-width: unset !important;
+    max-width: unset !important;
+    border-bottom: unset !important;
+    border-left: unset !important;
 }`);
 }
