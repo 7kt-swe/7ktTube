@@ -2571,32 +2571,13 @@ html[dark] [menu-style=multi-page-menu-style-type-system] #container yt-multi-pa
 }
 
 #info ytd-button-renderer[is-icon-button][style-action-button] yt-icon {
-  fill: none;
+  fill: #000;
   width: 20px;
   height: 20px;
 }
 
 #info ytd-button-renderer[is-icon-button][style-action-button]:nth-child(3) yt-icon {
   background: no-repeat url(https://s.ytimg.com/yts/imgbin/www-hitchhiker-vfllYIUv0.png) -267px -824px;
-}
-#info ytd-button-renderer[is-icon-button][style-action-button]:nth-last-child(1) yt-icon {
-  background: no-repeat url(https://s.ytimg.com/yts/imgbin/www-hitchhiker-vfllYIUv0.png) -151px -725px;
-}
-
-#info ytd-button-renderer[is-icon-button][style-action-button]:nth-of-type(2) yt-icon {
-  background: no-repeat url(https://s.ytimg.com/yts/imgbin/www-hitchhiker-vfllYIUv0.png) -151px -725px;
-}
-
-#top-level-buttons-computed .ytd-menu-renderer:nth-child(4):nth-last-child(3) yt-icon,
-#top-level-buttons-computed .ytd-menu-renderer:nth-child(4):nth-last-child(4) yt-icon,
-#top-level-buttons-computed .ytd-menu-renderer:nth-child(5):nth-last-child(3) yt-icon {
-  fill: #000 !important;
-  background: 0 0 !important;
-}
-
-#top-level-buttons-computed .ytd-menu-renderer:nth-child(5):nth-last-child(2) yt-icon,
-#top-level-buttons-computed .ytd-menu-renderer:nth-child(6):nth-last-child(2) button:not([aria-label*=Report]) yt-icon {
-  background: no-repeat url(https://s.ytimg.com/yts/imgbin/www-hitchhiker-vfllYIUv0.png) -151px -725px;
 }
 
 #top-level-buttons-computed .ytd-menu-renderer:nth-child(6):nth-last-child(2) button[aria-label*=Report] yt-icon {
@@ -2614,7 +2595,7 @@ html[dark] [menu-style=multi-page-menu-style-type-system] #container yt-multi-pa
 }
 
 #info #menu .dropdown-trigger yt-icon {
-  background: no-repeat url(https://s.ytimg.com/yts/imgbin/www-hitchhiker-vfllYIUv0.png) -154px -860px;
+  background: no-repeat url(https://s.ytimg.com/yts/imgbin/www-hitchhiker-vfllYIUv0.png) -154px -860px !important;
   width: 20px;
   height: 20px;
   padding-left: 42px;
@@ -5838,14 +5819,6 @@ ytd-toggle-button-renderer.force-icon-button a.ytd-toggle-button-renderer {
 .style-scope.ytd-menu-renderer.force-icon-button.style-default.size-default:nth-of-type(1) {
   order: 2 !important;
 }
-[lang*=en] #info #menu ytd-button-renderer:nth-of-type(2) yt-formatted-string.ytd-button-renderer {
-  font-size: 0 !important;
-}
-[lang*=en] #info #menu ytd-button-renderer:nth-of-type(2) yt-formatted-string.ytd-button-renderer::after {
-  content: "Add to";
-  font-size: 11px !important;
-  margin-right: 6px !important;
-}
 #info #menu #top-level-buttons-computed .ytd-menu-renderer:nth-child(4):nth-last-child(3) yt-formatted-string.ytd-button-renderer,
 #info #menu #top-level-buttons-computed .ytd-menu-renderer:nth-child(4):nth-last-child(4) yt-formatted-string.ytd-button-renderer {
   font-size: 11px !important;
@@ -5853,15 +5826,6 @@ ytd-toggle-button-renderer.force-icon-button a.ytd-toggle-button-renderer {
 #info #menu #top-level-buttons-computed .ytd-menu-renderer:nth-child(4):nth-last-child(3) yt-formatted-string::after,
 #top-level-buttons-computed .ytd-menu-renderer:nth-child(4):nth-last-child(4) yt-formatted-string.ytd-button-renderer::after {
   content: none !important;
-}
-[lang*=en] #info #menu #top-level-buttons-computed .ytd-menu-renderer:nth-child(5):nth-last-child(2) yt-formatted-string.ytd-button-renderer,
-[lang*=en] #info #menu #top-level-buttons-computed .ytd-menu-renderer:nth-child(6):nth-last-child(2) yt-formatted-string.ytd-button-renderer.ytd-button-renderer {
-  font-size: 0 !important;
-}
-[lang*=en] #top-level-buttons-computed .ytd-menu-renderer:nth-child(5):nth-last-child(2) yt-formatted-string.ytd-button-renderer::after,
-[lang*=en] #top-level-buttons-computed .ytd-menu-renderer:nth-child(6):nth-last-child(2) yt-formatted-string.ytd-button-renderer::after {
-  content: "Add to";
-  font-size: 11px !important;
 }
 #info #menu ytd-button-renderer.ytd-menu-renderer[has-no-text] {
   order: 2 !important;
@@ -6957,5 +6921,19 @@ ytd-video-meta-block:not([rich-meta]) #byline-container.ytd-video-meta-block {
     top: 42px !important;
     line-height: 1.5rem !important;
     font-size: 1.2rem !important;
+}
+
+[lang*=en] #info #menu .addto-btn yt-formatted-string {
+    font-size: 0 !important;
+}
+
+[lang*=en] .addto-btn yt-formatted-string::after {
+    content: "Add to";
+    font-size: 11px !important;
+}
+
+.addto-btn yt-icon {
+    background: no-repeat url(//s.ytimg.com/yts/imgbin/www-hitchhiker-vfllYIUv0.png) -151px -725px;
+    fill: none !important;
 }`);
 }
