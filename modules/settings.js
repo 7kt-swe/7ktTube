@@ -260,8 +260,8 @@ function gen_setting_page() {
             AddLine(MakeBoolElement("hide_queue"), MakeDesc("Hide queue button on thumbnails"));
             AddLine(MakeBoolElement("hide_filters"), MakeDesc('Hide all filter by category bars'));
             AddLine(MakeBoolElement("hide_yt_suggested_blocks"), MakeDesc('Hide suggestion blocks on main page (recommended playlists, latest posts, etc)'));
-            AddLine(MakeBoolElement("grey_watched"), MakeDesc("Make watched video thumbnails black & white and less visible"));
-            AddLine(MakeBoolElement("blur_watched"), MakeDesc("Make watched video thumbnails black & white on home screen [FIX]"));
+            AddLine(MakeBoolElement("grey_watched"), MakeDesc("Add greyscale filter + 60% transparency on watched video thumbnails"));
+            AddLine(MakeBoolElement("blur_watched"), MakeDesc("Add blur on watched video thumbnails"));
             AddLine(MakeBoolElement("channel_list"), MakeDesc("Use list view on channels"));
             AddLine(MakeBoolElement("small_recc"), MakeDesc("Use smaller thumbnails on watch page recommended"));
             AddLine(MakeBoolElement("olderhh"), MakeDesc("Use older button styles and colors"));
@@ -799,33 +799,55 @@ html #subscribe-button ytd-button-renderer #button.ytd-button-renderer:active,ht
       } `);
     }
     if (settings.blur_watched) {
+      if (settings.grey_watched) {
         styles.push(`
-      .watched yt-img-shadow.ytd-thumbnail {
-         transition: ease-in;
-         transition-duration: 0.2s;
-         filter: blur(2.2px) grayscale(1)!important;
-         }
-         .watched yt-img-shadow.ytd-thumbnail:hover {
-         transition: ease-out;
-         transition-duration: 0.7s;
-         filter: blur(0px) grayscale(0)!important;
-      }`);
-    }
-    if (settings.grey_watched) {
+        .watched ytd-thumbnail #thumbnail.ytd-thumbnail yt-img-shadow.ytd-thumbnail,
+        .watched yt-img-shadow.ytd-thumbnail {
+           transition: ease-in;
+           transition-duration: 0.2s;
+           opacity: 0.4 !important;
+           filter: blur(2.2px) grayscale(1)!important;
+        }
+        .watched ytd-thumbnail #thumbnail.ytd-thumbnail yt-img-shadow.ytd-thumbnail:hover,
+        .watched yt-img-shadow.ytd-thumbnail:hover {
+           transition: ease-out;
+           transition-duration: 0.7s;
+           opacity: 1.0 !important;
+           filter:  blur(0px) grayscale(0) !important;
+        }`);
+      } else {
         styles.push(`
-      .watched ytd-thumbnail #thumbnail.ytd-thumbnail yt-img-shadow.ytd-thumbnail {
-         transition: ease-in;
-         transition-duration: 0.2s;
-         opacity: 0.4 !important;
-         filter: grayscale(1);
+        .watched ytd-thumbnail #thumbnail.ytd-thumbnail yt-img-shadow.ytd-thumbnail,
+        .watched yt-img-shadow.ytd-thumbnail {
+           transition: ease-in;
+           transition-duration: 0.2s;
+           filter: blur(2.2px) !important;
+        }
+        .watched ytd-thumbnail #thumbnail.ytd-thumbnail yt-img-shadow.ytd-thumbnail:hover,
+        .watched yt-img-shadow.ytd-thumbnail:hover {
+           transition: ease-out;
+           transition-duration: 0.7s;
+           filter:  blur(0px) !important;
+        }`);
       }
-
-      .watched ytd-thumbnail #thumbnail.ytd-thumbnail yt-img-shadow.ytd-thumbnail:hover {
-         transition: ease-out;
-         transition-duration: 0.7s;
-         opacity: 1.0 !important;
-         filter: grayscale(0);
-      }`);
+    } else {
+      if (settings.grey_watched) {
+        styles.push(`
+        .watched ytd-thumbnail #thumbnail.ytd-thumbnail yt-img-shadow.ytd-thumbnail,
+        .watched yt-img-shadow.ytd-thumbnail {
+           transition: ease-in;
+           transition-duration: 0.2s;
+           opacity: 0.4 !important;
+           filter: grayscale(1)!important;
+        }
+        .watched ytd-thumbnail #thumbnail.ytd-thumbnail yt-img-shadow.ytd-thumbnail:hover,
+        .watched yt-img-shadow.ytd-thumbnail:hover {
+           transition: ease-out;
+           transition-duration: 0.7s;
+           opacity: 1.0 !important;
+           filter:  grayscale(0) !important;
+        }`);
+      }
     }
     if (settings.thumbnail_size) {
         styles.push(`div#contents.style-scope.ytd-rich-grid-renderer {display:block!important}
