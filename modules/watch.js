@@ -49,7 +49,7 @@ function getLikes() {
     const topLevelButtons = document.querySelector("ytd-app").data.response.contents.twoColumnWatchNextResults.results.results.contents.find(e => e.hasOwnProperty("videoPrimaryInfoRenderer")).videoPrimaryInfoRenderer.videoActions.menuRenderer.topLevelButtons[0];
     const buttonText = topLevelButtons.isToggled ? topLevelButtons.toggleButtonRenderer.toggledText : topLevelButtons.toggleButtonRenderer.defaultText;
     const likes = parseInt(buttonText.accessibility.accessibilityData.label.match(/\d/g).join(""));
-    const likesText = document.querySelector("#info ytd-toggle-button-renderer.style-text[is-icon-button]:first-child #text.ytd-toggle-button-renderer");
+    const likesText = document.querySelector("#info ytd-toggle-button-renderer[is-icon-button]:first-child #text.ytd-toggle-button-renderer");
     likesText.innerHTML = likes.toLocaleString();
 
     document.querySelector("ytd-toggle-button-renderer.style-scope:first-child").addEventListener("click", function() {
