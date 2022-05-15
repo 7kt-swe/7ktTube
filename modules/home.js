@@ -76,6 +76,7 @@ function parseHpData(hpdata) {
     var emuContentsIndex = emulatedWebV1.contents.twoColumnBrowseResultsRenderer.tabs[0].tabRenderer.content.sectionListRenderer.contents;
 
     for (const shelf of shelvesIndex) {
+        if (typeof shelf.shelfRenderer === 'undefined') continue;
         const curShelfR = shelf.shelfRenderer.content.horizontalListRenderer;
         if (typeof curShelfR === 'undefined') continue;
         for (const vid of curShelfR.items) {
