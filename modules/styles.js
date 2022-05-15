@@ -6986,5 +6986,18 @@ yt-interaction {
     max-width: unset !important;
     border-bottom: unset !important;
     border-left: unset !important;
+}
+
+ytd-watch-metadata {
+    display: none !important;
+}
+
+ytd-watch-flexy #info-contents, 
+ytd-watch-flexy #meta-contents {
+    display: block !important;
+}
+
+#info-contents[hidden] #upload-info > #owner-sub-count {
+    margin-left: 181px;
 }`);
 }
