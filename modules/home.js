@@ -83,8 +83,9 @@ function parseHpData(hpdata) {
             if (typeof curVidR === 'undefined') continue;
             
             // Full view counts
-            curVidR.shortViewCountText.accessibility.accessibilityData.label = curVidR.viewCountText.runs[0].text;
             curVidR.shortViewCountText.runs = curVidR.viewCountText.runs;
+            if (typeof curVidR.shortViewCountText.accessibility !== 'undefined')
+                curVidR.shortViewCountText.accessibility.accessibilityData.label = curVidR.viewCountText.runs[0].text;
 
             // Fix crash
             if (curVidR.lengthText == null)
