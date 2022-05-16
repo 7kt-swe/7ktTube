@@ -17,31 +17,25 @@ function waitForElement(selector) {
 }
 
 function subbutton() {
-    function doMastheadFix() {
-        if (!document.documentElement.hasAttribute("dark")) {
+    window.addEventListener("yt-set-theater-mode-enabled", function() {
+        if (!document.documentElement.hasAttribute("dark"))
             document.querySelector("ytd-masthead").removeAttribute("dark");
-        }
-    }
-    window.addEventListener("yt-set-theater-mode-enabled", doMastheadFix, false);
+    }, false);
     
     waitForElement('tp-yt-paper-button.ytd-subscribe-button-renderer[subscribed]').then(function(elm) {
-        var subhover = document.querySelector('tp-yt-paper-button.ytd-subscribe-button-renderer[subscribed]');
-
-        subhover.addEventListener("mouseenter", function( event ) {
+        elm.addEventListener("mouseenter", function(event) {
             event.target.innerText = "Unsubscribe";
         }, false);
-        subhover.addEventListener("mouseleave", function( event ) {
+        elm.addEventListener("mouseleave", function(event) {
             event.target.innerText = "Subscribed";
         }, false);
     });
 
     waitForElement('#primary #info #button.dropdown-trigger.style-scope.ytd-menu-renderer').then(function(elm) {
-        var morebutton = document.querySelector('#primary #info #button.dropdown-trigger.style-scope.ytd-menu-renderer');
-        document.querySelector('#top-level-buttons-computed').appendChild(morebutton);
+        document.querySelector('#top-level-buttons-computed').appendChild(elm);
     });
     waitForElement('ytd-app #info ytd-toggle-button-renderer.style-text[is-icon-button] #text.ytd-toggle-button-renderer').then(function(elm) {
-        var likec = document.querySelector('#info ytd-toggle-button-renderer.style-text[is-icon-button] #text.ytd-toggle-button-renderer');
-        likec.innerText.replace(likec.ariaLabel);
+        elm.innerText.replace(elm.ariaLabel);
     });
 }
 
@@ -177,13 +171,17 @@ function restoreOldAutoplay() {
 	<div id="dismissed" style="background-position:initial;background-repeat:initial;-alias-webkit-background-clip:border-box;background-attachment:scroll;background-clip:border-box;background-color:rgba(0, 0, 0, 0);background-image:none;background-origin:padding-box;background-size:auto;border-bottom-color:rgba(0, 0, 0, 0.1);border-bottom-style:solid;border-bottom-width:1px;border-image-outset:0;border-image-repeat:stretch;border-image-slice:100%;border-image-source:none;border-image-width:1;border-left-color:rgba(0, 0, 0, 0.1);border-left-style:solid;border-left-width:1px;border-right-color:rgba(0, 0, 0, 0.1);border-right-style:solid;border-right-width:1px;border-top-color:rgba(0, 0, 0, 0.1);border-top-style:solid;border-top-width:1px;display:none;margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;padding-bottom:8px;padding-left:8px;padding-right:8px;padding-top:8px;width:100%;"></div>
 	</ytd-compact-video-renderer></div>
 	</ytd-compact-autoplay-renderer>`;
-    var firstvid = document.querySelector("#items.ytd-watch-next-secondary-results-renderer ytd-compact-video-renderer.style-scope:first-child");
-    firstvid.insertAdjacentHTML("beforebegin", autoplayTemplate);
+
+    const contents = document.querySelector("#items.ytd-watch-next-secondary-results-renderer #contents");
+    contents.insertAdjacentHTML("afterbegin", autoplayTemplate);
+
     document.querySelector("ytd-compact-autoplay-renderer #upnext").innerHTML = "Up next";
     document.querySelector("ytd-compact-autoplay-renderer #autoplay").innerHTML = "Autoplay";
     document.querySelector("ytd-compact-autoplay-renderer").removeAttribute("hide-autonav-headline");
     document.querySelector("ytd-compact-autoplay-renderer").removeAttribute("player-move-autonav-toggle");
-    document.querySelector("ytd-compact-autoplay-renderer").appendChild(firstvid);
+
+    const firstVid = document.querySelector("#items.ytd-watch-next-secondary-results-renderer ytd-compact-video-renderer");
+    document.querySelector("ytd-compact-autoplay-renderer").appendChild(firstVid);
 }
 
 function setupSecondaryInfoRenderer() {
