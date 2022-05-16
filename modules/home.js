@@ -76,33 +76,36 @@ function parseHpData(hpdata) {
     var emuContentsIndex = emulatedWebV1.contents.twoColumnBrowseResultsRenderer.tabs[0].tabRenderer.content.sectionListRenderer.contents;
 
     for (const shelf of shelvesIndex) {
-        if (typeof shelf.shelfRenderer === 'undefined') continue;
-        const curShelfR = shelf.shelfRenderer.content.horizontalListRenderer;
+        const curShelfR = shelf.shelfRenderer?.content?.horizontalListRenderer;
         if (typeof curShelfR === 'undefined') continue;
         for (const vid of curShelfR.items) {
-
-
             const curVidR = vid.gridVideoRenderer;
             if (typeof curVidR === 'undefined') continue;
+            
+            // Full view counts
+            curVidR.shortViewCountText.accessibility.accessibilityData.label = curVidR.viewCountText.runs[0].text;
+            curVidR.shortViewCountText.runs = curVidR.viewCountText.runs;
 
             // Fix crash
-            if (null == curVidR.lengthText)
-            {
+            if (curVidR.lengthText == null)
                 curVidR.lengthText = {simpleText: ""};
-            }
-            else if (null == curVidR.lengthText.simpleText)
-            {
-                // ANDROID client returns runs instead of simpleText.
+            else if (curVidR.lengthText.simpleText == null)
                 curVidR.lengthText.simpleText = curVidR.lengthText.runs[0].text ?? "";
-            }
 
             if (typeof curVidR.thumbnailOverlays !== 'undefined') {
-                const timeStatusRenderer = (typeof curVidR.badges === 'undefined') ? {
-                            "text": {
-                                "simpleText": curVidR.lengthText.simpleText ?? ""
-                            },
-                            "style": "DEFAULT"
-                        } : null;
+                var timeStatusRenderer;
+                if (typeof curVidR.badges === 'undefined') {
+                    timeStatusRenderer = {
+                        "text": {
+                            "simpleText": curVidR.lengthText.simpleText ?? ""
+                        },
+                        "style": "DEFAULT"
+                    };
+                }
+                else {
+                    timeStatusRenderer = null;
+                }
+
                 curVidR.thumbnailOverlays = [
                     {
                         "thumbnailOverlayTimeStatusRenderer": timeStatusRenderer
@@ -244,12 +247,10 @@ function parseHpData(hpdata) {
                 ];
             }
 
-            // Along with this, ANDROID response thumbnails array is
-            // slighty less perfect.
+            // Along with this, ANDROID response thumbnails array is slighty less perfect.
             // In order to fix this, I formed this.
             var thumbnailConfig;
-
-            if (null != curVidR.thumbnail.thumbnails[1])
+            if (curVidR.thumbnail.thumbnails[1] != null)
             {
                 thumbnailConfig = curVidR.thumbnail.thumbnails[1];
             }
@@ -352,9 +353,6 @@ async function injectShelvesHp() {
 
     document.querySelector("ytd-app ytd-browse").data = parseHpData(shelvesHp);
 
-    // For some reason, the first shelves loaded into view lack scrollers.
-    // Resizing the window fixes this, however it would be preferable to avoid having to do this every time.
-    // As such, here's a hack to go through each shelf and manually fix them.
     const homeContents = document.querySelector("ytd-app ytd-browse[page-subtype=home] ytd-section-list-renderer #contents");
     if (homeContents === null) {
         GM_addStyle(`
@@ -363,7 +361,10 @@ async function injectShelvesHp() {
         }`);
         return;
     }
-
+    
+    // For some reason, the first shelves loaded into view lack scrollers.
+    // Resizing the window fixes this, however it would be preferable to avoid having to do this every time.
+    // As such, here's a hack to go through each shelf and manually fix them.
     for (const elm of homeContents.children) {
         elm.querySelector("yt-horizontal-list-renderer")?.removeAttribute("at-end");
     }
