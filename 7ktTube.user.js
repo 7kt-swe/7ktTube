@@ -855,7 +855,7 @@ var topLevelObserver = new MutationObserver(function(mutations) {
 async function setupUpdateDependentElements() {
     if (window.location.pathname == "/watch") {
         waitForElement('.ryd-tooltip-bar-container').then(() => getDislikes());
-        waitForElement('#items.ytd-watch-next-secondary-results-renderer ytd-compact-video-renderer.style-scope:first-child').then(() => restoreOldAutoplay());
+        waitForElement('#items.ytd-watch-next-secondary-results-renderer ytd-compact-video-renderer').then(() => restoreOldAutoplay());
         waitForElement('#top-row.ytd-video-secondary-info-renderer').then(() => setupSecondaryInfoRenderer());
         waitForElement('#info-strings.ytd-video-primary-info-renderer yt-formatted-string').then((elm) => setUploadedText(elm));
 
