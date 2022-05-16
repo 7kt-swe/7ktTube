@@ -6999,5 +6999,17 @@ ytd-watch-flexy #meta-contents {
 
 #info-contents[hidden] #upload-info > #owner-sub-count {
     margin-left: 181px;
+}
+
+ytd-promoted-sparkles-web-renderer.ytd-item-section-renderer {
+    margin-top: 15px;
+}
+
+ytd-promoted-sparkles-web-renderer.ytd-item-section-renderer #action-button {
+    display: none;
+}
+
+ytd-badge-supported-renderer.ytd-promoted-sparkles-web-renderer span {
+    color: var(--yt-spec-text-secondary);
 }`);
 }
