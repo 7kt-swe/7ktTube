@@ -7011,5 +7011,12 @@ ytd-promoted-sparkles-web-renderer.ytd-item-section-renderer #action-button {
 
 ytd-badge-supported-renderer.ytd-promoted-sparkles-web-renderer span {
     color: var(--yt-spec-text-secondary);
+}
+
+yt-formatted-string > .emoji,
+yt-formatted-string > .small-emoji {
+    width: 16px !important;
+    height: 16px !important;
+    margin: 0 !important;
 }`);
 }
