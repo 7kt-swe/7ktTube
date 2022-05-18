@@ -13,10 +13,10 @@
 // @supportURL      https://discord.gg/7WRjXHMfXJ
 // @contributionURL https://www.paypal.com/donate/?hosted_button_id=2EJR4DLTR4Y7Q
 // BEGIN MODULES
-// @require https://raw.githubusercontent.com/BowDown097/7ktTube/testing/modules/home.js
-// @require https://raw.githubusercontent.com/BowDown097/7ktTube/testing/modules/settings.js
-// @require https://raw.githubusercontent.com/BowDown097/7ktTube/testing/modules/styles.js
-// @require https://raw.githubusercontent.com/BowDown097/7ktTube/testing/modules/watch.js
+// @require https://raw.githubusercontent.com/BowDown097/7ktTube/master/modules/home.js
+// @require https://raw.githubusercontent.com/BowDown097/7ktTube/master/modules/settings.js
+// @require https://raw.githubusercontent.com/BowDown097/7ktTube/master/modules/styles.js
+// @require https://raw.githubusercontent.com/BowDown097/7ktTube/master/modules/watch.js
 // END MODULES
 // @require https://unpkg.com/vue@2.6.12/dist/vue.js
 // @require https://unpkg.com/xfetch-js@0.5.0/dist/xfetch.min.js
