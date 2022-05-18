@@ -72,7 +72,8 @@ async function getDislikes() {
     }
 }
 
-function restoreOldAutoplay() {
+async function restoreOldAutoplay() {
+    await new Promise(resolve => setTimeout(resolve, 500));
     if (!document.querySelector("ytd-playlist-panel-renderer").hidden)
         return;
 
