@@ -855,7 +855,8 @@ var topLevelObserver = new MutationObserver(function(mutations) {
 async function setupUpdateDependentElements() {
     if (window.location.pathname == "/watch") {
         waitForElement('.ryd-tooltip-bar-container').then(() => getDislikes());
-        waitForElement('#items.ytd-watch-next-secondary-results-renderer ytd-compact-video-renderer').then(() => restoreOldAutoplay());
+        // Autoplay disabled for now. YouTube removed functionality
+        // waitForElement('#items.ytd-watch-next-secondary-results-renderer ytd-compact-video-renderer').then(() => restoreOldAutoplay());
         waitForElement('#top-row.ytd-video-secondary-info-renderer').then(() => setupSecondaryInfoRenderer());
         waitForElement('#info-strings.ytd-video-primary-info-renderer yt-formatted-string').then((elm) => setUploadedText(elm));
 
