@@ -1445,19 +1445,6 @@ ytd-item-section-renderer {
 ytd-topbar-logo-renderer[is-logo-updated] #country-code.ytd-topbar-logo-renderer {
   margin: 0 0 0 2px;
 }
-ytd-thumbnail #thumbnail.ytd-thumbnail {
-    	width: 193px !important;
-}
-
-[page-subtype="playlist"] ytd-section-list-renderer, ytd-thumbnail #thumbnail.ytd-thumbnail {
-	padding: 0 !important;
-	width: 193px !important;
-}
-ytd-video-renderer[is-search] ytd-thumbnail.ytd-video-renderer {
-  margin-right: 16px;
-  max-width: 193px !important;
-  min-width: 193px!important;
-}
 
 ytd-video-renderer[use-prominent-thumbs] #channel-info.ytd-video-renderer {
   padding: 5px 0;
