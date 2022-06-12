@@ -783,6 +783,7 @@ div.gstl_50
 {
     min-width: 583px !important;
     margin-left: 0;
+    display: initial
 }
 
 ytd-searchbox[has-focus] #container.ytd-searchbox {
@@ -4009,7 +4010,7 @@ ytd-video-renderer:not([use-prominent-thumbs]) ytd-thumbnail.ytd-video-renderer 
 
 .text-wrapper.ytd-video-renderer {
   position: relative !important;
-  top: -5px !important;
+  top: -1px !important;
 }
 
 h3.ytd-grid-playlist-renderer {
@@ -5595,12 +5596,19 @@ html ytd-button-renderer.style-destructive[is-paper-button] {
     font-family:roboto;
     z-index:1;
     color:#fefefe;
-    margin:0 0 0 4px
+    margin:0 0 0 4px;
+    text-transform: none
 }
 #subscribe-button ytd-button-renderer yt-formatted-string.ytd-button-renderer {
     display:inline-block;
     overflow:visible;
     margin-left:3px
+}
+#subscribe-button ytd-button-renderer #button.ytd-button-renderer, 
+#subscribe-button tp-yt-paper-button.ytd-subscribe-button-renderer,
+#subscribe-button ytd-button-renderer #button.ytd-button-renderer:hover, 
+#subscribe-button tp-yt-paper-button.ytd-subscribe-button-renderer:hover {
+    text-transform:none
 }
 #subscribe-button ytd-button-renderer #button.ytd-button-renderer:before, 
 #subscribe-button tp-yt-paper-button.ytd-subscribe-button-renderer:before, 
@@ -5617,6 +5625,7 @@ html ytd-button-renderer.style-destructive[is-paper-button] {
 #subscribe-button .ytd-c4-tabbed-header-renderer :before, 
 #owner-container ytd-subscribe-button-renderer tp-yt-paper-button.ytd-subscribe-button-renderer:before {
     margin-top:1px
+    text-transform:none
 }
 #notification-preference-button {
     margin-left:-1px
@@ -5637,23 +5646,28 @@ html ytd-button-renderer.style-destructive[is-paper-button] {
     background: #f8f8f8;
     color: #666;
     font-weight:400;
-    padding-right:8px
+    padding-right:8px;
+    text-transform:none!important;
 }
 #subscribe-button tp-yt-paper-button.ytd-subscribe-button-renderer[subscribed]:active, #owner-container ytd-subscribe-button-renderer tp-yt-paper-button.ytd-subscribe-button-renderer[subscribed]:active {
     background:#ededed
+    text-transform:none
 }
 #subscribe-button tp-yt-paper-button.ytd-subscribe-button-renderer[subscribed]:before, #owner-container ytd-subscribe-button-renderer tp-yt-paper-button.ytd-subscribe-button-renderer[subscribed]:before {
     background-position: -99px -147px;
     margin-right:3px
+    text-transform:none
 }
 #subscribe-button tp-yt-paper-button.ytd-subscribe-button-renderer[subscribed]:hover:before, #owner-container ytd-subscribe-button-renderer tp-yt-paper-button.ytd-subscribe-button-renderer[subscribed]:hover:before {
     background: no-repeat url(//s.ytimg.com/yts/imgbin/www-hitchhiker-vflEXP50f.png) -24px -696px;
+    text-transform:none
 }
     /*SUBBED REDS DARK*/
 html[dark] #subscribe-button tp-yt-paper-button.ytd-subscribe-button-renderer[subscribed], html[dark] #subscribe-button tp-yt-paper-button.ytd-subscribe-button-renderer[subscribed]:hover, html[dark] #owner-container ytd-subscribe-button-renderer tp-yt-paper-button.ytd-subscribe-button-renderer[subscribed]:hover{
     color: #ccc ;
     background-color: #212121 ;
-    border: 1px solid #51515151;
+    border: 1px solid #51515151
+    text-transform:none;
 }
 html[dark] #subscribe-button tp-yt-paper-button.ytd-subscribe-button-renderer[subscribed]:active, html[dark] #owner-container ytd-subscribe-button-renderer tp-yt-paper-button.ytd-subscribe-button-renderer[subscribed]:active {
     background:#111
@@ -5708,6 +5722,10 @@ ytd-subscription-notification-toggle-button-renderer.style-text[is-icon-button] 
   padding: 0 6px 0 8px;
   font-size: 11px;
   font-weight: 500;
+}
+
+ytd-promoted-sparkles-web-renderer.style-scope.ytd-watch-next-secondary-results-renderer.sparkles-light-cta {
+    display: none!important;
 }
 
 .style-scope.ytd-item-section-renderer ytd-subscribe-button-renderer {
@@ -5888,6 +5906,26 @@ ytd-toggle-button-renderer.style-default-active[is-icon-button] {
 
 .super-title.ytd-video-primary-info-renderer {
   font-size: 11px !important;
+}
+
+ytd-expandable-metadata-renderer:not([is-expanded]) #header.ytd-expandable-metadata-renderer {
+	background-color: var(--yt-spec-badge-chip-background);
+	display: none !important;
+}
+
+#header.style-scope.ytd-expandable-metadata-renderer,
+#header.ytd-expandable-metadata-renderer {
+  display: none !important;
+}
+
+#expandable-metadata.ytd-video-renderer,
+#expandable-metadata.ytd-video-renderer:not(:empty) {
+  display: none !important;
+  margin: 0px !important;
+}
+
+ytd-expandable-metadata-renderer {
+	display: none !important;   
 }
 
 #search-icon-legacy.ytd-searchbox yt-icon.ytd-searchbox {
@@ -6628,6 +6666,7 @@ html:not([dark]) #upnext.ytd-compact-autoplay-renderer {
 #autoplay.ytd-compact-autoplay-renderer {
     font-size: 13px !important;
     text-transform: none !important;
+    display: none !important
 }
 
 #toggle.ytd-compact-autoplay-renderer[checked] .toggle-label {
@@ -6654,6 +6693,7 @@ ytd-compact-autoplay-renderer {
     margin-bottom: 0 !important;
     padding-bottom: 7px !important;
     width: 381px;
+    display:none !important;
 }
 
 .toggle-container.tp-yt-paper-toggle-button {

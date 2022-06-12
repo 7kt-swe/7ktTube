@@ -1350,18 +1350,19 @@ ytd-app ytd-playlist-panel-video-renderer[selected] #byline.ytd-playlist-panel-v
       }`);
     }
     if (settings.search_thumbnail) {
-        let sz = [0, 193, 240][settings.search_thumbnail] + 'px !important';
+        let sz = [0, 196, 240][settings.search_thumbnail] + 'px !important';
         // min-width defaults to 240px, max-width defaults to 360px
         // sizes for: videos, playlists, channels, mixes
         styles.push(`ytd-video-renderer[use-prominent-thumbs] ytd-thumbnail.ytd-video-renderer,
-
-      ytd-video-renderer[use-prominent-thumbs] #channel-info.ytd-video-renderer,
-      ytd-playlist-renderer[use-prominent-thumbs] ytd-playlist-thumbnail.ytd-playlist-renderer, ytd-radio-renderer[use-prominent-thumbs] ytd-thumbnail.ytd-radio-renderer {
+        ytd-video-renderer[is-search] ytd-thumbnail.ytd-video-renderer, 
+        ytd-video-renderer[use-prominent-thumbs] #channel-info.ytd-video-renderer,
+        ytd-playlist-renderer[use-prominent-thumbs] ytd-playlist-thumbnail.ytd-playlist-renderer, ytd-radio-renderer[use-prominent-thumbs] ytd-thumbnail.ytd-radio-renderer {
          padding: 0!important;
          min-width: ${sz};
          max-width: ${sz};
          }
-       ytd-video-renderer:not([use-prominent-thumbs]) ytd-thumbnail.ytd-video-renderer {
+       ytd-video-renderer:not([use-prominent-thumbs]) ytd-thumbnail.ytd-video-renderer,
+       ytd-video-renderer[is-search] ytd-thumbnail.ytd-video-renderer {
             min-height: 108.55px !important;
             max-height: 138.55px;
       }`);
