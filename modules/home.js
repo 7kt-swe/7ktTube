@@ -18,7 +18,8 @@ async function getSAPISIDHash() {
 async function getShelvesHp() {
     // Request the current video page again and retrieve required data for loading comments.
     const itc = JSON.parse(JSON.stringify(yt.config_.INNERTUBE_CONTEXT));
-    itc.client.clientVersion = "1.20210519.01.00";
+    itc.client.clientName = "ANDROID";
+    itc.client.clientVersion = "15.14.33";
 
     const reqbody = {
         "context": itc,
@@ -37,7 +38,7 @@ async function getShelvesHp() {
             ...((yt.config_.DELEGATED_SESSION_ID ? true: false) && {"X-Goog-PageId": yt.config_.DELEGATED_SESSION_ID}),
             'X-Goog-Visitor-Id': yt.config_.INNERTUBE_CONTEXT.client.visitorData,
             'X-YOUTUBE-CLIENT-NAME': 'ANDROID',
-            'X-YOUTUBE-CLIENT-VERSION': '15.55.55',
+            'X-YOUTUBE-CLIENT-VERSION': '15.14.33',
             'X-ORIGIN': "https://www.youtube.com"
         },
         redirect: 'follow',
@@ -49,21 +50,63 @@ async function getShelvesHp() {
 }
 
 function parseHpData(hpdata) {
-    var shelvesIndex = hpdata.contents.twoColumnBrowseResultsRenderer.tabs[0].tabRenderer.content.sectionListRenderer.contents;
+    var shelvesIndex = hpdata.contents.singleColumnBrowseResultsRenderer.tabs[0].tabRenderer.content.sectionListRenderer.contents;
+
+    // Emulate WEB v1 shelves wrapper
+    var emulatedWebV1 = {
+        "contents": {
+            "twoColumnBrowseResultsRenderer": {
+                "tabs": [
+                    {
+                        "tabRenderer": {
+                            "tabIdentifier": "FEwhat_to_watch",
+                            "selected": true,
+                            "content": {
+                                "sectionListRenderer": {
+                                    "contents": []
+                                }
+                            }
+                       }
+                    }
+                ]
+            }
+        }
+    };
+
+    var emuContentsIndex = emulatedWebV1.contents.twoColumnBrowseResultsRenderer.tabs[0].tabRenderer.content.sectionListRenderer.contents;
 
     for (const shelf of shelvesIndex) {
-        const curShelfR = shelf.itemSectionRenderer.contents[0].shelfRenderer.content.horizontalListRenderer;
+        const curShelfR = shelf.shelfRenderer?.content?.horizontalListRenderer;
         if (typeof curShelfR === 'undefined') continue;
         for (const vid of curShelfR.items) {
             const curVidR = vid.gridVideoRenderer;
             if (typeof curVidR === 'undefined') continue;
+            
+            // Full view counts
+            curVidR.shortViewCountText.runs = curVidR.viewCountText.runs;
+            if (typeof curVidR.shortViewCountText.accessibility !== 'undefined')
+                curVidR.shortViewCountText.accessibility.accessibilityData.label = curVidR.viewCountText.runs[0].text;
+
+            // Fix crash
+            if (curVidR.lengthText == null)
+                curVidR.lengthText = {simpleText: ""};
+            else if (curVidR.lengthText.simpleText == null)
+                curVidR.lengthText.simpleText = curVidR.lengthText.runs[0].text ?? "";
+
             if (typeof curVidR.thumbnailOverlays !== 'undefined') {
-                const timeStatusRenderer = (typeof curVidR.badges === 'undefined') ? {
-                            "text": {
-                                "simpleText": curVidR.lengthText.simpleText ?? ""
-                            },
-                            "style": "DEFAULT"
-                        } : null;
+                var timeStatusRenderer;
+                if (typeof curVidR.badges === 'undefined') {
+                    timeStatusRenderer = {
+                        "text": {
+                            "simpleText": curVidR.lengthText.simpleText ?? ""
+                        },
+                        "style": "DEFAULT"
+                    };
+                }
+                else {
+                    timeStatusRenderer = null;
+                }
+
                 curVidR.thumbnailOverlays = [
                     {
                         "thumbnailOverlayTimeStatusRenderer": timeStatusRenderer
@@ -205,6 +248,25 @@ function parseHpData(hpdata) {
                 ];
             }
 
+            // Along with this, ANDROID response thumbnails array is slighty less perfect.
+            // In order to fix this, I formed this.
+            var thumbnailConfig;
+            if (curVidR.thumbnail.thumbnails[1] != null)
+            {
+                thumbnailConfig = curVidR.thumbnail.thumbnails[1];
+            }
+            else
+            {
+                // Synthesise as a last resort
+                thumbnailConfig = {
+                    "url": "//i.ytimg.com/vi/" + curVidR.videoId + "/mqdefault.jpg",
+                    "width": 320,
+                    "height": 180
+                };
+            }
+
+            curVidR.thumbnail.thumbnails = [thumbnailConfig];
+
             curVidR.navigationEndpoint.commandMetadata = {
                 "webCommandMetadata": {
                     "url": ("/watch?v=" + curVidR.videoId),
@@ -264,9 +326,21 @@ function parseHpData(hpdata) {
                 "trackingParams": "CNECEPBbIhMIte6S3biF8QIVUrDECh1UFgYy"
             }
         };
+
+        // Shelves are wrapped in an itemSectionRenderer on WEB
+        // so the emulator must follow
+        emuContentsIndex.push({
+            "itemSectionRenderer": {
+                "contents": [
+                    {
+                        "shelfRenderer": shelf.shelfRenderer
+                    }
+                ]
+            }
+        });
     }
 
-    return hpdata;
+    return emulatedWebV1;
 }
 
 async function injectShelvesHp() {
@@ -280,9 +354,6 @@ async function injectShelvesHp() {
 
     document.querySelector("ytd-app ytd-browse").data = parseHpData(shelvesHp);
 
-    // For some reason, the first shelves loaded into view lack scrollers.
-    // Resizing the window fixes this, however it would be preferable to avoid having to do this every time.
-    // As such, here's a hack to go through each shelf and manually fix them.
     const homeContents = document.querySelector("ytd-app ytd-browse[page-subtype=home] ytd-section-list-renderer #contents");
     if (homeContents === null) {
         GM_addStyle(`
@@ -291,7 +362,10 @@ async function injectShelvesHp() {
         }`);
         return;
     }
-
+    
+    // For some reason, the first shelves loaded into view lack scrollers.
+    // Resizing the window fixes this, however it would be preferable to avoid having to do this every time.
+    // As such, here's a hack to go through each shelf and manually fix them.
     for (const elm of homeContents.children) {
         elm.querySelector("yt-horizontal-list-renderer")?.removeAttribute("at-end");
     }
