@@ -179,7 +179,7 @@ function gen_setting_page() {
         let style = document.createElement('style');
         style.type = 'text/css';
         style.innerHTML = [
-            'ytfix_line2 {background: #575757;color: white;padding: 5px;}.ytfix_line span, .ytfix_line checkbox {text-transform: full-size-kana; border-bottom: 1px dotted;}.ytfix{font-size: 13px;position:absolute;left:0;top:0;right:0;padding:3em;background: #eee url(https://i.ibb.co/jgXjyZn/7kttube.png) no-repeat;background-size:570px;background-repeat-y: no-repeat;background-position-x: 300px;background-position-y: 20px;}', '.ytfix_line{margin-bottom: 9px;text-shadow: 1px 0px 0px #b0b0b0;}', '.ytfix_line span,.ytfix_line input,.ytfix_line select{margin-right:0.3em}', 'form{padding-left: 10px;}', '.ytfix_field{font-size:13px; padding:0.2em;border:1px solid #888}', '.ytfix_button{color: #fff;font-weight: bold;background: #ec2828;padding:0.6em;border:1px solid #fff;margin-bottom: 10px;}', '.ytfix_button:hover {background: #525252;cursor: pointer}', '.ytfix_hide{display:none}', '.ytfixback{position:absolute;left:0;top:0;right:0;height:100%;background:#eee}', '.ytfix donate{padding:0;border:1px solid #888}', 'h2{text-decoration: underline; font-variant: all-petite-caps; font-family: YouTube Noto, Roboto, arial, sans-serif !important; font-size:24px;}', 'h5{font-style: italic}', 'paypal{padding-left: 60px; font-size: 13px; font-weight: bold;}'
+            'ytfix_line2 {background: #575757;color: white;padding: 5px;}.ytfix_line span, .ytfix_line checkbox {text-transform: full-size-kana; border-bottom: 1px dotted;}.ytfix{font-size: 13px;position:absolute;left:0;top:0;right:0;padding:3em;background: #eee url(https://i.imgur.com/bSFkNfY.png) no-repeat;background-size:570px;background-repeat-y: no-repeat;background-position-x: 300px;background-position-y: 20px;}', '.ytfix_line{margin-bottom: 9px;text-shadow: 1px 0px 0px #b0b0b0;}', '.ytfix_line span,.ytfix_line input,.ytfix_line select{margin-right:0.3em}', 'form{padding-left: 10px;}', '.ytfix_field{font-size:13px; padding:0.2em;border:1px solid #888}', '.ytfix_button{color: #fff;font-weight: bold;background: #ec2828;padding:0.6em;border:1px solid #fff;margin-bottom: 10px;}', '.ytfix_button:hover {background: #525252;cursor: pointer}', '.ytfix_hide{display:none}', '.ytfixback{position:absolute;left:0;top:0;right:0;height:100%;background:#eee}', '.ytfix donate{padding:0;border:1px solid #888}', 'h2{text-decoration: underline; font-variant: all-petite-caps; font-family: YouTube Noto, Roboto, arial, sans-serif !important; font-size:24px;}', 'h5{font-style: italic}', 'paypal{padding-left: 60px; font-size: 13px; font-weight: bold;}'
         ].join('');
         plane.appendChild(style);
         e4 = document.createElement('br')
@@ -1355,20 +1355,31 @@ ytd-app ytd-playlist-panel-video-renderer[selected] #byline.ytd-playlist-panel-v
         // min-width defaults to 240px, max-width defaults to 360px
         // sizes for: videos, playlists, channels, mixes
         styles.push(`ytd-video-renderer[use-prominent-thumbs] ytd-thumbnail.ytd-video-renderer,
-
-      ytd-video-renderer[use-prominent-thumbs] #channel-info.ytd-video-renderer,
-      ytd-playlist-renderer[use-prominent-thumbs] ytd-playlist-thumbnail.ytd-playlist-renderer, ytd-radio-renderer[use-prominent-thumbs] ytd-thumbnail.ytd-radio-renderer {
+        ytd-video-renderer[is-search] ytd-thumbnail.ytd-video-renderer, 
+        ytd-video-renderer[use-prominent-thumbs] #channel-info.ytd-video-renderer,
+        ytd-playlist-renderer[use-prominent-thumbs] ytd-playlist-thumbnail.ytd-playlist-renderer, ytd-radio-renderer[use-prominent-thumbs] ytd-thumbnail.ytd-radio-renderer, 
+        ytd-playlist-renderer[is-search] ytd-playlist-thumbnail.ytd-playlist-renderer {
          padding: 0!important;
          min-width: ${sz};
          max-width: ${sz};
          }
-       ytd-video-renderer:not([use-prominent-thumbs]) ytd-thumbnail.ytd-video-renderer {
-            min-height: 108.55px !important;
-            max-height: 138.55px;
+         ytd-playlist-renderer[is-search] ytd-playlist-thumbnail.ytd-playlist-renderer {
+        max-width: ${sz};
+         }
+       ytd-playlist-renderer[is-search] ytd-playlist-thumbnail.ytd-playlist-renderer::before {
+           max-height: 103.5px;
+       }
+       ytd-video-renderer:not([use-prominent-thumbs]) ytd-thumbnail.ytd-video-renderer,
+       ytd-video-renderer[is-search] ytd-thumbnail.ytd-video-renderer,
+       ytd-thumbnail.ytd-radio-renderer,
+       #playlist-thumbnails.ytd-playlist-thumbnail; {
+    
+           min-height: 108.55px !important;
+            max-height: 138.55px; !important
       }`);
     }
     if (settings.channel_list) {
-        styles.push(`
+          styles.push(`
 [page-subtype="channels"] ytd-section-list-renderer #header-container ytd-channel-sub-menu-renderer {
     border-bottom:0!important;
     padding-bottom:0!important;
