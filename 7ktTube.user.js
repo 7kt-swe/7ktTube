@@ -13,11 +13,11 @@
 // @supportURL      https://discord.gg/7WRjXHMfXJ
 // @contributionURL https://www.paypal.com/donate/?hosted_button_id=2EJR4DLTR4Y7Q
 // BEGIN MODULES
-// @require https://raw.github.com/7kt-swe/7ktTube/main/modules/flags.js
-// @require https://raw.github.com/7kt-swe/7ktTube/forked/modules/home.js
-// @require https://raw.github.com/7kt-swe/7ktTube/forked/modules/settings.js
-// @require https://raw.github.com/7kt-swe/7ktTube/forked/modules/styles.js
-// @require https://raw.github.com/7kt-swe/7ktTube/forked/modules/watch.js
+// @require https://raw.github.com/7kt-swe/7ktTube/dev/modules/flags.js
+// @require https://raw.github.com/7kt-swe/7ktTube/dev/modules/home.js
+// @require https://raw.github.com/7kt-swe/7ktTube/dev/modules/settings.js
+// @require https://raw.github.com/7kt-swe/7ktTube/dev/modules/styles.js
+// @require https://raw.github.com/7kt-swe/7ktTube/dev/modules/watch.js
 // END MODULES
 // @require https://unpkg.com/vue@2.6.12/dist/vue.js
 // @require https://unpkg.com/xfetch-js@0.5.0/dist/xfetch.min.js
