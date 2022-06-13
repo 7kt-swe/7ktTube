@@ -13,6 +13,7 @@
 // @supportURL      https://discord.gg/7WRjXHMfXJ
 // @contributionURL https://www.paypal.com/donate/?hosted_button_id=2EJR4DLTR4Y7Q
 // BEGIN MODULES
+// @require https://raw.github.com/7kt-swe/7ktTube/main/modules/flags.js
 // @require https://raw.github.com/7kt-swe/7ktTube/forked/modules/home.js
 // @require https://raw.github.com/7kt-swe/7ktTube/forked/modules/settings.js
 // @require https://raw.github.com/7kt-swe/7ktTube/forked/modules/styles.js
