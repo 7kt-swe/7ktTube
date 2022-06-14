@@ -7018,7 +7018,7 @@ ytd-badge-supported-renderer.ytd-promoted-sparkles-web-renderer span {
 }
 
 .ytp-progress-bar-hover.ytp-progress-bar-decoration .ytp-tooltip-title {
-    display: none;
+    display: none !important;
 }
 
 .ytp-progress-bar-hover.ytp-progress-bar-decoration .ytp-preview:not(.ytp-text-detail) .ytp-tooltip-text {
@@ -7032,6 +7032,6 @@ ytd-badge-supported-renderer.ytd-promoted-sparkles-web-renderer span {
 }
 
 .ytp-chrome-controls .ytp-button.ytp-mute-button {
-    padding: 0 2px;
+    padding: 0 2px !important;
 }`);
 }
