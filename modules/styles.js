@@ -7011,5 +7011,27 @@ ytd-promoted-sparkles-web-renderer.ytd-item-section-renderer #action-button {
 
 ytd-badge-supported-renderer.ytd-promoted-sparkles-web-renderer span {
     color: var(--yt-spec-text-secondary);
+}
+
+.ytp-heat-map-container {
+    display: none !important;
+}
+
+.ytp-progress-bar-hover.ytp-progress-bar-decoration .ytp-tooltip-title {
+    display: none !important;
+}
+
+.ytp-progress-bar-hover.ytp-progress-bar-decoration .ytp-preview:not(.ytp-text-detail) .ytp-tooltip-text {
+    top: 33px;
+}
+
+.ytp-chrome-controls .ytp-button.ytp-mute-button svg,
+.ytp-right-controls .ytp-button svg {
+    width: 36px;
+    height: 36px;
+}
+
+.ytp-chrome-controls .ytp-button.ytp-mute-button {
+    padding: 0 2px !important;
 }`);
 }

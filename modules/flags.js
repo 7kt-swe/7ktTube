@@ -1,19 +1,19 @@
+function setFlags(event) {
+    if (event.target.src.search("desktop_polymer") <= -1)
+        return;
+
+    // icons
+    yt.config_.EXPERIMENT_FLAGS.kevlar_system_icons = false;
+    // watch
+    yt.config_.EXPERIMENT_FLAGS.kevlar_watch_color_update = false;
+    // misc
+    yt.config_.EXPERIMENT_FLAGS.render_unicode_emojis_as_small_images = true;
+    yt.config_.EXPERIMENT_FLAGS.kevlar_unavailable_video_error_ui_client = false;
+    // player
+    yt.config_.WEB_PLAYER_CONTEXT_CONFIGS.WEB_PLAYER_CONTEXT_CONFIG_ID_KEVLAR_WATCH.externalFullscreen = false;
+}
+
 (function() {
-  	'use strict'
-    window['yt'] = window['yt'] || {};
-    yt['config_'] = yt.config_ || {};
-    yt.config_['EXPERIMENT_FLAGS'] = yt.config_.EXPERIMENT_FLAGS || {};
-
-    var iv = setInterval(function() {
-        yt.config_.EXPERIMENT_FLAGS.kevlar_updated_icons = false;
-        yt.config_.EXPERIMENT_FLAGS.kevlar_system_icons = false;
-        yt.config_.EXPERIMENT_FLAGS.kevlar_watch_color_update = false;
-        yt.config_.EXPERIMENT_FLAGS.kevlar_watch_metadata_refresh = false;
-     
-    }, 1);
-
-    var to = setTimeout(function() {
-        clearInterval(iv);
-    }, 1000)
+    document.addEventListener("beforescriptexecute", setFlags);
+    document.documentElement.removeAttribute("system-icons");
 })();
-document.getElementsByTagName("html")[0].removeAttribute("system-icons");

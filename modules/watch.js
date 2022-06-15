@@ -200,7 +200,7 @@ function setupSecondaryInfoRenderer() {
 
 function setUploadedText(elm) {
     const isNormalUpload = document.querySelector("#chat") == null;
-    if (!elm.innerHTML.startsWith("Published on ") && isNormalUpload && yt.config_.HL == "en") {
+    if (!elm.innerHTML.startsWith("Published on ") && isNormalUpload && document.documentElement.lang == "en") {
         elm.insertAdjacentText("afterbegin", "Published on ");
     }
 }

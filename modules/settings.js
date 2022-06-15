@@ -1,5 +1,5 @@
 function restoreAppbarLinks() {
-    if (yt.config_.HL == "en") {
+    if (document.documentElement.lang == "en") {
         var trendingData = {
             "navigationEndpoint": {
                 "clickTrackingParams": "CBwQtSwYASITCNqYh-qO_fACFcoRrQYdP44D9Q==",
