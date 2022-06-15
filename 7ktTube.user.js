@@ -844,7 +844,7 @@ function restoreDropdown(iconLabel, firstChild, dropdownChildren) {
 var topLevelObserver = new MutationObserver(function(mutations) {
     mutations.forEach(function(mutation) {
         for (const node of mutation.addedNodes) {
-            if (yt.config_.HL == "en" && node.nodeName == "#text" && node.textContent == "Save")
+            if (document.documentElement.lang == "en" && node.nodeName == "#text" && node.textContent == "Save")
                 node.textContent = "Add to";
             document.querySelector(".addto-btn")?.classList?.remove("addto-btn");
             const saveBtn = document.querySelector(`#info.style-scope.ytd-watch-flexy yt-icon path[d="M14 10H2v2h12v-2zm0-4H2v2h12V6zm4 8v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zM2 16h8v-2H2v2z"]`).parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement;
