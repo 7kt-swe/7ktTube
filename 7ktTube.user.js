@@ -847,7 +847,9 @@ var topLevelObserver = new MutationObserver(function(mutations) {
             if (document.documentElement.lang == "en" && node.nodeName == "#text" && node.textContent == "Save")
                 node.textContent = "Add to";
             document.querySelector(".addto-btn")?.classList?.remove("addto-btn");
-            const saveBtn = document.querySelector(`#info.style-scope.ytd-watch-flexy yt-icon path[d="M14 10H2v2h12v-2zm0-4H2v2h12V6zm4 8v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zM2 16h8v-2H2v2z"]`).parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement;
+            const saveIcon = document.querySelector(`#info.style-scope.ytd-watch-flexy yt-icon path[d="M14 10H2v2h12v-2zm0-4H2v2h12V6zm4 8v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zM2 16h8v-2H2v2z"]`) 
+                ?? document.querySelector(`#info.style-scope.ytd-watch-flexy yt-icon path[d="M22,13h-4v4h-2v-4h-4v-2h4V7h2v4h4V13z M14,7H2v1h12V7z M2,12h8v-1H2V12z M2,16h8v-1H2V16z"]`);
+            const saveBtn = saveIcon.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement;
             saveBtn.classList.add("addto-btn");
         }
     });
@@ -868,6 +870,15 @@ async function setupUpdateDependentElements() {
         waitForElement('ytd-engagement-panel-section-list-renderer[target-id="engagement-panel-structured-description"]').then((elm) => elm?.remove());
         
         waitForElement(`#info.style-scope.ytd-watch-flexy yt-icon path[d="M14 10H2v2h12v-2zm0-4H2v2h12V6zm4 8v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zM2 16h8v-2H2v2z"]`).then(function(elm) {
+            const saveBtn = elm.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement;
+            saveBtn.classList.add("addto-btn");
+            topLevelObserver.observe(document.querySelector("#info.style-scope.ytd-watch-flexy #top-level-buttons-computed"), {
+                childList: true,
+                subtree: true
+            });
+        });
+      
+        waitForElement(`#info.style-scope.ytd-watch-flexy yt-icon path[d="M22,13h-4v4h-2v-4h-4v-2h4V7h2v4h4V13z M14,7H2v1h12V7z M2,12h8v-1H2V12z M2,16h8v-1H2V16z"]`).then(function(elm) {
             const saveBtn = elm.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement;
             saveBtn.classList.add("addto-btn");
             topLevelObserver.observe(document.querySelector("#info.style-scope.ytd-watch-flexy #top-level-buttons-computed"), {
