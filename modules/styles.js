@@ -7033,5 +7033,9 @@ ytd-badge-supported-renderer.ytd-promoted-sparkles-web-renderer span {
 
 .ytp-chrome-controls .ytp-button.ytp-mute-button {
     padding: 0 2px !important;
+}
+
+ytd-download-button-renderer {
+    display: none !important;
 }`);
 }
