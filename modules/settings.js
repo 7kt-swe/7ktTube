@@ -192,7 +192,7 @@ function gen_setting_page() {
         e2.type = 'button';
         e2.className = 'ytfix_button';
         e2.value = 'DOWNLOAD PAGE';
-        e2.addEventListener('click', () => location.href = 'https://7kttube.tk/downloads');
+        e2.addEventListener('click', () => location.href = 'https://7kt.se/downloads.php');
         e3 = document.createElement('input');
         AddLine(e2);
         e1 = document.createElement('h2');
