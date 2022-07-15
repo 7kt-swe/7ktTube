@@ -80,7 +80,6 @@ function restoreAppbarLinks() {
         GM_addStyle(`#items > ytd-guide-entry-renderer:nth-child(2) .guide-icon {
             content: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAAAXNSR0IB2cksfwAAAAlwSFlzAAALEwAACxMBAJqcGAAAAOFJREFUeJztlL0Ng0AMhWlSZ5QMkU0o6KjpIlLAHSNkgkyQLbICA6RPT/hEAk8WxwWJKoolS5Z/3vnZhiT5y0cuvtiXZXny3t/run6i2PiIrQKrqvPROdf22gW0JWcN2FhMV3mRH1BsjUVBoaKd9TQ7pYeNTztdpM98tAPmZnPwaQ41QUBLaaDl0mkcLrVxaoKA9nUtmnssxCIG2DZNc0PnNr8IqF0AwGZtDr43eJyyLOWRZdkulEeMnOhS9Gx0GVZkOctnMyRPh93P5wpFOkKx8X192AZ0m09P6W/2c/hteQFIL1T2NRIk0wAAAABJRU5ErkJggg==);
         }
-
         #items > ytd-guide-entry-renderer:nth-child(2):hover .guide-icon,
         #items > ytd-guide-entry-renderer:nth-child(2) tp-yt-paper-item[aria-selected="true"] .guide-icon {
             content: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAAAXNSR0IB2cksfwAAAAlwSFlzAAALEwAACxMBAJqcGAAAAMhJREFUeJztVDEKwzAMzNK5a96RF/g1Bj/Dz+neOT/wngdk9ujNqFKREyNsBUOm0oODkJNPkqVkmv4oiDE+AcAjAzIx6dmTNmSGhwxyhz5IMyNmNVbkwlyFpptym7KyuUo2y0rV9vnOaqRGTBIxXjMMjftyle4aetAMZfbjUCdZs4srww35Zm6jhnUV3+k2YuS01ZbLUHZr7aMXRxqc29Afilgb14uDczj62nDwsdg55xe1SBVxVQu/KzCqmTC959MruPXn8Nv4ADy6IMvnpMUsAAAAAElFTkSuQmCC)
@@ -147,8 +146,7 @@ function gen_setting_page() {
     if (!("profile_picture" in settings)) settings.profile_picture = true;
     if (!("grey_watched" in settings)) settings.grey_watched = true;
     if (!("blur_watched" in settings)) settings.blur_watched = true;
-    if (!("hide_filters_header" in settings)) settings.hide_filters_header = true;
-    if (!("hide_filters_related" in settings)) settings.hide_filters_related = true;
+    if (!("hide_filters" in settings)) settings.hide_filters = true;
     if (!("hide_queue" in settings)) settings.hide_queue = false;
     if (!("small_recc" in settings)) settings.small_recc = true;
     if (!("olderhh" in settings)) settings.olderhh = false;
@@ -156,7 +154,7 @@ function gen_setting_page() {
     if (!("channel_list" in settings)) settings.channel_list = false;
     if (!("rightside" in settings)) settings.rightside = false;
     if (!("trending" in settings)) settings.trending = true;
-    //if (!("shelves" in settings)) settings.shelves = false;
+    if (!("shelves" in settings)) settings.shelves = false;
     if (!("search_estimate" in settings)) settings.search_estimate = true;
     if (!("default_player" in settings)) settings.default_player = 2;
     if (!("hide_guide" in settings)) settings.hide_guide = false;
@@ -193,7 +191,7 @@ function gen_setting_page() {
         e2.type = 'button';
         e2.className = 'ytfix_button';
         e2.value = 'DOWNLOAD PAGE';
-        e2.addEventListener('click', () => location.href = 'https://7kt.se/downloads.php');
+        e2.addEventListener('click', () => location.href = 'https://7kttube.tk/downloads');
         e3 = document.createElement('input');
         AddLine(e2);
         e1 = document.createElement('h2');
@@ -259,38 +257,32 @@ function gen_setting_page() {
             AddLine(MakeBoolElement("thumb_preview"), MakeDesc("Disable video previews on :hover"));
             AddLine(MakeBoolElement("hideclip"), MakeDesc("Hide clip and thanks buttons"));
             AddLine(MakeBoolElement("hide_queue"), MakeDesc("Hide queue button on thumbnails"));
-            AddLine(MakeBoolElement("hide_filters_header"), MakeDesc('Hide category filter on Home page'));
-            AddLine(MakeBoolElement("hide_filters_related"), MakeDesc('Hide category filter on watchpage '));
+            AddLine(MakeBoolElement("hide_filters"), MakeDesc('Hide all filter by category bars'));
             AddLine(MakeBoolElement("hide_yt_suggested_blocks"), MakeDesc('Hide suggestion blocks on main page (recommended playlists, latest posts, etc)'));
-			AddLine(MakeBoolElement("grey_watched"), MakeDesc("Add greyscale filter + 60% transparency on watched video thumbnails"));
+            AddLine(MakeBoolElement("grey_watched"), MakeDesc("Add greyscale filter + 60% transparency on watched video thumbnails"));
             AddLine(MakeBoolElement("blur_watched"), MakeDesc("Add blur on watched video thumbnails"));
             AddLine(MakeBoolElement("channel_list"), MakeDesc("Use list view on channels"));
             AddLine(MakeBoolElement("small_recc"), MakeDesc("Use smaller thumbnails on watch page recommended"));
             AddLine(MakeBoolElement("olderhh"), MakeDesc("Use older button styles and colors"));
             AddLine(MakeBoolElement("hide_dis"), MakeDesc("Hide 'DISLIKE' string"));
-          
             let tsm = MakeTextElement("thumbnail_size_m");
-          
             tsm.className = settings.thumbnail_size == 5 ? 'ytfix_field' : 'ytfix_hide';
-                      let tsi = MakeListElement("thumbnail_size", ['default', '193px', '240px', '360px', '480px', 'manual...                                ']);
+            let tsi = MakeListElement("thumbnail_size", ['default', '193px', '240px', '360px', '480px', 'manual']);
             tsi.addEventListener('change', function () {
                 ess.thumbnail_size_m.className = ess.thumbnail_size.selectedIndex == 5 ? 'ytfix_field' : 'ytfix_hide';
             });
-                    
             AddLine(MakeBoolElement("clear_search"), MakeDesc("Hide suggestion blocks on search page (for you, people also watched, etc)"));
-            AddLine(MakeBoolElement("trending"), MakeDesc("Replace explore with trending"));
-            //AddLine(MakeBoolElement("shelves"), MakeDesc("Use shelves homepage style"));
+            AddLine(MakeBoolElement("trending"), MakeDesc(`Restore "Trending" and "My channel" guide entries`));
+            AddLine(MakeBoolElement("shelves"), MakeDesc("Use shelves homepage style"));
             AddLine(MakeBoolElement("search_estimate"), MakeDesc("Show estimates in search results"));
             AddLine(MakeBoolElement("rightside"), MakeDesc("CHECK this if you use the Right Side Description extension"));
-            AddLine(MakeDesc('Logo style:                                             '), MakeListElement("logo_style", ["2015-2017 (Default)           ", "2017-2020", "Current"]));
-                                                                                                                                                                          
-            AddLine(MakeDesc('Home page thumbnail size:             '), tsi, tsm);
-            AddLine(MakeDesc('Search page thumbnail size:           '), MakeListElement("search_thumbnail", ['360px', '193px                                      ', '240px']));
-                                                                                                                                                                                                                                                                                                           
-            AddLine(MakeDesc('Default video player size:                  '), MakeListElement("default_player", ['Flexible', '640x360px', '853x480px                             ', '1280x720px']));
-            AddLine(MakeDesc('Force video quality:     　               　'), MakeListElement("video_quality", ['Auto (default)                       ', '144p', '240p ', '360p', '480p', '720p', '1080p (HD)', '1440p (HD)', '2160p (4K)']));
-            AddLine(MakeDesc('Modify channel pages behaviour:   '), MakeListElement("channel_top", ['default', 'hide banner with scrolling ', 'hide banner on load']));
-            AddLine(MakeDesc('Change YouTube logo "home" URL to https://www.youtube.com/...'), MakeTextElement("logo_target"));
+            AddLine(MakeDesc('Logo '), MakeListElement("logo_style", ["2015-2017 (Default)", "2017-2020", "Current"]));
+            AddLine(MakeDesc('Home screen thumbnail size '), tsi, tsm);
+            AddLine(MakeDesc('Search video thumbnail size '), MakeListElement("search_thumbnail", ['TOO BIG', 'Small', 'Medium']));
+            AddLine(MakeDesc('Watch page video player size:'), MakeListElement("default_player", ['Flexible', '640x360px', '853x480px', '1280x720px']));
+            AddLine(MakeDesc('Force video quality'), MakeListElement('video_quality', ['Auto (default)', '144p', '240p', '360p', '480p', '720p', '1080p (HD)', '1440p (HD)', '2160p (4K)']));
+            AddLine(MakeDesc("Modify channels' pages behaviour"), MakeListElement('channel_top', ['default', 'hide banner with scrolling', 'hide banner on load']));
+            AddLine(MakeDesc("Change YouTube logo link to https://www.youtube.com/..."), MakeTextElement("logo_target"));
 
             e1 = document.createElement('input');
             e1.type = 'button';
@@ -305,8 +297,7 @@ function gen_setting_page() {
                 settings.profile_picture = ess.profile_picture.checked;
                 settings.grey_watched = ess.grey_watched.checked;
                 settings.blur_watched = ess.blur_watched.checked;
-                settings.hide_filters_header = ess.hide_filters_header.checked;
-                settings.hide_filters_related = ess.hide_filters_related.checked;
+                settings.hide_filters = ess.hide_filters.checked;
                 settings.small_recc = ess.small_recc.checked;
                 settings.olderhh = ess.olderhh.checked;
                 settings.hide_dis = ess.hide_dis.checked;
@@ -315,7 +306,7 @@ function gen_setting_page() {
                 settings.hide_guide = ess.hide_guide.checked;
                 settings.rightside = ess.rightside.checked;
                 settings.trending = ess.trending.checked;
-                //settings.shelves = ess.shelves.checked;
+                settings.shelves = ess.shelves.checked;
                 settings.search_estimate = ess.search_estimate.checked;
                 settings.thumbnail_size = ess.thumbnail_size.selectedIndex;
                 if (settings.thumbnail_size == 5) {
@@ -425,7 +416,6 @@ function gen_setting_page() {
       .ytp-larger-tap-buttons .ytp-chrome-controls .ytp-button.ytp-mute-button {
           padding: 2px !important;
       }
-
       .ytp-larger-tap-buttons .ytp-chrome-controls .ytp-button[aria-pressed="true"]::after {
           width: 20px !important;
           left: 8px !important;
@@ -448,11 +438,9 @@ function gen_setting_page() {
       .ytp-big-mode .ytp-progress-bar-container {
           bottom:44px!important
       }
-
       .ytp-chrome-controls {
       height:40px!important
       }
-
       .ytp-chrome-bottom .ytp-chrome-controls .ytp-button {
           height:36px!important;
           width:36px
@@ -583,12 +571,10 @@ function gen_setting_page() {
       #avatar-link.ytd-rich-grid-media, #avatar-link.ytd-rich-grid-video-renderer, #masthead-ad, #offer-module, #play.fade-in.ytd-moving-thumbnail-renderer, #play.show.ytd-moving-thumbnail-renderer, #selectionBar.paper-tabs, #thumbnail.ytd-moving-thumbnail-renderer, .not-visible.paper-tabs, .ytp-miniplayer-button, [id*=skeleton], paper-ripple, ytd-compact-movie-renderer.ytd-watch-next-secondary-results-renderer, ytd-compact-promoted-item-renderer, ytd-search ytd-video-renderer[use-prominent-thumbs] #channel-info.ytd-video-renderer>a>yt-img-shadow.ytd-video-renderer {
          display: none!important
       }
-
       #details.ytd-rich-grid-video-renderer {
          cursor: auto!important;
          pointer-events: none!important
       }
-
       #details.ytd-rich-grid-video-renderer *>a, #details.ytd-rich-grid-video-renderer *>button.yt-icon-button {
          cursor: pointer!important;
          pointer-events: initial!important
@@ -612,41 +598,34 @@ function gen_setting_page() {
          height: 30px !important;
          padding: 0 !important;
       }
-
       ytd-masthead[dark] #logo-icon-container, html[dark] #contentContainer #logo-icon-container, ytd-masthead[dark] ytd-topbar-logo-renderer>#logo, html[dark] ytd-topbar-logo-renderer>#logo {
          content:var(--logo-2015-dark-header) !important;
          width: 71px !important;
          height: 30px !important;
       }
-
       #start>#masthead-logo, #masthead>#masthead-logo {
          content:var(--logo-2015-dark-header) !important;
          width: 71px !important;
          height: 30px !important;
       }
-
       html[dark] #start>#masthead-logo, html[dark] #masthead>#masthead-logo {
          content:var(--logo-2015-dark-header) !important;
          width: 71px !important;
          height: 30px !important;
       }
-
       #guide-button.ytd-masthead {
          margin-right: 8px !important;
          top: 1px;
          padding: 0 10px;
       }
-
       #start.ytd-masthead {
          position: relative;
          left: 2px;
       }
-
       ytd-searchbox.ytd-masthead {
          padding: 0 !important;
          margin: 0 0 0 38px !important;
       }
-
       html:not([dark]) ytd-guide-entry-renderer[active]>#endpoint.yt-simple-endpoint.ytd-guide-entry-renderer, html:not([dark]) ytd-guide-entry-renderer[active]>#endpoint.yt-simple-endpoint.ytd-guide-entry-renderer:hover {
          background-color: var(--oldcolor) !important
       }
@@ -658,7 +637,6 @@ function gen_setting_page() {
          margin: -1px 2px 0 !important;
          font-size: 11px;
       }
-
       html:not([dark]) #guide-section-title.ytd-guide-section-renderer,
       html:not([dark]) #guide #header .title {
          color: var(--oldcolor)!important;
@@ -689,45 +667,37 @@ html #subscribe-button ytd-button-renderer #button.ytd-button-renderer:active,ht
          height: 30px !important;
          padding: 0 !important;
       }
-
       ytd-masthead[dark] #logo-icon-container, html[dark] #contentContainer #logo-icon-container, ytd-masthead[dark] ytd-topbar-logo-renderer>#logo, html[dark] ytd-topbar-logo-renderer>#logo {
          content:var(--logo-2017-dark-header) !important;
          width: 100px !important;
          height: 30px !important;
       }
-
       ytd-topbar-logo-renderer>#logo {
          margin-left: -1px;
       }
-
       #start>#masthead-logo, #masthead>#masthead-logo {
          content:var(--logo-2017-dark-header) !important;
          width: 100px !important;
          height: 30px !important;
       }
-
       html[dark] #start>#masthead-logo, html[dark] #masthead>#masthead-logo {
          content:var(--logo-2017-dark-header) !important;
          width: 100px !important;
          height: 30px !important;
       }
-
       #guide-button.ytd-masthead {
          margin-right: 7px !important;
          top: 1px;
          padding: 0 10px;
       }
-
       #start.ytd-masthead {
          position: relative;
          left: 2px;
       }
-
       ytd-searchbox.ytd-masthead {
          padding: 0 !important;
          margin: 0 0 0 38px !important;
       }
-
       html:not([dark]) ytd-guide-entry-renderer[active]>#endpoint.yt-simple-endpoint.ytd-guide-entry-renderer, html:not([dark]) ytd-guide-entry-renderer[active]>#endpoint.yt-simple-endpoint.ytd-guide-entry-renderer:hover {
          background-color: #f00 !important
       }
@@ -739,7 +709,6 @@ html #subscribe-button ytd-button-renderer #button.ytd-button-renderer:active,ht
          margin: 1px 0 0 0.3px !important;
          font-size: 11px;
       }
-
       html:not([dark]) #guide-section-title.ytd-guide-section-renderer,
       html:not([dark]) #guide #header .title {
          color: #f00 !important;
@@ -750,7 +719,6 @@ html #subscribe-button ytd-button-renderer #button.ytd-button-renderer:active,ht
       html:not([dark]) ytd-guide-collapsible-section-entry-renderer.ytd-guide-section-renderer:not(:first-child):before {
           color: #f00 important;
       }
-
       `);
     }
     if (settings.profile_picture) {
@@ -771,16 +739,12 @@ html #subscribe-button ytd-button-renderer #button.ytd-button-renderer:active,ht
       ytd-commentbox[is-reply][is-backstage-comment] #author-thumbnail.ytd-commentbox, #author-thumbnail.ytd-backstage-post-renderer yt-img-shadow.ytd-backstage-post-renderer {
          border-radius: 0%!important;
       }`);
-   
     }
-    if (settings.hide_filters_header) {
+    if (settings.hide_filters) {
         styles.push(`
       #header.ytd-rich-grid-renderer {
          display: none!important
-      }`);
-    }
-    if (settings.hide_filters_related) {
-        styles.push(`
+      }
       yt-related-chip-cloud-renderer {
          display: none!important
       }`);
@@ -789,7 +753,7 @@ html #subscribe-button ytd-button-renderer #button.ytd-button-renderer:active,ht
         styles.push(`
       .ytd-thumbnail[top-right-overlay] ~ .ytd-thumbnail[top-right-overlay] {
          display:none;
-      }`);
+      } `);
     }
     if (settings.search_left) {
         styles.push(`
@@ -797,19 +761,19 @@ html #subscribe-button ytd-button-renderer #button.ytd-button-renderer:active,ht
          margin-right: auto;
       }
       tp-yt-paper-toast.paper-toast-open{position:static!important;}
-      yt-notification-action-renderer
-	  {
-	  margin-left:20px;
-      margin-top:30px
-      }`);
+      yt-notification-action-renderer {
+        margin-left:20px;
+        margin-top:30px;
+      }
+      `);
     }
     if (settings.no_apps) {
         styles.push(`
       ytd-topbar-menu-button-renderer.style-scope:nth-child(4) {
          display: none !important;
-      }`);
+      } `);
     }
-  if (settings.blur_watched) {
+    if (settings.blur_watched) {
       if (settings.grey_watched) {
         styles.push(`
         .watched ytd-thumbnail #thumbnail.ytd-thumbnail yt-img-shadow.ytd-thumbnail,
@@ -851,7 +815,6 @@ html #subscribe-button ytd-button-renderer #button.ytd-button-renderer:active,ht
            opacity: 0.4 !important;
            filter: grayscale(1)!important;
         }
-
         .watched ytd-thumbnail #thumbnail.ytd-thumbnail yt-img-shadow.ytd-thumbnail:hover,
         .watched yt-img-shadow.ytd-thumbnail:hover {
            transition: ease-out;
@@ -860,10 +823,9 @@ html #subscribe-button ytd-button-renderer #button.ytd-button-renderer:active,ht
            filter:  grayscale(0) !important;
         }`);
       }
-    }	 
+    }
     if (settings.thumbnail_size) {
         styles.push(`div#contents.style-scope.ytd-rich-grid-renderer {display:block!important}
-
           ytd-rich-grid-row.style-scope.ytd-rich-grid-renderer {display:inline!important}
           ytd-rich-grid-row.style-scope.ytd-rich-grid-renderer > div {display:inline!important;margin:0!important}
           ytd-rich-grid-row.style-scope.ytd-rich-grid-renderer > div > ytd-rich-item-renderer {display:inline-block!important; width: ${[0, 193, 240, 360, 480, settings.thumbnail_size_m][settings.thumbnail_size]}px !important; contain:none!important
@@ -905,7 +867,7 @@ html #subscribe-button ytd-button-renderer #button.ytd-button-renderer:active,ht
     if (settings.trending) {
         waitForElement('#items > ytd-guide-entry-renderer').then(() => restoreAppbarLinks());
     }
-    /*if (settings.shelves) {
+    if (settings.shelves) {
         window.addEventListener("yt-page-data-updated", injectShelvesHp, false);
         styles.push(`
         ytd-browse[page-subtype='home'] ytd-rich-grid-renderer {
@@ -915,21 +877,25 @@ html #subscribe-button ytd-button-renderer #button.ytd-button-renderer:active,ht
             margin-top: 17px;
             padding-bottom: 3px;
         }
-
         ytd-browse[page-subtype='home'] #contents.ytd-shelf-renderer {
             margin-top: 5px !important;
         }
-
         ytd-browse[page-subtype='home'] ytd-thumbnail #thumbnail.ytd-thumbnail {
             margin-left: 0;
         }
-
         ytd-browse[page-subtype='home'] ytd-section-list-renderer {
             padding: 0 !important;
         }
-
         ytd-browse[page-subtype='home'] #contents.ytd-item-section-renderer {
             padding: 0 16px;
+        }
+        
+        ytd-browse[page-subtype='home'] #scroll-container.yt-horizontal-list-renderer ytd-thumbnail-overlay-time-status-renderer {
+            margin-top: 5px !important;
+        }
+        
+        ytd-browse[page-subtype='home'] ytd-shelf-renderer img.yt-img-shadow {
+            max-height: var(--ytd-grid-thumbnail_-_height);
         }`);
     }
     if (settings.search_estimate) {
@@ -976,7 +942,6 @@ html #subscribe-button ytd-button-renderer #button.ytd-button-renderer:active,ht
     }
     `);
     }
-    */
     if (settings.olderhh) {
         styles.push(`
 .ytd-yoodle-renderer, html ytd-yoodle-renderer {
@@ -1356,22 +1321,23 @@ ytd-app ytd-playlist-panel-video-renderer[selected] #byline.ytd-playlist-panel-v
       }`);
     }
     if (settings.search_thumbnail) {
-        let sz = [193, 240, 360][settings.search_thumbnail] + 'px !important';
+        let sz = [0, 193, 240][settings.search_thumbnail] + 'px !important';
         // min-width defaults to 240px, max-width defaults to 360px
         // sizes for: videos, playlists, channels, mixes
         styles.push(`ytd-video-renderer[use-prominent-thumbs] ytd-thumbnail.ytd-video-renderer,
-      ytd-video-renderer[is-search] ytd-thumbnail.ytd-video-renderer, ytd-video-renderer[use-prominent-thumbs] #channel-info.ytd-video-renderer,														 
-      ytd-playlist-renderer[use-prominent-thumbs] ytd-playlist-thumbnail.ytd-playlist-renderer,
-      ytd-radio-renderer[use-prominent-thumbs] ytd-thumbnail.ytd-radio-renderer,
-      ytd-playlist-renderer[is-search] ytd-playlist-thumbnail.ytd-playlist-renderer,
-      ytd-thumbnail.ytd-radio-renderer
-      {
+        ytd-video-renderer[is-search] ytd-thumbnail.ytd-video-renderer, 
+        ytd-video-renderer[use-prominent-thumbs] #channel-info.ytd-video-renderer,
+        ytd-playlist-renderer[use-prominent-thumbs] ytd-playlist-thumbnail.ytd-playlist-renderer, ytd-radio-renderer[use-prominent-thumbs] ytd-thumbnail.ytd-radio-renderer {
          padding: 0!important;
          min-width: ${sz};
          max-width: ${sz};
+         }
+       ytd-video-renderer:not([use-prominent-thumbs]) ytd-thumbnail.ytd-video-renderer,
+       ytd-video-renderer[is-search] ytd-thumbnail.ytd-video-renderer {
+           min-height: 108.55px !important;
+            max-height: 138.55px;
       }`);
     }
-
     if (settings.channel_list) {
         styles.push(`
 [page-subtype="channels"] ytd-section-list-renderer #header-container ytd-channel-sub-menu-renderer {
@@ -1439,11 +1405,9 @@ ytd-browse[page-subtype~="channels"] ytd-two-column-browse-results-renderer.ytd-
          min-width: --ytd-watch-flexy-min-player-width: 100% !important;
          max-width: ${size_norm.w}px !important
       }
-
       ytd-watch-flexy[flexy_][is-two-columns_][is-extra-wide-video_] #primary.ytd-watch-flexy, ytd-watch-flexy[flexy_][is-two-columns_][is-four-three-to-sixteen-nine-video_] #primary.ytd-watch-flexy {
          min-width: ${size_norm.w}px!important
       }
-
       ytd-watch-flexy[flexy_][flexy-large-window_]:not([is-extra-wide-video_]), ytd-watch-flexy[flexy_][flexy-large-window_][transcript-opened_][is-two-columns_]:not([is-extra-wide-video_]), ytd-watch-flexy[flexy_][flexy-large-window_][playlist][is-two-columns_]:not([is-extra-wide-video_]), ytd-watch-flexy[flexy_][flexy-large-window_][should-stamp-chat][is-two-columns_]:not([is-extra-wide-video_]) {
          --ytd-watch-flexy-min-player-height: ${size_norm.h}px !important;`);
 
