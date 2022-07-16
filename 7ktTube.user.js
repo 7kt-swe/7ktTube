@@ -17,7 +17,7 @@
 // @require https://raw.githubusercontent.com/7kt-swe/7ktTube/main/modules/home.js
 // @require https://raw.githubusercontent.com/7kt-swe/7ktTube/main/modules/settings_v2.js
 // @require https://raw.githubusercontent.com/7kt-swe/7ktTube/main/modules/styles_v2.js
-// @require https://7kt.se/resources/modules/watch.js
+// @require https://raw.githubusercontent.com/7kt-swe/7ktTube/main/modules/watch.js
 // END MODULES
 // @require https://unpkg.com/vue@2.6.12/dist/vue.js
 // @require https://unpkg.com/xfetch-js@0.5.0/dist/xfetch.min.js
