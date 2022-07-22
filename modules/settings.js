@@ -80,6 +80,7 @@ function restoreAppbarLinks() {
         GM_addStyle(`#items > ytd-guide-entry-renderer:nth-child(2) .guide-icon {
             content: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAAAXNSR0IB2cksfwAAAAlwSFlzAAALEwAACxMBAJqcGAAAAOFJREFUeJztlL0Ng0AMhWlSZ5QMkU0o6KjpIlLAHSNkgkyQLbICA6RPT/hEAk8WxwWJKoolS5Z/3vnZhiT5y0cuvtiXZXny3t/run6i2PiIrQKrqvPROdf22gW0JWcN2FhMV3mRH1BsjUVBoaKd9TQ7pYeNTztdpM98tAPmZnPwaQ41QUBLaaDl0mkcLrVxaoKA9nUtmnssxCIG2DZNc0PnNr8IqF0AwGZtDr43eJyyLOWRZdkulEeMnOhS9Gx0GVZkOctnMyRPh93P5wpFOkKx8X192AZ0m09P6W/2c/hteQFIL1T2NRIk0wAAAABJRU5ErkJggg==);
         }
+
         #items > ytd-guide-entry-renderer:nth-child(2):hover .guide-icon,
         #items > ytd-guide-entry-renderer:nth-child(2) tp-yt-paper-item[aria-selected="true"] .guide-icon {
             content: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAAAXNSR0IB2cksfwAAAAlwSFlzAAALEwAACxMBAJqcGAAAAMhJREFUeJztVDEKwzAMzNK5a96RF/g1Bj/Dz+neOT/wngdk9ujNqFKREyNsBUOm0oODkJNPkqVkmv4oiDE+AcAjAzIx6dmTNmSGhwxyhz5IMyNmNVbkwlyFpptym7KyuUo2y0rV9vnOaqRGTBIxXjMMjftyle4aetAMZfbjUCdZs4srww35Zm6jhnUV3+k2YuS01ZbLUHZr7aMXRxqc29Afilgb14uDczj62nDwsdg55xe1SBVxVQu/KzCqmTC959MruPXn8Nv4ADy6IMvnpMUsAAAAAElFTkSuQmCC)
@@ -105,7 +106,7 @@ function insertResultsEstimate() {
 }
 
 function gen_setting_page() {
-    let fix_version = '3.1.3';	// as close to header as possible: in hopes to not forget
+    let fix_version = '3.1.4';	// as close to header as possible: in hopes to not forget
     if (window.YTEngine2) return; // in-development kill-switch
     if (document.location.pathname == '/error') return;
 
@@ -146,7 +147,8 @@ function gen_setting_page() {
     if (!("profile_picture" in settings)) settings.profile_picture = true;
     if (!("grey_watched" in settings)) settings.grey_watched = true;
     if (!("blur_watched" in settings)) settings.blur_watched = true;
-    if (!("hide_filters" in settings)) settings.hide_filters = true;
+    if (!("hide_filters_header" in settings)) settings.hide_filters_header = true;
+    if (!("hide_filters_related" in settings)) settings.hide_filters_related = true;
     if (!("hide_queue" in settings)) settings.hide_queue = false;
     if (!("small_recc" in settings)) settings.small_recc = true;
     if (!("olderhh" in settings)) settings.olderhh = false;
@@ -178,7 +180,7 @@ function gen_setting_page() {
         let style = document.createElement('style');
         style.type = 'text/css';
         style.innerHTML = [
-            'ytfix_line2 {background: #575757;color: white;padding: 5px;}.ytfix_line span, .ytfix_line checkbox {text-transform: full-size-kana; border-bottom: 1px dotted;}.ytfix{font-size: 13px;position:absolute;left:0;top:0;right:0;padding:3em;background: #eee url(https://i.imgur.com/bSFkNfY.png) no-repeat;background-size:570px;background-repeat-y: no-repeat;background-position-x: 300px;background-position-y: 20px;}', '.ytfix_line{margin-bottom: 9px;text-shadow: 1px 0px 0px #b0b0b0;}', '.ytfix_line span,.ytfix_line input,.ytfix_line select{margin-right:0.3em}', 'form{padding-left: 10px;}', '.ytfix_field{font-size:13px; padding:0.2em;border:1px solid #888}', '.ytfix_button{color: #fff;font-weight: bold;background: #ec2828;padding:0.6em;border:1px solid #fff;margin-bottom: 10px;}', '.ytfix_button:hover {background: #525252;cursor: pointer}', '.ytfix_hide{display:none}', '.ytfixback{position:absolute;left:0;top:0;right:0;height:100%;background:#eee}', '.ytfix donate{padding:0;border:1px solid #888}', 'h2{text-decoration: underline; font-variant: all-petite-caps; font-family: YouTube Noto, Roboto, arial, sans-serif !important; font-size:24px;}', 'h5{font-style: italic}', 'paypal{padding-left: 60px; font-size: 13px; font-weight: bold;}'
+            'ytfix_line2 {background: #575757;color: white;padding: 5px;}.ytfix_line span, .ytfix_line checkbox {text-transform: full-size-kana; border-bottom: 1px dotted;}.ytfix{font-size: 13px;position:absolute;left:0;top:0;right:0;padding:3em;background: #eee url(https://7kt.se/resources/images/settings.png) no-repeat;background-size:570px;background-repeat-y: no-repeat;background-position-x: 300px;background-position-y: 20px;}', '.ytfix_line{margin-bottom: 9px;text-shadow: 1px 0px 0px #b0b0b0;}', '.ytfix_line span,.ytfix_line input,.ytfix_line select{margin-right:0.3em}', 'form{padding-left: 10px;}', '.ytfix_field{font-size:13px; padding:0.2em;border:1px solid #888}', '.ytfix_button{color: #fff;font-weight: bold;background: #ec2828;padding:0.6em;border:1px solid #fff;margin-bottom: 10px;}', '.ytfix_button:hover {background: #525252;cursor: pointer}', '.ytfix_hide{display:none}', '.ytfixback{position:absolute;left:0;top:0;right:0;height:100%;background:#eee}', '.ytfix donate{padding:0;border:1px solid #888}', 'h2{text-decoration: underline; font-variant: all-petite-caps; font-family: YouTube Noto, Roboto, arial, sans-serif !important; font-size:24px;}', 'h5{font-style: italic}', 'paypal{padding-left: 60px; font-size: 13px; font-weight: bold;}'
         ].join('');
         plane.appendChild(style);
         e4 = document.createElement('br')
@@ -191,7 +193,7 @@ function gen_setting_page() {
         e2.type = 'button';
         e2.className = 'ytfix_button';
         e2.value = 'DOWNLOAD PAGE';
-        e2.addEventListener('click', () => location.href = 'https://7kttube.tk/downloads');
+        e2.addEventListener('click', () => location.href = 'https://7kt.se/downloads');
         e3 = document.createElement('input');
         AddLine(e2);
         e1 = document.createElement('h2');
@@ -257,37 +259,44 @@ function gen_setting_page() {
             AddLine(MakeBoolElement("thumb_preview"), MakeDesc("Disable video previews on :hover"));
             AddLine(MakeBoolElement("hideclip"), MakeDesc("Hide clip and thanks buttons"));
             AddLine(MakeBoolElement("hide_queue"), MakeDesc("Hide queue button on thumbnails"));
-            AddLine(MakeBoolElement("hide_filters"), MakeDesc('Hide all filter by category bars'));
+            AddLine(MakeBoolElement("hide_filters_header"), MakeDesc('Hide category filter on Home page'));
+            AddLine(MakeBoolElement("hide_filters_related"), MakeDesc('Hide category filter on watchpage '));
             AddLine(MakeBoolElement("hide_yt_suggested_blocks"), MakeDesc('Hide suggestion blocks on main page (recommended playlists, latest posts, etc)'));
-            AddLine(MakeBoolElement("grey_watched"), MakeDesc("Add greyscale filter + 60% transparency on watched video thumbnails"));
-            AddLine(MakeBoolElement("blur_watched"), MakeDesc("Add blur on watched video thumbnails"));
+            AddLine(MakeBoolElement("grey_watched"), MakeDesc("Make watched video thumbnails black & white and less visible"));
+            AddLine(MakeBoolElement("blur_watched"), MakeDesc("Make watched video thumbnails black & white on home screen [FIX]"));
             AddLine(MakeBoolElement("channel_list"), MakeDesc("Use list view on channels"));
             AddLine(MakeBoolElement("small_recc"), MakeDesc("Use smaller thumbnails on watch page recommended"));
             AddLine(MakeBoolElement("olderhh"), MakeDesc("Use older button styles and colors"));
             AddLine(MakeBoolElement("hide_dis"), MakeDesc("Hide 'DISLIKE' string"));
+          
             let tsm = MakeTextElement("thumbnail_size_m");
+          
             tsm.className = settings.thumbnail_size == 5 ? 'ytfix_field' : 'ytfix_hide';
-            let tsi = MakeListElement("thumbnail_size", ['default', '193px', '240px', '360px', '480px', 'manual']);
+		  
+                      let tsi = MakeListElement("thumbnail_size", ['default', '193px', '240px', '360px', '480px', 'manual...                                ']);
             tsi.addEventListener('change', function () {
                 ess.thumbnail_size_m.className = ess.thumbnail_size.selectedIndex == 5 ? 'ytfix_field' : 'ytfix_hide';
             });
+                    
             AddLine(MakeBoolElement("clear_search"), MakeDesc("Hide suggestion blocks on search page (for you, people also watched, etc)"));
-            AddLine(MakeBoolElement("trending"), MakeDesc(`Restore "Trending" and "My channel" guide entries`));
+            AddLine(MakeBoolElement("trending"), MakeDesc("Replace explore with trending (will only work if language is set to English) "));
             AddLine(MakeBoolElement("shelves"), MakeDesc("Use shelves homepage style"));
             AddLine(MakeBoolElement("search_estimate"), MakeDesc("Show estimates in search results"));
             AddLine(MakeBoolElement("rightside"), MakeDesc("CHECK this if you use the Right Side Description extension"));
-            AddLine(MakeDesc('Logo '), MakeListElement("logo_style", ["2015-2017 (Default)", "2017-2020", "Current"]));
-            AddLine(MakeDesc('Home screen thumbnail size '), tsi, tsm);
-            AddLine(MakeDesc('Search video thumbnail size '), MakeListElement("search_thumbnail", ['TOO BIG', 'Small', 'Medium']));
-            AddLine(MakeDesc('Watch page video player size:'), MakeListElement("default_player", ['Flexible', '640x360px', '853x480px', '1280x720px']));
-            AddLine(MakeDesc('Force video quality'), MakeListElement('video_quality', ['Auto (default)', '144p', '240p', '360p', '480p', '720p', '1080p (HD)', '1440p (HD)', '2160p (4K)']));
-            AddLine(MakeDesc("Modify channels' pages behaviour"), MakeListElement('channel_top', ['default', 'hide banner with scrolling', 'hide banner on load']));
-            AddLine(MakeDesc("Change YouTube logo link to https://www.youtube.com/..."), MakeTextElement("logo_target"));
+            AddLine(MakeDesc('Logo style:                                             '), MakeListElement("logo_style", ["2015-2017 (Default)           ", "2017-2020", "Current"]));
+                                                                                                                                                                          
+            AddLine(MakeDesc('Home page thumbnail size:             '), tsi, tsm);
+            AddLine(MakeDesc('Search page thumbnail size:           '), MakeListElement("search_thumbnail", ['360px', '193px                                      ', '240px']));
+                                                                                                                                                                                                                                                                                                           
+            AddLine(MakeDesc('Default video player size:                  '), MakeListElement("default_player", ['Flexible', '640x360px', '853x480px                             ', '1280x720px']));
+            AddLine(MakeDesc('Force video quality:     　               　'), MakeListElement("video_quality", ['Auto (default)                       ', '144p', '240p ', '360p', '480p', '720p', '1080p (HD)', '1440p (HD)', '2160p (4K)']));
+            AddLine(MakeDesc('Modify channel pages behaviour:   '), MakeListElement("channel_top", ['default', 'hide banner with scrolling ', 'hide banner on load']));
+            AddLine(MakeDesc('Change YouTube logo "home" URL to https://www.youtube.com/...'), MakeTextElement("logo_target"));
 
             e1 = document.createElement('input');
             e1.type = 'button';
             e1.className = 'ytfix_button';
-            e1.value = 'Save & return to YouTube';
+            e1.value = 'Save Settings';
             e1.addEventListener('click', function () {
                 settings.old_player = ess.old_player.checked;
                 settings.search_left = ess.search_left.checked;
@@ -297,7 +306,8 @@ function gen_setting_page() {
                 settings.profile_picture = ess.profile_picture.checked;
                 settings.grey_watched = ess.grey_watched.checked;
                 settings.blur_watched = ess.blur_watched.checked;
-                settings.hide_filters = ess.hide_filters.checked;
+                settings.hide_filters_header = ess.hide_filters_header.checked;
+                settings.hide_filters_related = ess.hide_filters_related.checked;
                 settings.small_recc = ess.small_recc.checked;
                 settings.olderhh = ess.olderhh.checked;
                 settings.hide_dis = ess.hide_dis.checked;
@@ -314,6 +324,8 @@ function gen_setting_page() {
                     if (!/^\d+$/.test(v)) return alert('Error: invalid value for thumbnails size');
                     settings.thumbnail_size_m = parseInt(v);
                 }
+              
+                                                                               
                 settings.search_thumbnail = ess.search_thumbnail.selectedIndex;
                 settings.default_player = ess.default_player.selectedIndex;
                 settings.hide_yt_suggested_blocks = ess.hide_yt_suggested_blocks.checked;
@@ -324,13 +336,12 @@ function gen_setting_page() {
                 settings.video_quality = ess.video_quality.selectedIndex;
                 ls.setItem('__storage__settings__', JSON.stringify(settings));
                 alert('Settings saved');
-                history.back();
             });
             e2 = document.createElement('input');
             e2.type = 'button';
             e2.className = 'ytfix_button';
-            e2.value = 'Cancel';
-            e2.addEventListener('click', () => history.back());
+            e2.value = 'Close Settings';
+            e2.addEventListener('click', () => window.close());
             e3 = document.createElement('input');
             e3.type = 'button';
             e3.className = 'ytfix_button';
@@ -407,24 +418,36 @@ function gen_setting_page() {
     /*player*/
 
     if (settings.old_player) {
+              (function() {
+            'use strict';
+            waitForElement(".ytp-exp-bigger-button-like-mobile").then((elm) => elm.setAttribute("class", "html5-video-player ytp-transparent ytp-hide-info-bar")); // fix player
+        })();
         styles.push(`
-      .ytp-volume-slider {
+    .ytp-volume-slider {
           height: 100%;
           min-height: 40px;
           margin-top: -3px;
-          }
-      .ytp-larger-tap-buttons .ytp-chrome-controls .ytp-button.ytp-mute-button {
+    }
+    .ytp-larger-tap-buttons .ytp-chrome-controls .ytp-button.ytp-mute-button {
           padding: 2px !important;
+      }
+      .ytp-chrome-controls .ytp-button[aria-pressed="true"]::after {
+          width: 20px !important;
+          left: 9px !important;
+         
       }
       .ytp-larger-tap-buttons .ytp-chrome-controls .ytp-button[aria-pressed="true"]::after {
           width: 20px !important;
-          left: 8px !important;
+          left: 9px !important;
           bottom: 6px !important;
       }
       .ytp-big-mode .ytp-chrome-controls .ytp-button[aria-pressed="true"]::after {
           width: 27px !important;
           left: 14px !important;
           bottom: 10px !important;
+      }
+      .ytp-chrome-controls .ytp-button.ytp-mute-button{
+      padding: 2px!important
       }
       .ytp-chrome-bottom {
           height:36px!important
@@ -438,9 +461,11 @@ function gen_setting_page() {
       .ytp-big-mode .ytp-progress-bar-container {
           bottom:44px!important
       }
+
       .ytp-chrome-controls {
       height:40px!important
       }
+
       .ytp-chrome-bottom .ytp-chrome-controls .ytp-button {
           height:36px!important;
           width:36px
@@ -571,10 +596,12 @@ function gen_setting_page() {
       #avatar-link.ytd-rich-grid-media, #avatar-link.ytd-rich-grid-video-renderer, #masthead-ad, #offer-module, #play.fade-in.ytd-moving-thumbnail-renderer, #play.show.ytd-moving-thumbnail-renderer, #selectionBar.paper-tabs, #thumbnail.ytd-moving-thumbnail-renderer, .not-visible.paper-tabs, .ytp-miniplayer-button, [id*=skeleton], paper-ripple, ytd-compact-movie-renderer.ytd-watch-next-secondary-results-renderer, ytd-compact-promoted-item-renderer, ytd-search ytd-video-renderer[use-prominent-thumbs] #channel-info.ytd-video-renderer>a>yt-img-shadow.ytd-video-renderer {
          display: none!important
       }
+
       #details.ytd-rich-grid-video-renderer {
          cursor: auto!important;
          pointer-events: none!important
       }
+
       #details.ytd-rich-grid-video-renderer *>a, #details.ytd-rich-grid-video-renderer *>button.yt-icon-button {
          cursor: pointer!important;
          pointer-events: initial!important
@@ -598,34 +625,41 @@ function gen_setting_page() {
          height: 30px !important;
          padding: 0 !important;
       }
+
       ytd-masthead[dark] #logo-icon-container, html[dark] #contentContainer #logo-icon-container, ytd-masthead[dark] ytd-topbar-logo-renderer>#logo, html[dark] ytd-topbar-logo-renderer>#logo {
          content:var(--logo-2015-dark-header) !important;
          width: 71px !important;
          height: 30px !important;
       }
+
       #start>#masthead-logo, #masthead>#masthead-logo {
          content:var(--logo-2015-dark-header) !important;
          width: 71px !important;
          height: 30px !important;
       }
+
       html[dark] #start>#masthead-logo, html[dark] #masthead>#masthead-logo {
          content:var(--logo-2015-dark-header) !important;
          width: 71px !important;
          height: 30px !important;
       }
+
       #guide-button.ytd-masthead {
          margin-right: 8px !important;
          top: 1px;
          padding: 0 10px;
       }
+
       #start.ytd-masthead {
          position: relative;
          left: 2px;
       }
+
       ytd-searchbox.ytd-masthead {
          padding: 0 !important;
          margin: 0 0 0 38px !important;
       }
+
       html:not([dark]) ytd-guide-entry-renderer[active]>#endpoint.yt-simple-endpoint.ytd-guide-entry-renderer, html:not([dark]) ytd-guide-entry-renderer[active]>#endpoint.yt-simple-endpoint.ytd-guide-entry-renderer:hover {
          background-color: var(--oldcolor) !important
       }
@@ -637,6 +671,7 @@ function gen_setting_page() {
          margin: -1px 2px 0 !important;
          font-size: 11px;
       }
+
       html:not([dark]) #guide-section-title.ytd-guide-section-renderer,
       html:not([dark]) #guide #header .title {
          color: var(--oldcolor)!important;
@@ -667,37 +702,45 @@ html #subscribe-button ytd-button-renderer #button.ytd-button-renderer:active,ht
          height: 30px !important;
          padding: 0 !important;
       }
+
       ytd-masthead[dark] #logo-icon-container, html[dark] #contentContainer #logo-icon-container, ytd-masthead[dark] ytd-topbar-logo-renderer>#logo, html[dark] ytd-topbar-logo-renderer>#logo {
          content:var(--logo-2017-dark-header) !important;
          width: 100px !important;
          height: 30px !important;
       }
+
       ytd-topbar-logo-renderer>#logo {
          margin-left: -1px;
       }
+
       #start>#masthead-logo, #masthead>#masthead-logo {
          content:var(--logo-2017-dark-header) !important;
          width: 100px !important;
          height: 30px !important;
       }
+
       html[dark] #start>#masthead-logo, html[dark] #masthead>#masthead-logo {
          content:var(--logo-2017-dark-header) !important;
          width: 100px !important;
          height: 30px !important;
       }
+
       #guide-button.ytd-masthead {
          margin-right: 7px !important;
          top: 1px;
          padding: 0 10px;
       }
+
       #start.ytd-masthead {
          position: relative;
          left: 2px;
       }
+
       ytd-searchbox.ytd-masthead {
          padding: 0 !important;
          margin: 0 0 0 38px !important;
       }
+
       html:not([dark]) ytd-guide-entry-renderer[active]>#endpoint.yt-simple-endpoint.ytd-guide-entry-renderer, html:not([dark]) ytd-guide-entry-renderer[active]>#endpoint.yt-simple-endpoint.ytd-guide-entry-renderer:hover {
          background-color: #f00 !important
       }
@@ -709,6 +752,7 @@ html #subscribe-button ytd-button-renderer #button.ytd-button-renderer:active,ht
          margin: 1px 0 0 0.3px !important;
          font-size: 11px;
       }
+
       html:not([dark]) #guide-section-title.ytd-guide-section-renderer,
       html:not([dark]) #guide #header .title {
          color: #f00 !important;
@@ -719,6 +763,7 @@ html #subscribe-button ytd-button-renderer #button.ytd-button-renderer:active,ht
       html:not([dark]) ytd-guide-collapsible-section-entry-renderer.ytd-guide-section-renderer:not(:first-child):before {
           color: #f00 important;
       }
+
       `);
     }
     if (settings.profile_picture) {
@@ -740,30 +785,40 @@ html #subscribe-button ytd-button-renderer #button.ytd-button-renderer:active,ht
          border-radius: 0%!important;
       }`);
     }
-    if (settings.hide_filters) {
+    if (settings.hide_filters_header) {
         styles.push(`
       #header.ytd-rich-grid-renderer {
          display: none!important
       }
+      `);
+    }
+    if (settings.hide_filters_related) {
+        styles.push(`
       yt-related-chip-cloud-renderer {
          display: none!important
-      }`);
+		  
+      }
+      `);
     }
     if (settings.hide_queue) {
         styles.push(`
       .ytd-thumbnail[top-right-overlay] ~ .ytd-thumbnail[top-right-overlay] {
          display:none;
-      } `);
+		   
+      }
+      `);
     }
     if (settings.search_left) {
         styles.push(`
       #center.ytd-masthead {
          margin-right: auto;
       }
-      tp-yt-paper-toast.paper-toast-open{position:static!important;}
+      tp-yt-paper-toast.paper-toast-open {
+          position:static!important;
+      }
       yt-notification-action-renderer {
-        margin-left:20px;
-        margin-top:30px;
+          margin-left:20px;
+          margin-top:30px
       }
       `);
     }
@@ -773,7 +828,7 @@ html #subscribe-button ytd-button-renderer #button.ytd-button-renderer:active,ht
          display: none !important;
       } `);
     }
-    if (settings.blur_watched) {
+   if (settings.blur_watched) {
       if (settings.grey_watched) {
         styles.push(`
         .watched ytd-thumbnail #thumbnail.ytd-thumbnail yt-img-shadow.ytd-thumbnail,
@@ -826,6 +881,7 @@ html #subscribe-button ytd-button-renderer #button.ytd-button-renderer:active,ht
     }
     if (settings.thumbnail_size) {
         styles.push(`div#contents.style-scope.ytd-rich-grid-renderer {display:block!important}
+
           ytd-rich-grid-row.style-scope.ytd-rich-grid-renderer {display:inline!important}
           ytd-rich-grid-row.style-scope.ytd-rich-grid-renderer > div {display:inline!important;margin:0!important}
           ytd-rich-grid-row.style-scope.ytd-rich-grid-renderer > div > ytd-rich-item-renderer {display:inline-block!important; width: ${[0, 193, 240, 360, 480, settings.thumbnail_size_m][settings.thumbnail_size]}px !important; contain:none!important
@@ -877,15 +933,19 @@ html #subscribe-button ytd-button-renderer #button.ytd-button-renderer:active,ht
             margin-top: 17px;
             padding-bottom: 3px;
         }
+
         ytd-browse[page-subtype='home'] #contents.ytd-shelf-renderer {
             margin-top: 5px !important;
         }
+
         ytd-browse[page-subtype='home'] ytd-thumbnail #thumbnail.ytd-thumbnail {
             margin-left: 0;
         }
+
         ytd-browse[page-subtype='home'] ytd-section-list-renderer {
             padding: 0 !important;
         }
+
         ytd-browse[page-subtype='home'] #contents.ytd-item-section-renderer {
             padding: 0 16px;
         }
@@ -903,8 +963,8 @@ html #subscribe-button ytd-button-renderer #button.ytd-button-renderer:active,ht
     }
     if (settings.small_recc) {
         styles.push(`#secondary :not([watch-feed-big-thumbs]) ytd-thumbnail, #secondary :not([watch-feed-big-thumbs]) ytd-playlist-thumbnail {
-        width:120px;
-        height:67.5px
+        width:120px!important;
+        height:67.5px!important;
     }
         ytd-app #secondary #video-title[class*="renderer"], ytd-app #secondary #movie-title[class*="renderer"] {
         font-weight:500;
@@ -1095,6 +1155,7 @@ html[dark] yt-formatted-string#subscriber-count.ytd-c4-tabbed-header-renderer {
     background: no-repeat url(http://s.ytimg.com/yts/imgbin/www-hitchhiker-vflRdOrH4.png) -44px -1053px;
     opacity:.6
 }
+
 #masthead ytd-topbar-menu-button-renderer:nth-last-of-type(3) yt-icon {
     background-image: linear-gradient(to bottom,#fcfcfc 0,#f8f8f8 100%);
     text-shadow: 0 1px 0 rgb(255 255 255 / 50%);
@@ -1321,23 +1382,25 @@ ytd-app ytd-playlist-panel-video-renderer[selected] #byline.ytd-playlist-panel-v
       }`);
     }
     if (settings.search_thumbnail) {
-        let sz = [0, 193, 240][settings.search_thumbnail] + 'px !important';
+        let sz = [193, 240, 360][settings.search_thumbnail] + 'px !important';
         // min-width defaults to 240px, max-width defaults to 360px
         // sizes for: videos, playlists, channels, mixes
+                                                                                               
+                     
         styles.push(`ytd-video-renderer[use-prominent-thumbs] ytd-thumbnail.ytd-video-renderer,
-        ytd-video-renderer[is-search] ytd-thumbnail.ytd-video-renderer, 
-        ytd-video-renderer[use-prominent-thumbs] #channel-info.ytd-video-renderer,
-        ytd-playlist-renderer[use-prominent-thumbs] ytd-playlist-thumbnail.ytd-playlist-renderer, ytd-radio-renderer[use-prominent-thumbs] ytd-thumbnail.ytd-radio-renderer {
+      ytd-video-renderer[is-search] ytd-thumbnail.ytd-video-renderer, ytd-video-renderer[use-prominent-thumbs] #channel-info.ytd-video-renderer,
+      ytd-playlist-renderer[use-prominent-thumbs] ytd-playlist-thumbnail.ytd-playlist-renderer,
+      ytd-radio-renderer[use-prominent-thumbs] ytd-thumbnail.ytd-radio-renderer,
+      ytd-playlist-renderer[is-search] ytd-playlist-thumbnail.ytd-playlist-renderer,
+      ytd-thumbnail.ytd-radio-renderer,
+      ytd-video-renderer:not([use-prominent-thumbs]) ytd-thumbnail.ytd-video-renderer
+      {
          padding: 0!important;
          min-width: ${sz};
          max-width: ${sz};
-         }
-       ytd-video-renderer:not([use-prominent-thumbs]) ytd-thumbnail.ytd-video-renderer,
-       ytd-video-renderer[is-search] ytd-thumbnail.ytd-video-renderer {
-           min-height: 108.55px !important;
-            max-height: 138.55px;
       }`);
     }
+
     if (settings.channel_list) {
         styles.push(`
 [page-subtype="channels"] ytd-section-list-renderer #header-container ytd-channel-sub-menu-renderer {
@@ -1405,9 +1468,11 @@ ytd-browse[page-subtype~="channels"] ytd-two-column-browse-results-renderer.ytd-
          min-width: --ytd-watch-flexy-min-player-width: 100% !important;
          max-width: ${size_norm.w}px !important
       }
+
       ytd-watch-flexy[flexy_][is-two-columns_][is-extra-wide-video_] #primary.ytd-watch-flexy, ytd-watch-flexy[flexy_][is-two-columns_][is-four-three-to-sixteen-nine-video_] #primary.ytd-watch-flexy {
          min-width: ${size_norm.w}px!important
       }
+
       ytd-watch-flexy[flexy_][flexy-large-window_]:not([is-extra-wide-video_]), ytd-watch-flexy[flexy_][flexy-large-window_][transcript-opened_][is-two-columns_]:not([is-extra-wide-video_]), ytd-watch-flexy[flexy_][flexy-large-window_][playlist][is-two-columns_]:not([is-extra-wide-video_]), ytd-watch-flexy[flexy_][flexy-large-window_][should-stamp-chat][is-two-columns_]:not([is-extra-wide-video_]) {
          --ytd-watch-flexy-min-player-height: ${size_norm.h}px !important;`);
 
@@ -1496,6 +1561,7 @@ ytd-browse[page-subtype~="channels"] ytd-two-column-browse-results-renderer.ytd-
         aa.className = 'yt-simple-endpoint style-scope ytd-topbar-menu-button-renderer';
         aa.setAttribute('tabindex', '-1');
         aa.href = '/7kttube-settings';
+        aa.target = '_blank';
         aa.appendChild(icb);
         sb.getElementsByTagName('div')[0].appendChild(aa); // created by YT scripts
         let bb = icb.getElementsByTagName('button')[0]; // created by YT scripts
