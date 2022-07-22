@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name			7ktTube | 2016 REDUX
 // @namespace STILL_ALIVE
-// @version 3.6.3
+// @version 3.6.7
 // @description Old YouTube 2016 Layout | Old watchpage | Change thumbnail & video player size | grayscale seen video thumbnails | Hide suggestion blocks, category/filter bars | Square profile-pictures | Disable hover thumbnail previews | and much more!
 // @author 7KT-SWE
 // @icon data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGAAAABgCAMAAADVRocKAAACnVBMVEUAAAD////////94+PX19f+8fH/////////+fn83Nz////////////////////////////////////////////////////////////829vS0tL////////////////////////////////////////////////y8vLp6en95+f////////////sKCgAAADpCQnqDg7pBgbqCwvsHh7sICDsIyPtKirsJibrGhr1kZHyaGjrGBjnAAD81tbrHBz3oqLsJSXxX1/qEBDp6enxZGSysrIVFRX2k5PxWVnqEhK0tLT1gYHtLCzqFBTybW3wUlLtMDDtMjLz8/PuOzvqFxcHBwf95eX0iIjxYGDvQEDpAQF/f3/wU1PuNTX+7e394+PuODgfHx///f3+9PT6xMT4qKilpaX1i4v82dnvR0f/+vr+8vLj5OT2nJzzcnLzcHDwS0vvRETrFRXx8fH7z8/5urrsk5N2dnbxVlbwT08iIiL83d380dH7ycmqqqr1jo70fHx0dHT7JSX6+vr39/f/9vb+8/P+6ur83Nz71NTR0dH5tLT3paX2mZn1iIj1hYXxXFwFBQXNzc33r6/3n5+JiYmFhYV6enrzeHhJSUkiPDzpDw8LDAz95+f7zc36vr68vLyUlJTzdXVra2vyamo0NDTrJib8ICD5Hh4dHR0RERHf39/Y2Nj7zs7Gxsb6v7+2trbvra2Xl5eQkJDybGxeXl5XV1dMTExHR0c7OzsdNjYuLi4SLS38KiopKSn9/Pzv+vr839+8yMj5wMDxuLi4uLj4qqruqqqgoKB8fHwGICDyFxfsFhbV4uL7y8vyx8f6wMCvvb3tt7e3t7eur6+Yr6+OpaXuoKA2U1NRUVE0UVEYMTETMDDyKSkMJye13jY6AAAALHRSTlMAavLy8vJi9PLy4vru2L6UhGs1JRAI5VEb8vLo3qyqfHpIRUA/Eg/y8vJTHBug3AoAAAhOSURBVGjevZqF39JAGIDt7u5uD7fBSoeIM1GwwADBDmzB7u7u7u7u7u7Ov8WLsaAUnD4/f+x27rvnu727947vlkOlTL6qRYvkzxWjQaU8eirVz/WH5C9StFq+ejniKVsiPzDQu8ma7hpNmnQAmZC/RFlj+6UKgTg2NTHSBmRG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
@@ -15,8 +15,8 @@
 // BEGIN MODULES
 // @require https://7kt.se/resources/modules/flags.js
 // @require https://7kt.se/resources/modules/home.js
-// @require https://7kt.se/resources/modules/settings_v2.js
-// @require https://7kt.se/resources/modules/styles_v2.js
+// @require https://7kt.se/resources/modules/settings5.js?v=5
+// @require https://7kt.se/resources/modules/styles.js?v=5
 // @require https://7kt.se/resources/modules/watch.js
 // END MODULES
 // @require https://unpkg.com/vue@2.6.12/dist/vue.js
@@ -377,7 +377,8 @@ function gen_history() {
     //=== config end ===
 
     var watchedVideos, ageMultiplier = 24 * 60 * 60 * 1000, xu = /\/watch(?:\?|.*?&)v=([^&]+)|\/shorts\/([^\/\?]+)/;
-
+      var watchedVideos, ageMultiplier = 24 * 60 * 60 * 1000, xu = /\/watch(?:\?|.*?&)v=([^&]+)|\/shorts\/([^\/\?]+)/,
+    querySelector = Element.prototype.querySelector, querySelectorAll = Element.prototype.querySelectorAll;
     function getVideoId(url) {
         var vid = url.match(xu);
         if (vid) vid = vid[1] || vid[2];
@@ -391,7 +392,7 @@ function gen_history() {
     function processVideoItems(selector) {
         var items = document.querySelectorAll(selector), i, link;
         for (i = items.length-1; i >= 0; i--) {
-            if (link = items[i].querySelector("A")) {
+            if (link = querySelector.call(items[i], "A")) {
                 if (watched(getVideoId(link.href))) {
                     items[i].classList.add("watched");
                 } else items[i].classList.remove("watched");
@@ -399,34 +400,34 @@ function gen_history() {
         }
     }
 
-    function processAllVideoItems() {
-        //home page
-        processVideoItems(".yt-uix-shelfslider-list>.yt-shelf-grid-ite,ytd-thumbnail.ytd-rich-grid-media");
-        processVideoItems("#contents.ytd-rich-grid-renderer>ytd-rich-item-renderer,#contents.ytd-rich-shelf-renderer ytd-rich-item-renderer.ytd-rich-shelf-renderer");
-        //subscriptions page
-        processVideoItems(".multirow-shelf>.shelf-content>.yt-shelf-grid-item");
-        //history:watch page
-        processVideoItems('ytd-section-list-renderer[page-subtype="history"] .ytd-item-section-renderer>ytd-video-renderer');
-        //channel/user home page
-        processVideoItems("#contents>.ytd-item-section-renderer>.ytd-newspaper-renderer,#items>.yt-horizontal-list-renderer"); //old
-        processVideoItems("#contents>.ytd-channel-featured-content-renderer,#contents>.ytd-shelf-renderer>#grid-container>.ytd-expanded-shelf-contents-renderer"); //new
-        //channel/user video page
-        processVideoItems(".yt-uix-slider-list>.featured-content-item,.channels-browse-content-grid>.channels-content-item,#items>.ytd-grid-renderer");
-        //channel/user playlist page
-        processVideoItems(".expanded-shelf>.expanded-shelf-content-list>.expanded-shelf-content-item-wrapper,.ytd-playlist-video-renderer");
-        //channel/user playlist item page
-        processVideoItems(".pl-video-list .pl-video-table .pl-video,ytd-playlist-panel-video-renderer");
-        //channel/user search page
-        if (/^\/(?:c|channel|user)\/.*?\/search/.test(location.pathname)) {
-            processVideoItems(".ytd-browse #contents>.ytd-item-section-renderer"); //new
-        }
-        //search page
-        processVideoItems("#results>.section-list .item-section>li,#browse-items-primary>.browse-list-item-container"); //old
-        processVideoItems(".ytd-search #contents>ytd-video-renderer,.ytd-search #contents>ytd-playlist-renderer,.ytd-search #items>ytd-video-renderer"); //new
-        //video page
-        processVideoItems(".watch-sidebar-body>.video-list>.video-list-item,.playlist-videos-container>.playlist-videos-list>li"); //old
-        processVideoItems(".ytd-compact-video-renderer,.ytd-compact-radio-renderer"); //new
+  function processAllVideoItems() {
+    //home page
+    processVideoItems('.yt-uix-shelfslider-list>.yt-shelf-grid-item');
+    processVideoItems('#contents.ytd-rich-grid-renderer>ytd-rich-item-renderer,#contents.ytd-rich-shelf-renderer ytd-rich-item-renderer.ytd-rich-shelf-renderer,#contents.ytd-rich-grid-renderer>ytd-rich-grid-row ytd-rich-grid-media');
+    //subscriptions page
+    processVideoItems('.multirow-shelf>.shelf-content>.yt-shelf-grid-item');
+    //history:watch page
+    processVideoItems('ytd-section-list-renderer[page-subtype="history"] .ytd-item-section-renderer>ytd-video-renderer');
+    //channel/user home page
+    processVideoItems('#contents>.ytd-item-section-renderer>.ytd-newspaper-renderer,#items>.yt-horizontal-list-renderer'); //old
+    processVideoItems('#contents>.ytd-channel-featured-content-renderer,#contents>.ytd-shelf-renderer>#grid-container>.ytd-expanded-shelf-contents-renderer'); //new
+    //channel/user video page
+    processVideoItems('.yt-uix-slider-list>.featured-content-item,.channels-browse-content-grid>.channels-content-item,#items>.ytd-grid-renderer');
+    //channel/user playlist page
+    processVideoItems('.expanded-shelf>.expanded-shelf-content-list>.expanded-shelf-content-item-wrapper,.ytd-playlist-video-renderer');
+    //channel/user playlist item page
+    processVideoItems('.pl-video-list .pl-video-table .pl-video,ytd-playlist-panel-video-renderer');
+    //channel/user search page
+    if (/^\/(?:c|channel|user)\/.*?\/search/.test(location.pathname)) {
+    processVideoItems('.ytd-browse #contents>.ytd-item-section-renderer'); //new
     }
+    //search page
+    processVideoItems('#results>.section-list .item-section>li,#browse-items-primary>.browse-list-item-container'); //old
+    processVideoItems('.ytd-search #contents>ytd-video-renderer,.ytd-search #contents>ytd-playlist-renderer,.ytd-search #items>ytd-video-renderer'); //new
+    //video page
+    processVideoItems('.watch-sidebar-body>.video-list>.video-list-item,.playlist-videos-container>.playlist-videos-list>li'); //old
+    processVideoItems('.ytd-compact-video-renderer,.ytd-compact-radio-renderer'); //new
+  }
 
     function addHistory(vid, time, noSave, i) {
         if (!watchedVideos.entries[vid]) {
@@ -548,28 +549,27 @@ function gen_history() {
         setTimeout(doProcessPage, contentLoadMarkDelay);
     }
 
-    function toggleMarker(ele, i) {
-        if (ele) {
-            if (ele.href) {
-                i = getVideoId(ele.href);
-            } else {
-                ele = ele.parentNode;
-                while (ele) {
-                    if (ele.tagName === "A") {
-                        i = getVideoId(ele.href);
-                        break;
-                    }
-                    ele = ele.parentNode;
-                }
-            }
-            if (i) {
-                if ((ele = watchedVideos.index.indexOf(i)) >= 0) {
-                    delHistory(ele);
-                } else addHistory(i, (new Date()).valueOf());
-                processAllVideoItems();
-            }
+  function toggleMarker(ele, i) {
+    if (ele) {
+      if (ele.href) {
+        i = getVideoId(ele.href);
+      } else {
+        while (ele) {
+          while (ele && (!ele.__data || !ele.__data.data || !ele.__data.data.videoId)) ele = ele.__dataHost || ele.parentNode;
+          if (ele) {
+            i = ele.__data.data.videoId;
+            break
+          }
         }
+      }
+      if (i) {
+        if ((ele = watchedVideos.index.indexOf(i)) >= 0) {
+          delHistory(ele);
+        } else addHistory(i, (new Date()).valueOf());
+        processAllVideoItems();
+      }
     }
+  }
 
 
     var rxListUrl = /\/\w+_ajax\?|\/results\?search_query|\/v1\/v1\/(browse|next|search)\?/;
@@ -619,8 +619,14 @@ function gen_history() {
         lastFocusState = true;
     });
     addEventListener("click", (ev) => {
-        if ((markerMouseButtons.indexOf(ev.button) >= 0) && ev.altKey) toggleMarker(ev.target);
-    });
+    if ((markerMouseButtons.indexOf(ev.button) >= 0) && ev.altKey) {
+      ev.stopImmediatePropagation();
+      ev.stopPropagation();
+      ev.preventDefault();
+      toggleMarker(ev.target);
+    }
+  }, true);
+
 
     if (markerMouseButtons.indexOf(1) >= 0) {
         addEventListener("contextmenu", (ev) => {
