@@ -156,7 +156,7 @@ function gen_setting_page() {
     if (!("channel_list" in settings)) settings.channel_list = false;
     if (!("rightside" in settings)) settings.rightside = false;
     if (!("trending" in settings)) settings.trending = true;
-    if (!("shelves" in settings)) settings.shelves = false;
+    //if (!("shelves" in settings)) settings.shelves = false;
     if (!("search_estimate" in settings)) settings.search_estimate = true;
     if (!("default_player" in settings)) settings.default_player = 2;
     if (!("hide_guide" in settings)) settings.hide_guide = false;
@@ -180,7 +180,7 @@ function gen_setting_page() {
         let style = document.createElement('style');
         style.type = 'text/css';
         style.innerHTML = [
-            'ytfix_line2 {background: #575757;color: white;padding: 5px;}.ytfix_line span, .ytfix_line checkbox {text-transform: full-size-kana; border-bottom: 1px dotted;}.ytfix{font-size: 13px;position:absolute;left:0;top:0;right:0;padding:3em;background: #eee url(https://7kt.se/resources/images/settings.png) no-repeat;background-size:570px;background-repeat-y: no-repeat;background-position-x: 300px;background-position-y: 20px;}', '.ytfix_line{margin-bottom: 9px;text-shadow: 1px 0px 0px #b0b0b0;}', '.ytfix_line span,.ytfix_line input,.ytfix_line select{margin-right:0.3em}', 'form{padding-left: 10px;}', '.ytfix_field{font-size:13px; padding:0.2em;border:1px solid #888}', '.ytfix_button{color: #fff;font-weight: bold;background: #ec2828;padding:0.6em;border:1px solid #fff;margin-bottom: 10px;}', '.ytfix_button:hover {background: #525252;cursor: pointer}', '.ytfix_hide{display:none}', '.ytfixback{position:absolute;left:0;top:0;right:0;height:100%;background:#eee}', '.ytfix donate{padding:0;border:1px solid #888}', 'h2{text-decoration: underline; font-variant: all-petite-caps; font-family: YouTube Noto, Roboto, arial, sans-serif !important; font-size:24px;}', 'h5{font-style: italic}', 'paypal{padding-left: 60px; font-size: 13px; font-weight: bold;}'
+            'ytfix_line2 {background: #575757;color: white;padding: 5px;}.ytfix_line span, .ytfix_line checkbox {text-transform: full-size-kana; border-bottom: 1px dotted;}.ytfix{font-size: 13px;position:absolute;left:0;top:0;right:0;padding:3em;background: #eee url(https://i.imgur.com/bSFkNfY.png) no-repeat;background-size:570px;background-repeat-y: no-repeat;background-position-x: 300px;background-position-y: 20px;}', '.ytfix_line{margin-bottom: 9px;text-shadow: 1px 0px 0px #b0b0b0;}', '.ytfix_line span,.ytfix_line input,.ytfix_line select{margin-right:0.3em}', 'form{padding-left: 10px;}', '.ytfix_field{font-size:13px; padding:0.2em;border:1px solid #888}', '.ytfix_button{color: #fff;font-weight: bold;background: #ec2828;padding:0.6em;border:1px solid #fff;margin-bottom: 10px;}', '.ytfix_button:hover {background: #525252;cursor: pointer}', '.ytfix_button2{color: #fff;font-weight: bold;background: #525252;padding:0.6em;border:1px solid #fff;margin-bottom: 10px;}', '.ytfix_button2:hover {background: #131313;cursor: pointer}', '.ytfix_hide{display:none}', '.ytfixback{position:absolute;left:0;top:0;right:0;height:100%;background:#eee}', '.ytfix donate{padding:0;border:1px solid #888}', 'h2{text-decoration: underline; font-variant: all-petite-caps; font-family: YouTube Noto, Roboto, arial, sans-serif !important; font-size:24px;}', 'h5{font-style: italic}', 'paypal{padding-left: 60px; font-size: 13px; font-weight: bold;}'
         ].join('');
         plane.appendChild(style);
         e4 = document.createElement('br')
@@ -239,7 +239,7 @@ function gen_setting_page() {
                 e.selectedIndex = settings[nm];
                 return e;
             }
-            var delayInMilliseconds = 25; //1 second
+            var delayInMilliseconds = 50; //1 second
 
             setTimeout(function() {
                 window.parent.document.title = "𝟳𝗸𝘁𝗧𝘂𝗯𝗲 𝗥𝗘𝗗𝗨𝗫 : sᴇᴛᴛɪɴɢs";
@@ -280,7 +280,7 @@ function gen_setting_page() {
                     
             AddLine(MakeBoolElement("clear_search"), MakeDesc("Hide suggestion blocks on search page (for you, people also watched, etc)"));
             AddLine(MakeBoolElement("trending"), MakeDesc("Replace explore with trending (will only work if language is set to English) "));
-            AddLine(MakeBoolElement("shelves"), MakeDesc("Use shelves homepage style"));
+            //AddLine(MakeBoolElement("shelves"), MakeDesc("Use shelves homepage style"));
             AddLine(MakeBoolElement("search_estimate"), MakeDesc("Show estimates in search results"));
             AddLine(MakeBoolElement("rightside"), MakeDesc("CHECK this if you use the Right Side Description extension"));
             AddLine(MakeDesc('Logo style:                                             '), MakeListElement("logo_style", ["2015-2017 (Default)           ", "2017-2020", "Current"]));
@@ -296,7 +296,7 @@ function gen_setting_page() {
             e1 = document.createElement('input');
             e1.type = 'button';
             e1.className = 'ytfix_button';
-            e1.value = 'Save Settings';
+            e1.value = 'Save settings';
             e1.addEventListener('click', function () {
                 settings.old_player = ess.old_player.checked;
                 settings.search_left = ess.search_left.checked;
@@ -316,7 +316,7 @@ function gen_setting_page() {
                 settings.hide_guide = ess.hide_guide.checked;
                 settings.rightside = ess.rightside.checked;
                 settings.trending = ess.trending.checked;
-                settings.shelves = ess.shelves.checked;
+                //settings.shelves = ess.shelves.checked;
                 settings.search_estimate = ess.search_estimate.checked;
                 settings.thumbnail_size = ess.thumbnail_size.selectedIndex;
                 if (settings.thumbnail_size == 5) {
@@ -337,10 +337,11 @@ function gen_setting_page() {
                 ls.setItem('__storage__settings__', JSON.stringify(settings));
                 alert('Settings saved');
             });
+            
             e2 = document.createElement('input');
             e2.type = 'button';
-            e2.className = 'ytfix_button';
-            e2.value = 'Close Settings';
+            e2.className = 'ytfix_button2';
+            e2.value = 'Close settings';
             e2.addEventListener('click', () => window.close());
             e3 = document.createElement('input');
             e3.type = 'button';
@@ -813,12 +814,9 @@ html #subscribe-button ytd-button-renderer #button.ytd-button-renderer:active,ht
       #center.ytd-masthead {
          margin-right: auto;
       }
-      tp-yt-paper-toast.paper-toast-open {
-          position:static!important;
-      }
-      yt-notification-action-renderer {
-          margin-left:20px;
-          margin-top:30px
+      tp-yt-paper-toast.paper-toast-open{position:static!important;}
+      yt-notification-action-renderer{margin-left:20px;
+      margin-top:30px
       }
       `);
     }
@@ -828,7 +826,7 @@ html #subscribe-button ytd-button-renderer #button.ytd-button-renderer:active,ht
          display: none !important;
       } `);
     }
-   if (settings.blur_watched) {
+if (settings.blur_watched) {
       if (settings.grey_watched) {
         styles.push(`
         .watched ytd-thumbnail #thumbnail.ytd-thumbnail yt-img-shadow.ytd-thumbnail,
@@ -870,6 +868,7 @@ html #subscribe-button ytd-button-renderer #button.ytd-button-renderer:active,ht
            opacity: 0.4 !important;
            filter: grayscale(1)!important;
         }
+
         .watched ytd-thumbnail #thumbnail.ytd-thumbnail yt-img-shadow.ytd-thumbnail:hover,
         .watched yt-img-shadow.ytd-thumbnail:hover {
            transition: ease-out;
@@ -948,14 +947,6 @@ html #subscribe-button ytd-button-renderer #button.ytd-button-renderer:active,ht
 
         ytd-browse[page-subtype='home'] #contents.ytd-item-section-renderer {
             padding: 0 16px;
-        }
-        
-        ytd-browse[page-subtype='home'] #scroll-container.yt-horizontal-list-renderer ytd-thumbnail-overlay-time-status-renderer {
-            margin-top: 5px !important;
-        }
-        
-        ytd-browse[page-subtype='home'] ytd-shelf-renderer img.yt-img-shadow {
-            max-height: var(--ytd-grid-thumbnail_-_height);
         }`);
     }
     if (settings.search_estimate) {
@@ -1560,7 +1551,7 @@ ytd-browse[page-subtype~="channels"] ytd-two-column-browse-results-renderer.ytd-
         let aa = document.createElement('a');
         aa.className = 'yt-simple-endpoint style-scope ytd-topbar-menu-button-renderer';
         aa.setAttribute('tabindex', '-1');
-        aa.href = '/7kttube-settings';
+        aa.href = '/7kttube-settings';      aa.href = '/7kttube-settings';
         aa.target = '_blank';
         aa.appendChild(icb);
         sb.getElementsByTagName('div')[0].appendChild(aa); // created by YT scripts

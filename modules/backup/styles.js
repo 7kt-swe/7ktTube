@@ -197,9 +197,7 @@ ytd-comments-header-renderer.style-scope.ytd-item-section-renderer,
 ytd-metadata-row-renderer {
   margin: 0 !important;
 }
-html[dark] .style-scope.ytd-video-primary-info-renderer{
-color: #fff;
-}
+
 #title.ytd-metadata-row-renderer {
   font-size: 11px !important;
   margin: 0 !important;
@@ -619,12 +617,13 @@ ytd-watch-flexy[theater] #secondary.ytd-watch-flexy {
 
 #meta ytd-video-secondary-info-renderer {
   margin: 10px 0;
-  padding: 15px 15px;
+  padding: 0 15px;
   min-height: 60px;
 }
 
 #info ytd-video-primary-info-renderer {
   padding: 15px;
+  padding-bottom: 12px;
   margin-top: 30px;
   --yt-button-icon-size: 30px;
   font-weight: normal;
@@ -2437,6 +2436,7 @@ ytd-thumbnail-overlay-toggle-button-renderer[toggled]:first-child yt-icon {
 tp-yt-paper-tabs.ytd-c4-tabbed-header-renderer {
   letter-spacing: 0 !important;
 }
+
 #masthead-container #search-icon-legacy.ytd-searchbox yt-icon.ytd-searchbox {
   fill: none;
   background: no-repeat url(//s.ytimg.com/yts/imgbin/www-hitchhiker-vflKclzgY.webp) -594px -48px;
@@ -2444,6 +2444,7 @@ tp-yt-paper-tabs.ytd-c4-tabbed-header-renderer {
   height: 15px !important;
   bottom: 1px;
 }
+
 .yt-spec-icon-badge-shape--type-notification .yt-spec-icon-badge-shape__badge {
   border-radius: 2px !important;
   border: 0;
@@ -2457,10 +2458,12 @@ tp-yt-paper-tabs.ytd-c4-tabbed-header-renderer {
   text-align: center;
   opacity: 1;
 }
+
 html:not([dark]) .yt-spec-icon-badge-shape--type-notification .yt-spec-icon-badge-shape__badge {
   border-bottom: 1px solid #fff;
   border-left: 1px solid #fff;
 }
+
 ytd-notification-topbar-button-shape-renderer #button yt-icon {
   background: no-repeat url(//s.ytimg.com/yts/imgbin/www-hitchhiker-vflEXP50f.png) -31px -248px;
   background-size: auto;
@@ -2468,30 +2471,44 @@ ytd-notification-topbar-button-shape-renderer #button yt-icon {
   fill: none;
   opacity: 0.55;
 }
+
 ytd-notification-topbar-button-shape-renderer #button:hover yt-icon {
   opacity: 0.65;
 }
+
 ytd-topbar-menu-button-renderer:nth-last-of-type(3) a:not([href]) yt-icon {
   background: no-repeat url(https://s.ytimg.com/yts/imgbin/www-hitchhiker-vfllYIUv0.png) -125px -314px;
   fill: none;
   opacity: 0.8;
   height: 28px;
 }
-ytd-topbar-menu-button-renderer:nth-last-of-type(2) yt-icon {
-  background: url(https://archive.ph/AYJLT/e608df1cce5d6cc696c0825d0a0d1b290a219dc5.png) -433px -245px;
-  fill: none;
-  opacity: 0.8;
+html:not([dark]) ytd-topbar-menu-button-renderer:nth-last-of-type(2) yt-icon {
+ /* background: url(https://archive.ph/AYJLT/e608df1cce5d6cc696c0825d0a0d1b290a219dc5.png) -433px -245px;*/
+fill: #6c6c6c;
+opacity: 0.8;
+
 }
-html[dark] ytd-topbar-menu-button-renderer:nth-last-of-type(2) yt-icon,
-html[dark] ytd-topbar-menu-button-renderer:nth-last-of-type(3) yt-icon {
+html[dark] ytd-topbar-menu-button-renderer:nth-last-of-type(2) yt-icon {
+  /*background: url(https://archive.ph/AYJLT/e608df1cce5d6cc696c0825d0a0d1b290a219dc5.png) -433px -245px;*/
+  opacity: 0.8;
+  fill:#000;
+  filter:invert(1);
+}
+
+/*html[dark] ytd-topbar-menu-button-renderer:nth-last-of-type(2) yt-icon,
+html[dark] ytd-topbar-menu-button-renderer:nth-last-of-type(3) yt-icon
+{
   filter: invert(1);
 }
+*/
 ytd-topbar-menu-button-renderer:not(:nth-last-child(1)) {
   opacity: 0.67;
 }
+
 ytd-topbar-menu-button-renderer:not(:nth-last-child(1)):hover {
   opacity: 0.8;
 }
+
 ytd-topbar-menu-button-renderer:not(:nth-last-child(1)):active {
   opacity: 1;
 }
@@ -2819,11 +2836,11 @@ ytd-thumbnail-overlay-resume-playback-renderer {
 ytd-multi-page-menu-renderer[menu-style=multi-page-menu-style-type-account] #spinner.ytd-multi-page-menu-renderer {
   height: 400px !important;
 }
-
+/*
 ytd-multi-page-menu-renderer[menu-style="multi-page-menu-style-type-account"] {
-
+  max-height: 255px;
 }
-
+*/
 [menu-style=multi-page-menu-style-type-system] #container yt-multi-page-menu-section-renderer:first-child ytd-compact-link-renderer:nth-child(3) tp-yt-paper-item {
   border: 1px solid #d3d3d3;
   background: #f8f8f8;
@@ -2901,7 +2918,7 @@ html[dark] [menu-style=multi-page-menu-style-type-system] #container yt-multi-pa
 [menu-style=multi-page-menu-style-type-system] #container yt-multi-page-menu-section-renderer:nth-child(2) ytd-compact-link-renderer:nth-child(7),
 [menu-style=multi-page-menu-style-type-system] #container yt-multi-page-menu-section-renderer:nth-child(2) ytd-compact-link-renderer:nth-child(8),
 [menu-style=multi-page-menu-style-type-system] #container yt-multi-page-menu-section-renderer:nth-child(3) {
-  display: none;
+display: none;
 }
 */
 #sections.ytd-multi-page-menu-renderer > .ytd-multi-page-menu-renderer:not(:last-child) {
@@ -3974,8 +3991,6 @@ ytd-thumbnail #thumbnail.ytd-thumbnail {
   padding: 0 !important;
 }
 
-ytd-video-renderer:not([use-prominent-thumbs]) ytd-thumbnail.ytd-video-renderer {
-  max-width: 246px !important;
   margin-right: 10px !important;
 }
 
@@ -5016,7 +5031,21 @@ ytd-app ytd-playlist-sidebar-primary-info-renderer #save-button tp-yt-paper-butt
 ytd-app ytd-playlist-sidebar-primary-info-renderer #edit-buttons {
   left: 0;
 }
-
+/*
+ ytd-compact-video-renderer:not([watch-feed-big-thumbs]) ytd-thumbnail.ytd-compact-video-renderer {
+    width:120px!important;
+    height:67.5px!important; 
+}
+ytd-thumbnail.style-scope.ytd-compact-video-renderer,
+ytd-compact-video-renderer:not([watch-feed-big-thumbs]) ytd-thumbnail.ytd-compact-video-renderer {
+        width:120px!important;
+        height:67.5px!important;
+    }
+ytd-compact-radio-renderer:not([watch-feed-big-thumbs]) ytd-thumbnail.ytd-compact-radio-renderer {
+        width:120px!important;
+        height:67.5px!important;
+    }
+*/
 .badge.ytd-badge-supported-renderer:not(.badge-style-type-verified):not(.badge-style-type-collection):not(.badge-style-type-verified-artist) {
   background: 0 0;
   border: 1px solid #ddd;
@@ -5038,6 +5067,25 @@ html[dark] .badge.ytd-badge-supported-renderer:not(.badge-style-type-verified):n
   color: #b91f1f;
 }
 
+.badge-style-type-live-now-alternate.ytd-badge-supported-renderer span.ytd-badge-supported-renderer {
+  vertical-align: middle;
+  font-size: 10px;
+}
+.badge.badge-style-type-live-now-alternate.style-scope.ytd-badge-supported-renderer {
+  content:  url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAC0AAAAQCAMAAAC1IAbbAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAABCUExUReYhF+cuJek8NOpKQu1fWPB3cfGCfPKIg/OXkvWjn/asqPauq/e6t/jDwPnIxfnLyfrT0fvc2vzj4f7y8f/5+P///y/j3vQAAACISURBVCjPzZHBDoMwDEMfDZRSCLAW//+v7jAxbUwT00745MNL5DhwLTVxd7E5p7PtzvIpbBmLADGQA5AEUNwrUN0l6UlHYwqYEabH2E536unVeXkLAjMmGTPkF5rbwlL4lR4rdcQllfMktNu4tYfd4duVsGrlQH80mCQpFYdBA7gkpT+/cwXdAVUpBvEmVzttAAAAAElFTkSuQmCC');
+  width: 45px !important;
+  height: 16px !important;
+  border: 1px solid transparent!important;
+  padding: 0 !important;
+  position:relative;
+  padding: 0px 3px 0px 0px !important;
+}
+ytd-video-renderer[is-search] #channel-info.ytd-video-renderer {
+padding:4px!important;
+}
+#header.ytd-expandable-metadata-renderer {
+  display:none!important
+}
 ytd-expander.ytd-video-secondary-info-renderer ytd-metadata-row-container-renderer ytd-metadata-row-header-renderer {
   padding: 0;
 }
@@ -5481,7 +5529,7 @@ ytd-thumbnail-overlay-bottom-panel-renderer.style-scope {
   height: 94px !important;
   width: 43.75% !important;
   left: 94.5px;
-  background: rgba(0, 0, 0, 0.7) !important;
+  background: rgba(0, 0, 0, 0.7) !important;                           
 }
 
 ytd-search ytd-thumbnail-overlay-bottom-panel-renderer {
@@ -5707,13 +5755,6 @@ ytd-subscription-notification-toggle-button-renderer.style-text[is-icon-button] 
   margin-left: 150px;
   top: 22px;
 }
-ytd-subscribe-button-renderer {
-  --yt-formatted-string-deemphasize-color: var(--yt-spec-static-brand-white);
-  display: flex;
-  flex-direction: row;
-  bottom: 40px !important;
-  left: 52px!important;
-}
 #owner-sub-count.ytd-video-owner-renderer {
   font-size: 11px !important;
   letter-spacing: 0 !important;
@@ -5730,15 +5771,6 @@ ytd-subscribe-button-renderer {
   left: -7px;
   position: relative !important;
 }
-
-html[dark] .style-scope.ytd-video-primary-info-renderer{
-color: #fff;
-}
-
-ytd-app #channel-name.ytd-video-owner-renderer {
-    right: 5px;
-}
-
 #channel-name.ytd-video-owner-renderer {
   top: 0 !important;
   position: relative;
@@ -5762,7 +5794,7 @@ ytd-app #subscribe-button.ytd-video-secondary-info-renderer {
 }
 
 #info ytd-video-owner-renderer {
-  top: -4px !important;
+  top: -24px !important;
   position: relative;
   padding-bottom: 7px !important;
   border-bottom: 1px solid #e5e5e5 !important;
@@ -5841,7 +5873,7 @@ ytd-toggle-button-renderer.force-icon-button a.ytd-toggle-button-renderer {
   bottom: 3px;
 }
 #info ytd-menu-renderer.ytd-video-primary-info-renderer {
-  padding-bottom: 0px;
+  padding-bottom: 14px;
 }
 #info #sentiment.ytd-video-primary-info-renderer,
 #info .ryd-tooltip {
@@ -6209,35 +6241,31 @@ html #subscribe-button ytd-button-renderer [href*="https://studio.youtube.com"] 
   display: inline-block;
   left: 560px;
   top: 300px;
-  width: 390px;
+  width: 380px;
   height: 190px;
-  background-size: 100%;
+  background-repeat:no-repeat;
 }
 
 .ytfix_line:nth-child(5):hover::after {
   background: url(https://7kt.se/resources/images/old-player.png);
 }
-
 .ytfix_line:nth-child(6):hover::after {
   background: url(https://7kt.se/resources/images/searchbar.png);
+  
 }
-
 .ytfix_line:nth-child(7):hover::after {
   background: url(https://7kt.se/resources/images/app-button.png);
 }
-
 .ytfix_line:nth-child(8):hover::after {
   background: url(https://7kt.se/resources/images/auto-close-menu.png);
 }
-
 .ytfix_line:nth-child(9):hover::after {
   background: url(https://7kt.se/resources/images/square-avatars.png);
 }
-
 .ytfix_line:nth-child(10):hover::after {
- background: url();                    /*disable preview add image later*/
+  
+ background: url();                               /*disable preview add image later*/
 }
-
 .ytfix_line:nth-child(11):hover::after {
   background: url(https://7kt.se/resources/images/clip-thank-button.png);
 }
@@ -6245,11 +6273,9 @@ html #subscribe-button ytd-button-renderer [href*="https://studio.youtube.com"] 
 .ytfix_line:nth-child(12):hover::after {
   background: url(https://7kt.se/resources/images/hide-queue-button.png);
 }
-
 .ytfix_line:nth-child(13):hover::after {
     background: url(https://7kt.se/resources/images/hide-filters.png);
 }
-
 .ytfix_line:nth-child(14):hover::after {
   background: url();                    /*blurred thumbnails add image later*/
 }
@@ -7022,31 +7048,5 @@ ytd-promoted-sparkles-web-renderer.ytd-item-section-renderer #action-button {
 
 ytd-badge-supported-renderer.ytd-promoted-sparkles-web-renderer span {
     color: var(--yt-spec-text-secondary);
-}
-
-.ytp-heat-map-container {
-    display: none !important;
-}
-
-.ytp-progress-bar-hover.ytp-progress-bar-decoration .ytp-tooltip-title {
-    display: none !important;
-}
-
-.ytp-progress-bar-hover.ytp-progress-bar-decoration .ytp-preview:not(.ytp-text-detail) .ytp-tooltip-text {
-    top: 33px;
-}
-
-.ytp-chrome-controls .ytp-button.ytp-mute-button svg,
-.ytp-right-controls .ytp-button svg {
-    width: 36px;
-    height: 36px;
-}
-
-.ytp-chrome-controls .ytp-button.ytp-mute-button {
-    padding: 0 2px !important;
-}
-
-ytd-download-button-renderer {
-    display: none !important;
 }`);
 }
